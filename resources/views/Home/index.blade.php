@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/css/homeDesign/img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -71,7 +71,7 @@
                         <div class="col-xl-3 col-lg-2">
                             <div class="logo">
                                 <a href="index.html">
-                                    <img src="img/logo.png" alt="logo">
+                                    <img src="/css/homeDesign/img/logo.png" alt="logo">
                                 </a>
                             </div>
                         </div>
@@ -97,12 +97,6 @@
                                         <li><a href="contact.html">Contact</a></li>
                                         <li>
                                             <li><a href="{{route('Login.index')}}">Login</a></li>
-                                                <!-- <div class="Appointment">
-                                                    <div class="book_btn d-none d-lg-block">
-                                                        <a href="Login.html">Login</a>
-                                                    </div>
-                                                    
-                                                </div> -->
                                         </li>
                                     </ul>
                                 </nav>
@@ -224,10 +218,10 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="welcome_thumb">
                         <div class="thumb_1">
-                            <img src="img/about/1.png" alt="">
+                            <img src="/css/homeDesign/img/about/1.png" alt="">
                         </div>
                         <div class="thumb_2">
-                            <img src="img/about/2.png" alt="">
+                            <img src="/css/homeDesign/img/about/2.png" alt="">
                         </div>
                     </div>
                 </div>
@@ -267,7 +261,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/1.png" alt="">
+                            <img src="/css/homeDesign/img/department/1.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Eye Care</a></h3>
@@ -279,7 +273,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/2.png" alt="">
+                            <img src="/css/homeDesign/img/department/2.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Physical Therapy</a></h3>
@@ -291,7 +285,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/3.png" alt="">
+                            <img src="/css/homeDesign/img/department/3.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Dental Care</a></h3>
@@ -303,7 +297,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/4.png" alt="">
+                            <img src="/css/homeDesign/img/department/4.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Diagnostic Test</a></h3>
@@ -315,7 +309,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/5.png" alt="">
+                            <img src="/css/homeDesign/img/department/5.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Skin Surgery</a></h3>
@@ -327,7 +321,7 @@
                 <div class="col-xl-4 col-md-6 col-lg-4">
                     <div class="single_department">
                         <div class="department_thumb">
-                            <img src="img/department/6.png" alt="">
+                            <img src="/css/homeDesign/img/department/6.png" alt="">
                         </div>
                         <div class="department_content">
                             <h3><a href="#">Surgery Service</a></h3>
@@ -456,7 +450,7 @@
                                             </div>
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="business_thumb">
-                                                    <img src="img/about/business.png" alt="">
+                                                    <img src="/css/homeDesign/img/about/business.png" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -477,7 +471,7 @@
                                             </div>
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="business_thumb">
-                                                    <img src="img/about/business.png" alt="">
+                                                    <img src="/css/homeDesign/img/about/business.png" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -498,7 +492,7 @@
                                             </div>
                                             <div class="col-xl-6 col-md-6">
                                                 <div class="business_thumb">
-                                                    <img src="img/about/business.png" alt="">
+                                                    <img src="/css/homeDesign/img/about/business.png" alt="">
                                                 </div>
                                             </div>
                                         </div>
@@ -525,7 +519,7 @@
                     <div class="expert_active owl-carousel">
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/1.png" alt="">
+                                <img src="/css/homeDesign/img/experts/1.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -534,7 +528,7 @@
                         </div>
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/2.png" alt="">
+                                <img src="/css/homeDesign/img/experts/2.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -543,7 +537,7 @@
                         </div>
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/3.png" alt="">
+                                <img src="/css/homeDesign/img/experts/3.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -552,7 +546,7 @@
                         </div>
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/4.png" alt="">
+                                <img src="/css/homeDesign/img/experts/4.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -561,7 +555,7 @@
                         </div>
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/1.png" alt="">
+                                <img src="/css/homeDesign/img/experts/1.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -570,7 +564,7 @@
                         </div>
                         <div class="single_expert">
                             <div class="expert_thumb">
-                                <img src="img/experts/2.png" alt="">
+                                <img src="/css/homeDesign/img/experts/2.png" alt="">
                             </div>
                             <div class="experts_name text-center">
                                 <h3>Mirazul Alom</h3>
@@ -704,7 +698,7 @@
                         <div class="col-xl-12">
                             <p class="copy_right text-center">
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://mahfuznazib.github.io" target="_blank">MahfuzNazib</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
