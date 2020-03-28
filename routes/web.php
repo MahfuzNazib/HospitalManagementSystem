@@ -25,8 +25,6 @@ Route::get('/Department','HomeController@department')->name('Home.department');
 Route::get('/Login','LoginController@index')->name('Login.index');
 Route::post('/Login','LoginController@verifyUser')->name('Login.verifyUser');
 
-
-Route::get('/admin', function(){
-    echo "Admin Dashbord Request";
-});
+//Admin Page Route
+Route::get('/admin','AdminController@index')->name('Admin.index');
 
