@@ -30,3 +30,5 @@ Route::get('/admin','AdminController@index')->name('Admin.index');
 
 //HR Page Route
 Route::get('/HR', 'HRController@index')->name('HR.index');
+Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
+Route::get('/HR/AddDoctor', 'HRController@addDoctor')->name('HR.addDoctor');

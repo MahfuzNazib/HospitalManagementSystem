@@ -1,0 +1,9 @@
+.timec{
+    height: 35px;
+    width: 220px;
+    border-radius: 5px;
+    
+}
+.timec:hover{
+    border-color: aqua;
+}

@@ -9,15 +9,15 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Buttons</title>
+  <title>HR Department</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/adminDesign/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+  <link href="/css/adminDesign/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -33,14 +33,15 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-laugh-wink"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+        <div class="sidebar-brand-text mx-3">HR Dept</div><br>
+        
       </a>
 
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="index.html">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -54,36 +55,67 @@
         Interface
       </div>
 
+      <!-- Add Doctor -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('HR.chart')}}">
+          <i class="fas fa-user-nurse"></i>
+          <span>Add Doctor</span></a>
+      </li>
+
+      <!-- Add Employee -->
+
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item active">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Components</span>
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <!-- <i class="fas fa-fw fa-cog"></i> -->
+          <i class="fas fa-user-friends"></i>
+          <span>Add Employee</span>
         </a>
-        <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Components:</h6>
-            <a class="collapse-item active" href="buttons.html">Buttons</a>
-            <a class="collapse-item" href="cards.html">Cards</a>
+            <h6 class="collapse-header">New Employee</h6>
+            <a class="collapse-item" href="{{route('HR.addDoctor')}}">HR Emp.</a>
+            <a class="collapse-item" href="buttons.html">Manager</a>
+            <a class="collapse-item" href="cards.html">Receptionist</a>
+            <a class="collapse-item" href="cards.html">Word Boy</a>
+            <a class="collapse-item" href="cards.html">Gatemen</a>
+            
           </div>
         </div>
       </li>
 
-      <!-- Nav Item - Utilities Collapse Menu -->
+      
+
+      <!-- Divider -->
+      <hr class="sidebar-divider">
+
+      <!-- Heading -->
+      <div class="sidebar-heading">
+        View Employee
+      </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-          <i class="fas fa-fw fa-wrench"></i>
-          <span>Utilities</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+          <i class="fas fa-list-alt"></i>
+          <span>Employee List</span>
         </a>
-        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Colors</a>
-            <a class="collapse-item" href="utilities-border.html">Borders</a>
-            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-            <a class="collapse-item" href="utilities-other.html">Other</a>
+            <h6 class="collapse-header">Employee List</h6>
+            <a class="collapse-item" href="login.html">Doctor</a>
+            <a class="collapse-item" href="login.html">HR Emp.</a>
+            <a class="collapse-item" href="register.html">Manager</a>
+            <a class="collapse-item" href="forgot-password.html">Receiptionist</a>
+            <a class="collapse-item" href="404.html">Gatemen</a>
           </div>
         </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="charts.html">
+          <i class="fas fa-user-circle"></i>
+          <span>View Profile</span></a>
       </li>
 
       <!-- Divider -->
@@ -91,42 +123,29 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Addons
+        Others
       </div>
-
-      <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
-        </a>
-        <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Login Screens:</h6>
-            <a class="collapse-item" href="login.html">Login</a>
-            <a class="collapse-item" href="register.html">Register</a>
-            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-            <div class="collapse-divider"></div>
-            <h6 class="collapse-header">Other Pages:</h6>
-            <a class="collapse-item" href="404.html">404 Page</a>
-            <a class="collapse-item" href="blank.html">Blank Page</a>
-          </div>
-        </div>
-      </li>
-
       <!-- Nav Item - Charts -->
       <li class="nav-item">
         <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
+          <i class="far fa-sticky-note"></i>
+          <span>Add Notice</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
         <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
+          <i class="fas fa-sign-out-alt"></i>
           <span>Tables</span></a>
       </li>
+
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span></a>
+      </li>
+
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
@@ -316,7 +335,7 @@
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="{{route('Login.index')}}" data-toggle="modal" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -332,179 +351,182 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">Buttons</h1>
-
-          <div class="row">
-
-            <div class="col-lg-6">
-
-              <!-- Circle Buttons -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Circle Buttons</h6>
-                </div>
-                <div class="card-body">
-                  <p>Use Font Awesome Icons (included with this theme package) along with the circle buttons as shown in the examples below!</p>
-                  <!-- Circle Buttons (Default) -->
-                  <div class="mb-2">
-                    <code>.btn-circle</code>
-                  </div>
-                  <a href="#" class="btn btn-primary btn-circle">
-                    <i class="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#" class="btn btn-success btn-circle">
-                    <i class="fas fa-check"></i>
-                  </a>
-                  <a href="#" class="btn btn-info btn-circle">
-                    <i class="fas fa-info-circle"></i>
-                  </a>
-                  <a href="#" class="btn btn-warning btn-circle">
-                    <i class="fas fa-exclamation-triangle"></i>
-                  </a>
-                  <a href="#" class="btn btn-danger btn-circle">
-                    <i class="fas fa-trash"></i>
-                  </a>
-                  <!-- Circle Buttons (Small) -->
-                  <div class="mt-4 mb-2">
-                    <code>.btn-circle .btn-sm</code>
-                  </div>
-                  <a href="#" class="btn btn-primary btn-circle btn-sm">
-                    <i class="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#" class="btn btn-success btn-circle btn-sm">
-                    <i class="fas fa-check"></i>
-                  </a>
-                  <a href="#" class="btn btn-info btn-circle btn-sm">
-                    <i class="fas fa-info-circle"></i>
-                  </a>
-                  <a href="#" class="btn btn-warning btn-circle btn-sm">
-                    <i class="fas fa-exclamation-triangle"></i>
-                  </a>
-                  <a href="#" class="btn btn-danger btn-circle btn-sm">
-                    <i class="fas fa-trash"></i>
-                  </a>
-                  <!-- Circle Buttons (Large) -->
-                  <div class="mt-4 mb-2">
-                    <code>.btn-circle .btn-lg</code>
-                  </div>
-                  <a href="#" class="btn btn-primary btn-circle btn-lg">
-                    <i class="fab fa-facebook-f"></i>
-                  </a>
-                  <a href="#" class="btn btn-success btn-circle btn-lg">
-                    <i class="fas fa-check"></i>
-                  </a>
-                  <a href="#" class="btn btn-info btn-circle btn-lg">
-                    <i class="fas fa-info-circle"></i>
-                  </a>
-                  <a href="#" class="btn btn-warning btn-circle btn-lg">
-                    <i class="fas fa-exclamation-triangle"></i>
-                  </a>
-                  <a href="#" class="btn btn-danger btn-circle btn-lg">
-                    <i class="fas fa-trash"></i>
-                  </a>
-                </div>
-              </div>
-
-              <!-- Brand Buttons -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Brand Buttons</h6>
-                </div>
-                <div class="card-body">
-                  <p>Google and Facebook buttons are available featuring each company's respective brand color. They are used on the user login and registration pages.</p>
-                  <p>You can create more custom buttons by adding a new color variable in the <code>_variables.scss</code> file and then using the Bootstrap button variant mixin to create a new style, as demonstrated in the <code>_buttons.scss</code> file.</p>
-                  <a href="#" class="btn btn-google btn-block"><i class="fab fa-google fa-fw"></i> .btn-google</a>
-                  <a href="#" class="btn btn-facebook btn-block"><i class="fab fa-facebook-f fa-fw"></i> .btn-facebook</a>
-
-                </div>
-              </div>
-
-            </div>
-
-            <div class="col-lg-6">
-
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Split Buttons with Icon</h6>
-                </div>
-                <div class="card-body">
-                  <p>Works with any button colors, just use the <code>.btn-icon-split</code> class and the markup in the examples below. The examples below also use the <code>.text-white-50</code> helper class on the icons for additional styling, but it is not required.</p>
-                  <a href="#" class="btn btn-primary btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">Split Button Primary</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-success btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-check"></i>
-                    </span>
-                    <span class="text">Split Button Success</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-info btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-info-circle"></i>
-                    </span>
-                    <span class="text">Split Button Info</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-warning btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-exclamation-triangle"></i>
-                    </span>
-                    <span class="text">Split Button Warning</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-danger btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-trash"></i>
-                    </span>
-                    <span class="text">Split Button Danger</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-secondary btn-icon-split">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-arrow-right"></i>
-                    </span>
-                    <span class="text">Split Button Secondary</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-light btn-icon-split">
-                    <span class="icon text-gray-600">
-                      <i class="fas fa-arrow-right"></i>
-                    </span>
-                    <span class="text">Split Button Primary</span>
-                  </a>
-                  <div class="mb-4"></div>
-                  <p>Also works with small and large button classes!</p>
-                  <a href="#" class="btn btn-primary btn-icon-split btn-sm">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">Split Button Small</span>
-                  </a>
-                  <div class="my-2"></div>
-                  <a href="#" class="btn btn-primary btn-icon-split btn-lg">
-                    <span class="icon text-white-50">
-                      <i class="fas fa-flag"></i>
-                    </span>
-                    <span class="text">Split Button Large</span>
-                  </a>
-                </div>
-              </div>
-
-            </div>
-
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Add New Doctor</h1>
+            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 
+      <!--Body Main Part-->
+
+      <div class="row">
+        <div class="col-sm-8">
+          <div class="container bg card">
+              <table width="100%">
+                <tr>
+                  <td colspan="2">
+                    <center>
+                      Personal Information
+                    </center>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Doctor ID</td>
+                  <td>
+                    <input type="text"  readonly class="form-control" value="D-123455" name="DID">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Full Name</td>
+                  <td>
+                    <input type="text" class="form-control" value="" name="name">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>DOB</td>
+                  <td>
+                    <input type="date" class="form-control" value="" name="dob">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Gender</td>
+                  <td>
+                    <select class="form-control" name="gender">
+                      <option></option>
+                      <option>Male</option>
+                      <option>Female</option>
+                    </select>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Phone</td>
+                  <td>
+                    <input type="number" class="form-control" value="" name="phone">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Emergency</td>
+                  <td>
+                    <input type="number" class="form-control" value="" name="phone">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Email</td>
+                  <td>
+                    <input type="email" class="form-control" value="" name="email">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Address</td>
+                  <td>
+                    <input type="text" class="form-control" value="" name="email">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2"><hr></td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <center>
+                      Institutional Information
+                    </center>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Department</td>
+                  <td>
+                    <select class="form-control" name="department">
+                      <option>Dental</option>
+                      <option>Neourology</option>
+                      <option>Heart</option>
+                      <option>Cardiology</option>
+                      <option>Ear,Nose & Tharot(ENT)</option>
+                    </select>
+                  </td>
+                </tr>
+
+
+                <tr>
+                  <td>Specialist</td>
+                  <td>
+                    <select class="form-control" name="department">
+                      <option>Dentist</option>
+                      <option>Neourologist</option>
+                      <option>Cardiologiest</option>
+                      <option>Cardiologiest</option>
+                      <option>ENTeist</option>
+                    </select>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Visiting Hour</td>
+                  <td>
+                    <input type="time" class="timec"> To
+                    <input type="time" class="timec"> 
+                  </td> 
+                </tr>
+
+                <tr>
+                  <td>Visiting Fee</td>
+                  <td>
+                    <input type="number" class="form-control" name="visitingFee" value="">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Comission (%)</td>
+                  <td>
+                    <input type="number" class="form-control" name="comission" value="">
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Closing Day</td>
+                  <td>
+                  <select class="form-control" name="closingDaye">
+                      <option>Sat</option>
+                      <option>Sun</option>
+                      <option>Mon</option>
+                      <option>Tue</option>
+                      <option>Wed</option>
+                      <option>Thus</option>
+                      <option>Fri</option>
+                
+                    </select>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <center>
+                      <input type="submit" class="btn btn-success" value="Registered">
+                    </center>
+                  </td>
+                </tr>
+
+              </table>
+          </div>
         </div>
-        <!-- /.container-fluid -->
-
+        <div class="col-sm-4">
+          <div class="container bg card">
+            Set a profile Picture
+            <br>
+            <img src="" height="150px" width="150px"> <br>
+            
+            <input type="file" class="btn btn-info" value="Select a Picture">
+          </div>
+        </div>
       </div>
-      <!-- End of Main Content -->
 
+      <!--End Of Body Main Part-->
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
@@ -539,21 +561,28 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="{{route('Login.index')}}">Logout</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/css/adminDesign/vendor/jquery/jquery.min.js"></script>
+  <script src="/css/adminDesign/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/css/adminDesign/vendor/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="/css/adminDesign/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="/css/adminDesign/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="/css/adminDesign/js/demo/chart-area-demo.js"></script>
+  <script src="/css/adminDesign/js/demo/chart-pie-demo.js"></script>
 
 </body>
 

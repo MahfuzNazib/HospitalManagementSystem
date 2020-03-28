@@ -9,4 +9,12 @@ class HRController extends Controller
     public function index(){
         return view('HR.index');
     }
+
+    public function chart(){
+        return view('HR.charts');
+    }
+
+    public function addDoctor(){
+        return view('HR.AddDoctor');
+    }
 }

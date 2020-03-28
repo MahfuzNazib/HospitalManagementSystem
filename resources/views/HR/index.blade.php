@@ -57,7 +57,7 @@
 
       <!-- Add Doctor -->
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{route('HR.chart')}}">
           <i class="fas fa-user-nurse"></i>
           <span>Add Doctor</span></a>
       </li>
@@ -74,7 +74,7 @@
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">New Employee</h6>
-            <a class="collapse-item" href="cards.html">HR Emp.</a>
+            <a class="collapse-item" href="{{route('HR.addDoctor')}}">HR Emp.</a>
             <a class="collapse-item" href="buttons.html">Manager</a>
             <a class="collapse-item" href="cards.html">Receptionist</a>
             <a class="collapse-item" href="cards.html">Word Boy</a>
@@ -146,10 +146,6 @@
           <span>Logout</span></a>
       </li>
 
-
-
-
-      
 
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
