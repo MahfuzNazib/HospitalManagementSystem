@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Admin</title>
+  <title>HR Department</title>
 
   <!-- Custom fonts for this template-->
   <link href="/css/adminDesign/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -28,3 +28,5 @@ Route::post('/Login','LoginController@verifyUser')->name('Login.verifyUser');
 //Admin Page Route
 Route::get('/admin','AdminController@index')->name('Admin.index');
 
+//HR Page Route
+Route::get('/HR', 'HRController@index')->name('HR.index');

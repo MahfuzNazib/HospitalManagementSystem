@@ -15,6 +15,9 @@ class LoginController extends Controller
         if($req->username == $req->password){
             return redirect('/admin');
         }
+        else if($req->username == "hr" && $req->password == "11"){
+            return redirect('/HR');
+        }
         else{
             // return redirect('/login');
             echo "Invalid Username or Password";
