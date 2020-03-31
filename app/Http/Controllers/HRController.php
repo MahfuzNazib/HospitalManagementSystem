@@ -17,4 +17,13 @@ class HRController extends Controller
     public function addDoctor(){
         return view('HR.AddDoctor');
     }
+
+    public function addEmployee(){
+        return view('HR.AddEmployee');
+    }
+
+    public function notice(){
+        $date = date('Y-m-d H:i:s');
+        return view('HR.Notice');
+    }
 }
