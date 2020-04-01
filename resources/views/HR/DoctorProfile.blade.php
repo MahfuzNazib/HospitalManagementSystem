@@ -1,6 +1,8 @@
 @extends('Layouts.App')
 @section('content')
 
+    
+
     <div class="row">
         <div class="col-sm-8">
             <div class="card shadow mb-4">
@@ -138,13 +140,48 @@
                   <center>
                       Monthly Information
                   </center>
-                  <table width="100%">
+                  <table width="100%" class="table table-hover">
                       <tr>
                           <td>Select Month</td>
                           <td>
                               <input type="date" class="form-control" name="date">
                           </td>
+                          <td>
+                          <input type="submit" class="btn btn-info" value="Go">
+                          </td>
                       </tr>
+
+                      <tr>
+                          <td>Patient Checked</td>
+                          <td>
+                              <text name="monthPathientChecked">25</text>
+                          </td>
+                      </tr>
+
+                      <tr>
+                          <td>Tests Referred</td>
+                          <td>
+                              <text name="monthPathientChecked">93</text>
+                          </td>
+                      </tr>
+
+                      <tr>
+                          <td>Comissions</td>
+                          <td>
+                              <text name="monthPathientChecked">25365</text>
+                          </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                            <center>
+                            <a href="{{route('HR.editDoctor')}}">
+                              <input type="submit" class="btn btn-warning" value="Edit Profile">
+
+                            </a>
+                            </center>
+                        </td>
+                        </tr>
+
                   </table>
               </div>
             </div>

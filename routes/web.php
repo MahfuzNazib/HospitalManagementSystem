@@ -31,9 +31,16 @@ Route::get('/admin','AdminController@index')->name('Admin.index');
 //HR Page Route
 Route::get('/HR', 'HRController@index')->name('HR.index');
 Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
+
 Route::get('/HR/AddDoctor', 'HRController@addDoctor')->name('HR.addDoctor');
+Route::post('/HR/AddDoctor', 'HRController@insertDoctor')->name('HR.insertDoctor');
+
 Route::get('/HR/AddEmployee', 'HRController@addEmployee')->name('HR.addEmployee');
 Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
 Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
-Route::get('/HR/EmployeeList', 'HRController@employeeList')->name('HR.employeeList');
+Route::get('/HR/HRList', 'HRController@hrList')->name('HR.hrList');
+Route::get('/HR/ManagerList', 'HRController@managerList')->name('HR.managerList');
+Route::get('/HR/ReceiptionistList', 'HRController@receiptionistList')->name('HR.receiptionistList');
+
 Route::get('/HR/DoctorProfile', 'HRController@doctorProfile')->name('HR.doctorProfile');
+Route::get('/HR/EditDoctor', 'HRController@editDoctor')->name('HR.editDoctor');

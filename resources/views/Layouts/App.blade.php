@@ -93,9 +93,9 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Employee List</h6>
-            <a class="collapse-item" href="{{route('HR.employeeList')}}">HR Emp.</a>
-            <a class="collapse-item" href="register.html">Manager</a>
-            <a class="collapse-item" href="forgot-password.html">Receiptionist</a>
+            <a class="collapse-item" href="{{route('HR.hrList')}}">HR Emp.</a>
+            <a class="collapse-item" href="{{route('HR.managerList')}}">Manager</a>
+            <a class="collapse-item" href="{{route('HR.receiptionistList')}}">Receiptionist</a>
             <a class="collapse-item" href="404.html">Gatemen</a>
           </div>
         </div>

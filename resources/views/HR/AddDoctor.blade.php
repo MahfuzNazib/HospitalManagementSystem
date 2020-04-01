@@ -10,11 +10,31 @@
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
           </div>
 
+          @if(session('msg'))
+            <div class="alert alert-success">
+              {{session('msg')}}
+            </div>
+          @endif
+          <!--Error List Show-->
+          @if($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
+
+
+
       <!--Body Main Part-->
 
       <div class="row">
         <div class="col-sm-8">
           <div class="container bg card">
+            <form method="POST">
+              {{csrf_field()}}
               <table width="100%">
                 <tr>
                   <td colspan="2">
@@ -65,7 +85,7 @@
                 <tr>
                   <td>Emergency</td>
                   <td>
-                    <input type="number" class="form-control" value="" name="phone">
+                    <input type="number" class="form-control" value="" name="emergency">
                   </td>
                 </tr>
 
@@ -79,7 +99,7 @@
                 <tr>
                   <td>Address</td>
                   <td>
-                    <input type="text" class="form-control" value="" name="email">
+                    <input type="text" class="form-control" value="" name="address">
                   </td>
                 </tr>
 
@@ -97,6 +117,7 @@
                   <td>Department</td>
                   <td>
                     <select class="form-control" name="department">
+                      <option></option>
                       <option>Dental</option>
                       <option>Neourology</option>
                       <option>Heart</option>
@@ -110,7 +131,8 @@
                 <tr>
                   <td>Specialist</td>
                   <td>
-                    <select class="form-control" name="department">
+                    <select class="form-control" name="specialist">
+                      <option></option>
                       <option>Dentist</option>
                       <option>Neourologist</option>
                       <option>Cardiologiest</option>
@@ -123,7 +145,7 @@
                 <tr>
                   <td>Visiting Hour</td>
                   <td>
-                    <input type="time" class="timec"> To
+                    <input type="time" class="timec" name="time"> To
                     <input type="time" class="timec"> 
                   </td> 
                 </tr>
@@ -145,7 +167,8 @@
                 <tr>
                   <td>Closing Day</td>
                   <td>
-                  <select class="form-control" name="closingDaye">
+                  <select class="form-control" name="closingDay">
+                      <option>None</option>
                       <option>Sat</option>
                       <option>Sun</option>
                       <option>Mon</option>
@@ -160,13 +183,16 @@
 
                 <tr>
                   <td colspan="2">
+                    <a href="{{route('HR.insertDoctor')}}">
                     <center>
                       <input type="submit" class="btn btn-success" value="Registered">
                     </center>
+                    </a>
                   </td>
                 </tr>
 
               </table>
+            </form>
           </div>
         </div>
         <div class="col-sm-4">
