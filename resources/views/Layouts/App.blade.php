@@ -78,6 +78,12 @@
         View Employee
       </div>
 
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('HR.doctorList')}}">
+          <i class="fas fa-user-circle"></i>
+          <span>View Doctor List</span></a>
+      </li>
+
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
@@ -87,8 +93,7 @@
         <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Employee List</h6>
-            <a class="collapse-item" href="login.html">Doctor</a>
-            <a class="collapse-item" href="login.html">HR Emp.</a>
+            <a class="collapse-item" href="{{route('HR.employeeList')}}">HR Emp.</a>
             <a class="collapse-item" href="register.html">Manager</a>
             <a class="collapse-item" href="forgot-password.html">Receiptionist</a>
             <a class="collapse-item" href="404.html">Gatemen</a>
@@ -330,18 +335,7 @@
 
         </nav>
 
-        @yield('content');
-
-
-        <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
-        </div>
-      </footer>
-      <!-- End of Footer -->
+        @yield('content')
 
     </div>
     <!-- End of Content Wrapper -->

@@ -26,4 +26,18 @@ class HRController extends Controller
         $date = date('Y-m-d H:i:s');
         return view('HR.Notice');
     }
+
+    public function doctorList(){
+        return view('HR.DoctorList');
+    }
+
+    //Employee List
+    public function employeeList(){
+        return view('HR.EmployeeList');
+    }
+
+    //View Doctor Profile
+    public function doctorProfile(){
+        return view('HR.DoctorProfile');
+    }
 }

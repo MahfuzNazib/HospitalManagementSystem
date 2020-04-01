@@ -34,4 +34,6 @@ Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
 Route::get('/HR/AddDoctor', 'HRController@addDoctor')->name('HR.addDoctor');
 Route::get('/HR/AddEmployee', 'HRController@addEmployee')->name('HR.addEmployee');
 Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
-
+Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
+Route::get('/HR/EmployeeList', 'HRController@employeeList')->name('HR.employeeList');
+Route::get('/HR/DoctorProfile', 'HRController@doctorProfile')->name('HR.doctorProfile');

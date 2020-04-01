@@ -15,7 +15,9 @@
       <div class="row">
         <div class="col-sm-10">
           <div class="container bg card">
+            <br><br>
               <table width="100%">
+                
                 <tr>
                   <td>Notice ID</td>
                   <td>
