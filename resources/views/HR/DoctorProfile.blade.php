@@ -7,7 +7,7 @@
         <div class="col-sm-8">
             <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">[Doctor Name], Profile Information</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Dr.{{$Name}}'s, Profile Information</h6>
             </div>
             <div class="card-body">
             <table width="80%" class="table table-hover">
@@ -21,56 +21,56 @@
                 <tr>
                   <td>Doctor ID</td>
                   <td> 
-                    <text name="did">12558</text>  
+                    {{$DoctorId}}  
                   </td>
                 </tr>
 
                 <tr>
                   <td>Full Name</td>
                   <td>
-                    <text name="name">Nazib Mahdfuz</text>
+                    {{$Name}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>DOB</td>
                   <td>
-                    <text name="dob">25.02.1997</text>
+                    {{$DOB}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Gender</td>
                   <td>
-                    <text name="gender">Male</text>
+                    {{$Gender}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Phone</td>
                   <td>
-                    <text name="phone">01777127618</text>
+                    {{$Phone}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Emergency</td>
                   <td>
-                    <text name="emergency">01258899</text>
+                    {{$Emergency}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Email</td>
                   <td>
-                    <text name="email">nazibmahfuz60@gmail.com</text>
+                    {{$Email}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Address</td>
                   <td>
-                    <text name="address">sdjkbcdjkbvf<br>dbcsdjhvcs</text>
+                    {{$Address}}
                   </td>
                 </tr>
                 <tr class="thead-dark">
@@ -83,38 +83,38 @@
                 <tr>
                   <td>Department</td>
                   <td>
-                    <text name="department">ABC</text>
+                    {{$Department}}
                   </td>
                 </tr>
 
 
                 <tr>
                   <td>Specialist</td>
-                  <td> </td>
+                  <td> {{$Specialist}} </td>
                 </tr>
 
                 <tr>
                   <td>Visiting Hour</td>
-                  <td> </td> 
+                  <td> {{$VisitingHour}} </td> 
                 </tr>
 
                 <tr>
                   <td>Visiting Fee</td>
                   <td>
-                    
+                    {{$VisitingFee}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Comission (%)</td>
                   <td>
-                    
+                    {{$Commission}}
                   </td>
                 </tr>
 
                 <tr>
                   <td>Closing Day</td>
-                  <td> </td>
+                  <td> {{$ClosingDay}} </td>
                 </tr>
 
                 <tr>
@@ -174,7 +174,7 @@
                       <tr>
                         <td colspan="2">
                             <center>
-                            <a href="{{route('HR.editDoctor')}}">
+                            <a href="{{route('HR.editDoctor', $DoctorId)}}">
                               <input type="submit" class="btn btn-warning" value="Edit Profile">
 
                             </a>
@@ -195,7 +195,9 @@
                     <h6 class="m-0 font-weight-bold text-primary">Profile Picture</h6>
                 </div>
                 <div class="card-body">
-                    <img class="rounded-circle z-depth-2" alt="100x100" src="https://mdbootstrap.com/img/Photos/Avatars/img%20(31).jpg">
+                  <center>
+                    <img class="rounded-circle z-depth-2" height="200px" width="200px" src="/uploads/{{$ProfilePicture}}">
+                  </center>
                 </div>
         </div>
     </div>

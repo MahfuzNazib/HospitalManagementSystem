@@ -28,6 +28,11 @@
   </div>
 
 
+  <!-- @if(session('msg'))
+            <div class="alert alert-success">
+              {{session('msg')}}
+            </div>
+      @endif -->
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -61,7 +66,7 @@
               <td>{{$doctor['Department']}}</td>
               <td>{{$doctor['Specialist']}}</td>
               <td>
-                  <a href="{{route('HR.doctorProfile')}}">
+                  <a href="{{route('HR.doctorProfile', $doctor['DoctorId'])}}">
                       <i class="fas fa-user btn btn-success"></i>
                   </a>
                   <a href="#">

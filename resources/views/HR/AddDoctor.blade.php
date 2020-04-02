@@ -33,7 +33,7 @@
       <div class="row">
         <div class="col-sm-8">
           <div class="container bg card">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <table width="100%">
                 <tr>
@@ -53,21 +53,21 @@
                 <tr>
                   <td>Full Name</td>
                   <td>
-                    <input type="text" class="form-control" value="" name="name">
+                    <input type="text" class="form-control" value="{{old('name')}}" name="name">
                   </td>
                 </tr>
 
                 <tr>
                   <td>DOB</td>
                   <td>
-                    <input type="date" class="form-control" value="" name="dob">
+                    <input type="date" class="form-control" value="{{old('dob')}}" name="dob">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Gender</td>
                   <td>
-                    <select class="form-control" name="gender">
+                    <select class="form-control" name="gender" value="{{old('gender')}}">
                       <option></option>
                       <option>Male</option>
                       <option>Female</option>
@@ -78,28 +78,28 @@
                 <tr>
                   <td>Phone</td>
                   <td>
-                    <input type="number" class="form-control" value="" name="phone">
+                    <input type="number" class="form-control" value="{{old('phone')}}" name="phone">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Emergency</td>
                   <td>
-                    <input type="number" class="form-control" value="" name="emergency">
+                    <input type="number" class="form-control" value="{{old('emergency')}}" name="emergency">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Email</td>
                   <td>
-                    <input type="email" class="form-control" value="" name="email">
+                    <input type="email" class="form-control" value="{{old('email')}}" name="email">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Address</td>
                   <td>
-                    <input type="text" class="form-control" value="" name="address">
+                    <input type="text" class="form-control" value="{{old('address')}}" name="address">
                   </td>
                 </tr>
 
@@ -116,7 +116,7 @@
                 <tr>
                   <td>Department</td>
                   <td>
-                    <select class="form-control" name="department">
+                    <select class="form-control" name="department" value="{{old('department')}}">
                       <option></option>
                       <option>Dental</option>
                       <option>Neourology</option>
@@ -131,7 +131,7 @@
                 <tr>
                   <td>Specialist</td>
                   <td>
-                    <select class="form-control" name="specialist">
+                    <select class="form-control" name="specialist" value="{{old('specialist')}}">
                       <option></option>
                       <option>Dentist</option>
                       <option>Neourologist</option>
@@ -145,7 +145,7 @@
                 <tr>
                   <td>Visiting Hour</td>
                   <td>
-                    <input type="time" class="timec" name="time"> To
+                    <input type="time" class="timec" name="time" value="{{old('time')}}"> To
                     <input type="time" class="timec"> 
                   </td> 
                 </tr>
@@ -153,21 +153,21 @@
                 <tr>
                   <td>Visiting Fee</td>
                   <td>
-                    <input type="number" class="form-control" name="visitingFee" value="">
+                    <input type="number" class="form-control" name="visitingFee" value="{{old('visitingFee')}}">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Comission (%)</td>
                   <td>
-                    <input type="number" class="form-control" name="comission" value="">
+                    <input type="number" class="form-control" name="comission" value="{{old('comission')}}">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Closing Day</td>
                   <td>
-                  <select class="form-control" name="closingDay">
+                  <select class="form-control" name="closingDay" value="{{old('closingDay')}}">
                       <option>None</option>
                       <option>Sat</option>
                       <option>Sun</option>
@@ -190,20 +190,21 @@
                     </a>
                   </td>
                 </tr>
-
+                <!-- </form> -->
               </table>
-            </form>
+            
           </div>
         </div>
         <div class="col-sm-4">
           <div class="container bg card">
-            Set a profile Picture
-            <br>
-            <img src="" height="150px" width="150px"> <br>
-            
-            <input type="file" class="btn btn-info" value="Select a Picture">
+              Set a profile Picture
+              <br>
+              <!-- <form method="POST" action="{{route('HR.profilePicture')}}" enctype="" -->
+              <img src="" height="150px" width="150px"> <br>
+              <input type="file" class="btn btn-info" value="Select a Picture" name="profile"><br>
           </div>
         </div>
+        </form>
       </div>
 
       <!--End Of Body Main Part-->

@@ -42,5 +42,9 @@ Route::get('/HR/HRList', 'HRController@hrList')->name('HR.hrList');
 Route::get('/HR/ManagerList', 'HRController@managerList')->name('HR.managerList');
 Route::get('/HR/ReceiptionistList', 'HRController@receiptionistList')->name('HR.receiptionistList');
 
-Route::get('/HR/DoctorProfile', 'HRController@doctorProfile')->name('HR.doctorProfile');
-Route::get('/HR/EditDoctor', 'HRController@editDoctor')->name('HR.editDoctor');
+Route::get('/HR/DoctorProfile/{DoctorId}', 'HRController@doctorProfile')->name('HR.doctorProfile');
+Route::get('/HR/EditDoctor/{DoctorId}', 'HRController@editDoctor')->name('HR.editDoctor');
+Route::post('/HR/EditDoctor/{DoctorId}', 'HRController@updateDoctor')->name('HR.updateDoctor');
+
+//Upload Doctor Profile Picture
+Route::post('/HR/ProfilePicture', 'HRController@profilePicture')->name('HR.profilePicture');
