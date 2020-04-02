@@ -99,7 +99,7 @@
                 <tr>
                   <td>Address</td>
                   <td>
-                    <input type="text" class="form-control" value="{{$Address}}" name="email">
+                    <input type="text" class="form-control" value="{{$Address}}" name="address">
                   </td>
                 </tr>
 
@@ -116,7 +116,8 @@
                 <tr>
                   <td>Department</td>
                   <td>
-                    <select class="form-control" name="department" value="{{$Department}}">
+                    <select class="form-control" name="department" >
+                      <option>{{$Department}}</option>
                       <option>Dental</option>
                       <option>Neourology</option>
                       <option>Heart</option>
@@ -130,7 +131,8 @@
                 <tr>
                   <td>Specialist</td>
                   <td>
-                    <select class="form-control" name="department" value="{{$Specialist}}">
+                    <select class="form-control" name="specialist" >
+                      <option>{{$Specialist}}</option>
                       <option>Dentist</option>
                       <option>Neourologist</option>
                       <option>Cardiologiest</option>
@@ -143,7 +145,7 @@
                 <tr>
                   <td>Visiting Hour</td>
                   <td>
-                    <input type="time" class="timec" value="{{$VisitingHour}}"> To
+                    <input type="time" class="timec" value="{{$VisitingHour}}" name="time"> To
                     <input type="time" class="timec"> 
                   </td> 
                 </tr>
@@ -165,8 +167,9 @@
                 <tr>
                   <td>Closing Day</td>
                   <td>
-                  <select class="form-control" name="closingDaye" value="{{$ClosingDay}}">
-
+                  <select class="form-control" name="closingDay">
+                      <option>{{$ClosingDay}}</option>
+                      <option>None</option>
                       <option>Sat</option>
                       <option>Sun</option>
                       <option>Mon</option>
@@ -188,6 +191,7 @@
                     </center>
                   </td>
                 </tr>
+                </form>
 
               </table>
             </div>
@@ -197,11 +201,11 @@
               Set a profile Picture
               <img class="rounded-circle z-depth-2" height="200px" width="200px" src="/uploads/{{$ProfilePicture}}">
               <br>  
-              <input type="file" class="btn btn-info" value="Select a Picture">
+              <!-- <input type="file" class="btn btn-info" value="{{$ProfilePicture}}" name="profile"> -->
             </div>
           </div>
           </div>
-      </form>
+      <!-- </form> -->
 
       <!--End Of Body Main Part-->
 @endsection

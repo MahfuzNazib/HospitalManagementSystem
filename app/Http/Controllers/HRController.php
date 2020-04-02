@@ -127,8 +127,8 @@ class HRController extends Controller
             'name'       => 'required',
             'dob'        => 'required',
             'gender'     => 'required',
-            'phone'      => 'required|max:12|min:11|unique',
-            'email'      => 'required|email|unique',
+            'phone'      => 'required|max:12|min:11',
+            'email'      => 'required|email',
             'department' => 'required',
             'specialist' => 'required',
             'time'       => 'required',
@@ -152,24 +152,11 @@ class HRController extends Controller
         $doctor->Commission  = $req->comission;
         $doctor->ClosingDay  = $req->closingDay;
 
-        // Update Profile Picture
-
-        if($req->hasFile('profile')){
-			$file = $req->file('profile');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time(). '.' .$extension;
-            
-            $file->move('uploads/',$filename);
-            $doctor->ProfilePicture = $filename;
-
-		}else{
-            return $req;
-            $doctor->ProfilePicture = null;
-		}
+        
 
         $doctor->save();
 
-        return redirect()->route('HR.updateDoctor',$DoctorId)
+        return redirect()->route('HR.editDoctor',$DoctorId)
                         ->with('msg','Doctor Successfully Updated');
     }
 
