@@ -15,7 +15,7 @@
     <div class="card-header py-3">
     <!-- <h6 class="m-0 font-weight-bold text-primary">Doctor List</!-->  
 
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+          <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-2 large" placeholder="Doctor Name or ID" aria-label="Search" aria-describedby="basic-addon2">
               <div class="input-group-append">
@@ -24,7 +24,7 @@
                 </button>
               </div>
             </div>
-        </form>
+          </form>
   </div>
 
 
@@ -43,19 +43,10 @@
             <th>Phone</th>
             <th>Department</th>
             <th>Specialist</th>
+            <th>Schedule</th>
             <th>Action</th>
           </tr>
         </thead>
-        <!-- <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </tfoot> -->
         
           <tbody>
           @foreach($doctors as $doctor)
@@ -65,6 +56,11 @@
               <td>{{$doctor['Phone']}}</td>
               <td>{{$doctor['Department']}}</td>
               <td>{{$doctor['Specialist']}}</td>
+              <td>
+                <a href="{{route('HR.search',$doctor['DoctorId'])}}">
+                  <input type="submit" name="schedule" value="Genarate Time" class="btn btn-info">
+                </a>
+              </td>
               <td>
                   <a href="{{route('HR.doctorProfile', $doctor['DoctorId'])}}">
                       <i class="fas fa-user btn btn-success"></i>

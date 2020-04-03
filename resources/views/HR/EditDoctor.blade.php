@@ -142,13 +142,6 @@
                   </td>
                 </tr>
 
-                <tr>
-                  <td>Visiting Hour</td>
-                  <td>
-                    <input type="time" class="timec" value="{{$VisitingHour}}" name="time"> To
-                    <input type="time" class="timec"> 
-                  </td> 
-                </tr>
 
                 <tr>
                   <td>Visiting Fee</td>

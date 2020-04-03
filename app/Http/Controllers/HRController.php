@@ -28,11 +28,11 @@ class HRController extends Controller
             'name'       => 'required',
             'dob'        => 'required',
             'gender'     => 'required',
-            'phone'      => 'required|max:12|min:11|unique',
-            'email'      => 'required|email|unique',
+            'phone'      => 'required|max:12|min:11',
+            'email'      => 'required|email',
             'department' => 'required',
             'specialist' => 'required',
-            'time'       => 'required',
+            // 'time'       => 'required',
             'visitingFee'=> 'required',
             'department' => 'required',
             'comission'  => 'required',
@@ -51,7 +51,7 @@ class HRController extends Controller
         $doctor->Address    = $req->address;
         $doctor->Department = $req->department;
         $doctor->Specialist = $req->specialist; 
-        $doctor->VisitingHour = $req->time;
+        // $doctor->VisitingHour = $req->time;
         $doctor->VisitingFee = $req->visitingFee;
         $doctor->Commission  = $req->comission;
         $doctor->ClosingDay  = $req->closingDay;
@@ -131,7 +131,7 @@ class HRController extends Controller
             'email'      => 'required|email',
             'department' => 'required',
             'specialist' => 'required',
-            'time'       => 'required',
+            // 'time'       => 'required',
             'visitingFee'=> 'required',
             'department' => 'required',
             'comission'  => 'required',
@@ -147,7 +147,7 @@ class HRController extends Controller
         $doctor->Address    = $req->address;
         $doctor->Department = $req->department;
         $doctor->Specialist = $req->specialist; 
-        $doctor->VisitingHour = $req->time;
+        // $doctor->VisitingHour = $req->time;
         $doctor->VisitingFee = $req->visitingFee;
         $doctor->Commission  = $req->comission;
         $doctor->ClosingDay  = $req->closingDay;
@@ -178,5 +178,19 @@ class HRController extends Controller
 		}else{
 			echo "File not found!";
 		}
+    }
+
+    //Doctor Appointment Timing
+
+    public function timing(){
+        return view('HR.DoctorTiming');
+    }
+
+    public function search($DoctorId){
+        $doctor = Doctor::find($DoctorId);
+        return view('HR.DoctorTiming',$doctor);
+
+        // return view('HR.DoctorTiming',['doctors' => $doctorList]);
+
     }
 }

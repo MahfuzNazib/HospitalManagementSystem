@@ -94,11 +94,6 @@
                 </tr>
 
                 <tr>
-                  <td>Visiting Hour</td>
-                  <td> {{$VisitingHour}} </td> 
-                </tr>
-
-                <tr>
                   <td>Visiting Fee</td>
                   <td>
                     {{$VisitingFee}}

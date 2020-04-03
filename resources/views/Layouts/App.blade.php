@@ -19,6 +19,9 @@
   <link href="/css/adminDesign/css/sb-admin-2.min.css" rel="stylesheet">
   <link href="/css/style.css" rel="stylesheet">
 
+  <!-- JQuery Link -->
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -102,9 +105,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{route('HR.timing')}}">
           <i class="fas fa-user-circle"></i>
-          <span>View Profile</span></a>
+          <span>Doctor Time Scedule</span></a>
       </li>
 
       <!-- Divider -->

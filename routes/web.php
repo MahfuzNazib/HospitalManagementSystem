@@ -1,5 +1,5 @@
 <?php
-
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,3 +48,13 @@ Route::post('/HR/EditDoctor/{DoctorId}', 'HRController@updateDoctor')->name('HR.
 
 //Upload Doctor Profile Picture
 Route::post('/HR/ProfilePicture', 'HRController@profilePicture')->name('HR.profilePicture');
+Route::get('/HR/Timing', 'HRController@timing')->name('HR.timing');
+//Day Testing Routing
+// Route::get('/day', function(){
+//     $date = '2020-03-20';
+//     $d = new DateTime($date);
+//     echo $d->format('l');
+    
+// });
+
+Route::get('/HR/Search/{DoctorId}', 'HRController@search')->name('HR.search');
