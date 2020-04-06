@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Doctor;
+use App\AppointmentTime;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
 
@@ -198,22 +199,25 @@ class HRController extends Controller
 
     //Doctor Appointment Timing Scedule Function
     public function schedule($DoctorId, Request $req){
-        // echo $req->dId."<br>";
-        // echo $req->name."<br>";
-        // echo $req->selectDay."<br>";
-        // echo $req->shift."<br>";
-        // echo $req->startingTime."<br>";
-        // echo $req->duration."<br>";
-        // echo $req->endTime."<br>";
-        // echo $req->presetTime."<br>";
-        // echo $req->totalPatient."<br>";
-        $shift = $req->shift;
+        
+        $DoctorId  = $req->dId; //Get Doctor Id
+        $Name = $req->name; //Get Doctor Name
+        $shift = $req->shift; //Get Shift
+        $Day = $req->selectDay; //get Day
         $startingTime = $req->startingTime;
         $duration = $req->duration;
         $endTime = $req->endTime;
         $presetTime = $req->presetTime;
 
-        $NOP = $duration / $presetTime;
+
+        //Insert Data
+        $AppTime = new AppointmentTime;
+
+        $AppTime->DrId = $DoctorId;
+        $AppTime->DrName = $Name;
+        $AppTime->DayName = $Day;
+
+        $NOP = $duration / $presetTime; //Get Total Number of Patient
 
         $starts = $startingTime;
         $startingHour = str_split($starts,2);
@@ -233,6 +237,7 @@ class HRController extends Controller
         $finishHour; //Extra Variable Taken for Hour Counting
         $finishMin;  //Extra Variable taken for Minute Counting
         $amPm;  //Extra Variable Taken for Set AM or PM 
+        $Timing; //Final Timing
         if($shift == "Evening"){
             $amPm = "PM";
         }
@@ -258,12 +263,18 @@ class HRController extends Controller
 
                 $finishHour = $st+1;
                 $finishMin = 0;
-                echo $st.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin."0"." ".$amPm;
+                $Timing = $st.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin."0"." ".$amPm;
+                echo $Timing;
+                $AppTime->TimeSchedule = $Timing;
+                $AppTime->save();
                 echo "<br>";
             }
             else{
                 
-                echo $finishHour.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin." ".$amPm;
+                $Timing = $finishHour.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin." ".$amPm;
+                echo $Timing;
+                $AppTime->TimeSchedule = $Timing;
+                $AppTime->save();
                 echo "<br>";
             }
                 
@@ -271,7 +282,9 @@ class HRController extends Controller
             $sm = $finishMin;
         }
 
+        $AppTime->save();
 
+        // return redirect()->route('HR.search',$DoctorId);
         
     }
 }
