@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Doctor;
 use PhpParser\Comment\Doc;
+use SebastianBergmann\Environment\Console;
 
 class HRController extends Controller
 {
@@ -192,5 +193,85 @@ class HRController extends Controller
 
         // return view('HR.DoctorTiming',['doctors' => $doctorList]);
 
+    }
+
+
+    //Doctor Appointment Timing Scedule Function
+    public function schedule($DoctorId, Request $req){
+        // echo $req->dId."<br>";
+        // echo $req->name."<br>";
+        // echo $req->selectDay."<br>";
+        // echo $req->shift."<br>";
+        // echo $req->startingTime."<br>";
+        // echo $req->duration."<br>";
+        // echo $req->endTime."<br>";
+        // echo $req->presetTime."<br>";
+        // echo $req->totalPatient."<br>";
+        $shift = $req->shift;
+        $startingTime = $req->startingTime;
+        $duration = $req->duration;
+        $endTime = $req->endTime;
+        $presetTime = $req->presetTime;
+
+        $NOP = $duration / $presetTime;
+
+        $starts = $startingTime;
+        $startingHour = str_split($starts,2);
+        $startingMin = str_split($starts,3);
+        
+        $ends = $endTime;
+
+        $endingHour = str_split($ends,2);
+        $endingMin = str_split($ends,3);
+        
+        $st = $startingHour[0];
+        $et = $endingHour[0];
+
+        $sm = $startingMin[1];
+        $em = $endingMin[1];
+
+        $finishHour; //Extra Variable Taken for Hour Counting
+        $finishMin;  //Extra Variable taken for Minute Counting
+        $amPm;  //Extra Variable Taken for Set AM or PM 
+        if($shift == "Evening"){
+            $amPm = "PM";
+        }
+        else{
+            $amPm = "AM";
+        }
+        
+        for($i = 0; $i< $NOP ; $i++){
+            
+            $finishHour = $st;
+            $finishMin = $sm + $presetTime;
+
+            if($finishHour > 12){
+                $finishHour = $finishHour - 12;
+            }
+            
+            //Check AM or PM on Globally;
+            if($finishHour > 11){
+                $amPm = "PM";
+            }
+            if($finishMin == 60){
+
+
+                $finishHour = $st+1;
+                $finishMin = 0;
+                echo $st.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin."0"." ".$amPm;
+                echo "<br>";
+            }
+            else{
+                
+                echo $finishHour.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin." ".$amPm;
+                echo "<br>";
+            }
+                
+            $st = $finishHour;
+            $sm = $finishMin;
+        }
+
+
+        
     }
 }
