@@ -190,7 +190,11 @@ class HRController extends Controller
 
     public function search($DoctorId){
         $doctor = Doctor::find($DoctorId);
-        return view('HR.DoctorTiming',$doctor);
+
+        //getTime List
+        $timeList = AppointmentTime::where('DrId', $DoctorId)->paginate(8);
+        
+        return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList]);
 
         // return view('HR.DoctorTiming',['doctors' => $doctorList]);
 
@@ -208,14 +212,6 @@ class HRController extends Controller
         $duration = $req->duration;
         $endTime = $req->endTime;
         $presetTime = $req->presetTime;
-
-
-        //Insert Data
-        $AppTime = new AppointmentTime;
-
-        $AppTime->DrId = $DoctorId;
-        $AppTime->DrName = $Name;
-        $AppTime->DayName = $Day;
 
         $NOP = $duration / $presetTime; //Get Total Number of Patient
 
@@ -244,11 +240,23 @@ class HRController extends Controller
         else{
             $amPm = "AM";
         }
-        
+
+        //Get Total Time Duration
+        if($st > 12){
+            $st = $st-12;
+            $totalDuration = $st.":".$sm." ".$amPm." - ".$et.":".$em." ".$amPm;
+
+        }
+        else{
+            $totalDuration = $st.":".$sm." ".$amPm." - ".$et.":".$em." ".$amPm;
+        }
+
+
         for($i = 0; $i< $NOP ; $i++){
             
             $finishHour = $st;
             $finishMin = $sm + $presetTime;
+
 
             if($finishHour > 12){
                 $finishHour = $finishHour - 12;
@@ -260,20 +268,34 @@ class HRController extends Controller
             }
             if($finishMin == 60){
 
-
                 $finishHour = $st+1;
                 $finishMin = 0;
                 $Timing = $st.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin."0"." ".$amPm;
-                echo $Timing;
+                
+
+                $AppTime = new AppointmentTime;
+
+                $AppTime->DrId = $DoctorId;
+                $AppTime->DrName = $Name;
+                $AppTime->DayName = $Day;
                 $AppTime->TimeSchedule = $Timing;
+                $AppTime->Shift = $shift;
+                $AppTime->TotalDuration = $totalDuration;
                 $AppTime->save();
                 echo "<br>";
             }
             else{
                 
                 $Timing = $finishHour.":".$sm." ".$amPm." - ".$finishHour.":".$finishMin." ".$amPm;
-                echo $Timing;
+                
+                $AppTime = new AppointmentTime;
+
+                $AppTime->DrId = $DoctorId;
+                $AppTime->DrName = $Name;
+                $AppTime->DayName = $Day;
                 $AppTime->TimeSchedule = $Timing;
+                $AppTime->Shift = $shift;
+                $AppTime->TotalDuration = $totalDuration;
                 $AppTime->save();
                 echo "<br>";
             }
@@ -284,7 +306,7 @@ class HRController extends Controller
 
         $AppTime->save();
 
-        // return redirect()->route('HR.search',$DoctorId);
+        return redirect()->route('HR.search',$DoctorId);
         
     }
 }

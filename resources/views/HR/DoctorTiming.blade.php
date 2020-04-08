@@ -3,7 +3,7 @@
 
     <div class="row">
     
-        <div class="col-sm-8">
+        <div class="col-sm-6">
             <div class="container bg card">
                 <br>
                 <h3>Set Doctor Appointment Timing</h3>
@@ -15,14 +15,14 @@
                         <tr>
                             <td>Doctor ID</td>
                             <td>
-                                <input type="text" name="dId"class="form-control" readonly value="{{$DoctorId}}">
+                                <input type="text" name="dId"class="form-control" readonly value="{{$doctor['DoctorId']}}">
                             </td>
                         </tr>
 
                         <tr>
                             <td>Doctor Name</td>
                             <td>
-                                <input type="text" name="name" class="form-control" value="{{$Name}}" readonly>
+                                <input type="text" name="name" class="form-control" value="{{$doctor['Name']}}" readonly>
                             </td>
                         </tr>
 
@@ -86,8 +86,8 @@
                         <tr>
                             <td></td>
                             <td>
-                                <!-- <a href="{{route('HR.schedule',$DoctorId)}}"> -->
-                                <input type="submit" class="btn btn-success" value="Genarate Schedule" onclick="submit">
+                                <a href="{{route('HR.schedule',$doctor['DoctorId'])}}">
+                                <input type="submit" class="btn btn-success" value="Genarate Schedule">
                                 </a>
                             </td>
                         </tr>
@@ -99,14 +99,53 @@
 
         <!-- Doctor Appointment Time Show Div -->
 
-        <div class="col-sm-4">
+        <div class="col-sm-6">
             <div class="container bg card">
                 <br>
-                <h6>{{$Name}}'s Time Slots</h6>
+                <h6>{{$doctor['Name']}}'s Time Slots</h6>
                 <hr>
+
+                <table class="table table-hover">
+                    <tr>
+                        <th>Day Name</th>
+                        <th>Time Slots</th>
+                        <th>Shift</th>
+                    </tr>
+                    
+                    @foreach($timeList as $time)
+                    <tr>
+                        <td>{{$time['DayName']}}</td>
+                        <!-- <td>{{$time['TimeSchedule']}}</td>    -->
+                        <td>{{$time['TotalDuration']}}</td>
+                        <td>{{$time['Shift']}}</td>
+                        <td>
+                            <a href="#data" data-toggle="collapse">Details</a>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td colspan="2">
+                        <div id="data" class="collapse">
+                            <table>
+                                @foreach($timeList as $time)
+                                    <tr>
+                                        <td>
+                                            {{$time['TimeSchedule']}}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </table>
+                            {{$time['TimeSchedule']}}
+                        </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </table>
+                {{$timeList->links()}}
             </div>
         </div>
     </div>
+    
 
     <!-- Jquery Code Here -->
     <script>
@@ -136,17 +175,7 @@
             var time = newHour+":"+getMin[1]+" "+amPm;
             // console.log(time);
             $('#endTime').val(time);
-            //Get Total Checking Patient
-            // $("#presetTime").keypress(function(){
-            //     var preset      = document.getElementById('presetTime').value+0;
-            //     var duration    = document.getElementById('duration').value;
-            //     var totalPatientChecked = duration/preset;
-                
-            //     console.log(totalPatientChecked);
-            //     // document.getElementById('checkedPatient').text = totalPatientChecked;
-            //     // $('#checkedPatient').val = totalPatientChecked; 
-                
-            // });
+            
         });
     </script>
 

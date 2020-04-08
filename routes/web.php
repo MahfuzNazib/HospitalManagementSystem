@@ -57,5 +57,5 @@ Route::get('/HR/Timing', 'HRController@timing')->name('HR.timing');
     
 // });
 
-Route::get('/HR/Search/{DoctorId}', 'HRController@search')->name('HR.search');
-Route::post('/HR/Search/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
+Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
+Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
