@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Doctor;
 use App\AppointmentTime;
+use App\AppointmentTimeMaster;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
 
@@ -192,9 +193,10 @@ class HRController extends Controller
         $doctor = Doctor::find($DoctorId);
 
         //getTime List
-        $timeList = AppointmentTime::where('DrId', $DoctorId)->paginate(8);
+        $timeList = AppointmentTime::where('DrId', $DoctorId)->paginate(6);
+        $timeDuration = AppointmentTimeMaster::where('DrId',$DoctorId)->paginate(8);
         
-        return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList]);
+        return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList, 'timeDuration'=>$timeDuration]);
 
         // return view('HR.DoctorTiming',['doctors' => $doctorList]);
 
@@ -251,6 +253,16 @@ class HRController extends Controller
             $totalDuration = $st.":".$sm." ".$amPm." - ".$et.":".$em." ".$amPm;
         }
 
+        //Data Insert into AppointmentTimeMaster Table
+        $AppTimeMaster = new AppointmentTimeMaster;
+
+        $AppTimeMaster->DrId = $DoctorId;
+        $AppTimeMaster->DrName = $Name;
+        $AppTimeMaster->Shift = $shift;
+        $AppTimeMaster->TimeDuration = $totalDuration;
+        $AppTimeMaster->DayName = $Day;
+        $AppTimeMaster->save();
+
 
         for($i = 0; $i< $NOP ; $i++){
             
@@ -281,7 +293,7 @@ class HRController extends Controller
                 $AppTime->TimeSchedule = $Timing;
                 $AppTime->Shift = $shift;
                 $AppTime->TotalDuration = $totalDuration;
-                $AppTime->save();
+                $AppTime->save(); 
                 echo "<br>";
             }
             else{

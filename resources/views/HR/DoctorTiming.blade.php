@@ -32,13 +32,13 @@
                             </td>
                             <td>
                                 <select class="form-control" name="selectDay">
-                                    <option>Sat</option>
-                                    <option>Sun</option>
-                                    <option>Mon</option>
-                                    <option>Tue</option>
-                                    <option>Wed</option>
-                                    <option>Thus</option>
-                                    <option>Fri</option>
+                                    <option>Saturday</option>
+                                    <option>Sunday</option>
+                                    <option>Monday</option>
+                                    <option>Tuesday</option>
+                                    <option>Wednesday</option>
+                                    <option>Thursday</option>
+                                    <option>Friday</option>
                                 </select>
                             </td>
                         </tr>
@@ -102,8 +102,9 @@
         <div class="col-sm-6">
             <div class="container bg card">
                 <br>
-                <h6>{{$doctor['Name']}}'s Time Slots</h6>
-                <hr>
+                <center>
+                    <h6>{{$doctor['Name']}}'s Time Slots</h6>
+                </center>
 
                 <table class="table table-hover">
                     <tr>
@@ -112,10 +113,9 @@
                         <th>Shift</th>
                     </tr>
                     
-                    @foreach($timeList as $time)
+                    <!-- @foreach($timeList as $time)
                     <tr>
                         <td>{{$time['DayName']}}</td>
-                        <!-- <td>{{$time['TimeSchedule']}}</td>    -->
                         <td>{{$time['TotalDuration']}}</td>
                         <td>{{$time['Shift']}}</td>
                         <td>
@@ -139,6 +139,14 @@
                         </div>
                         </td>
                     </tr>
+                    @endforeach -->
+
+                    @foreach($timeList as $time)
+                        <tr>
+                            <td>{{$time['DayName']}}</td>
+                            <td>{{$time['TimeSchedule']}}</td>
+                            <td>{{$time['Shift']}}</td>
+                        </tr>
                     @endforeach
                 </table>
                 {{$timeList->links()}}

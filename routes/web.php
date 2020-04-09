@@ -59,3 +59,8 @@ Route::get('/HR/Timing', 'HRController@timing')->name('HR.timing');
 
 Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
 Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
+
+
+//Receptionist Route
+Route::get('/index', 'ReceptionController@index')->name('Reception.index');
+Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
