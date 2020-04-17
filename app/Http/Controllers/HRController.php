@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Doctor;
+use App\Employee;
 use App\AppointmentTime;
 use App\AppointmentTimeMaster;
+use App\HospitalTest;
+use DB;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
 
@@ -19,11 +22,17 @@ class HRController extends Controller
         return view('HR.charts');
     }
 
-    //View Add Doctor Page
+
+    //********************************************************* */
+    //********************Start Doctor Module******************* */
+    //********************************************************* */
+
+
     public function addDoctor(){
         return view('HR.AddDoctor');
     }
 
+   
     //Insert New Doctor
     public function insertDoctor(Request $req){
         //Validation
@@ -35,7 +44,6 @@ class HRController extends Controller
             'email'      => 'required|email',
             'department' => 'required',
             'specialist' => 'required',
-            // 'time'       => 'required',
             'visitingFee'=> 'required',
             'department' => 'required',
             'comission'  => 'required',
@@ -54,7 +62,6 @@ class HRController extends Controller
         $doctor->Address    = $req->address;
         $doctor->Department = $req->department;
         $doctor->Specialist = $req->specialist; 
-        // $doctor->VisitingHour = $req->time;
         $doctor->VisitingFee = $req->visitingFee;
         $doctor->Commission  = $req->comission;
         $doctor->ClosingDay  = $req->closingDay;
@@ -80,14 +87,6 @@ class HRController extends Controller
                         ->with('msg','Doctor Added Successfully Done');
     }
 
-    public function addEmployee(){
-        return view('HR.AddEmployee');
-    }
-
-    public function notice(){
-        $date = date('Y-m-d H:i:s');
-        return view('HR.Notice');
-    }
 
     //View All Doctor List from Doctors Table
     public function doctorList(){
@@ -96,20 +95,6 @@ class HRController extends Controller
         return view('HR.DoctorList',['doctors' => $doctorList]);
     }
 
-    //Employee List
-    public function hrList(){
-        return view('HR.HRList');
-    }
-
-    //Manager List
-
-    public function managerList(){
-        return view('HR.ManagerList');
-    }
-
-    public function receiptionistList(){
-        return view('HR.ReceiptionistList');
-    }
     //View Doctor Profile
     public function doctorProfile($DoctorId){
         $doctor = Doctor::find($DoctorId);
@@ -134,7 +119,6 @@ class HRController extends Controller
             'email'      => 'required|email',
             'department' => 'required',
             'specialist' => 'required',
-            // 'time'       => 'required',
             'visitingFee'=> 'required',
             'department' => 'required',
             'comission'  => 'required',
@@ -150,12 +134,9 @@ class HRController extends Controller
         $doctor->Address    = $req->address;
         $doctor->Department = $req->department;
         $doctor->Specialist = $req->specialist; 
-        // $doctor->VisitingHour = $req->time;
         $doctor->VisitingFee = $req->visitingFee;
         $doctor->Commission  = $req->comission;
         $doctor->ClosingDay  = $req->closingDay;
-
-        
 
         $doctor->save();
 
@@ -163,44 +144,6 @@ class HRController extends Controller
                         ->with('msg','Doctor Successfully Updated');
     }
 
-    //Upload Doctor Profile Picture
-    public function profilePicture(Request $req){
-        if($req->hasFile('profile')){
-			$file = $req->file('profile');
-			echo "File Name: ". $file->getClientOriginalName()."<br>";
-			echo "File Extension: ". $file->getClientOriginalExtension()."<br>";
-			echo "File Size: ". $file->getSize()."<br>";
-			echo "File Mime Type: ". $file->getMimeType();
-
-			if($file->move('uploads', "abc.".$file->getClientOriginalExtension())){
-				echo "<h1>success</h1>";
-			}else{
-				echo "<h1>Error!</h1>";
-			}
-
-		}else{
-			echo "File not found!";
-		}
-    }
-
-    //Doctor Appointment Timing
-
-    public function timing(){
-        return view('HR.DoctorTiming');
-    }
-
-    public function search($DoctorId){
-        $doctor = Doctor::find($DoctorId);
-
-        //getTime List
-        $timeList = AppointmentTime::where('DrId', $DoctorId)->paginate(6);
-        $timeDuration = AppointmentTimeMaster::where('DrId',$DoctorId)->paginate(8);
-        
-        return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList, 'timeDuration'=>$timeDuration]);
-
-        // return view('HR.DoctorTiming',['doctors' => $doctorList]);
-
-    }
 
 
     //Doctor Appointment Timing Scedule Function
@@ -321,4 +264,262 @@ class HRController extends Controller
         return redirect()->route('HR.search',$DoctorId);
         
     }
+
+
+    //Doctor Appointment Timing
+
+    public function timing(){
+        return view('HR.DoctorTiming');
+    }
+
+    public function search($DoctorId){
+        $doctor = Doctor::find($DoctorId);
+
+        //getTime List
+        $timeList = AppointmentTime::where('DrId', $DoctorId)->paginate(6);
+        $timeDuration = AppointmentTimeMaster::where('DrId',$DoctorId)->paginate(8);
+        
+        return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList, 'timeDuration'=>$timeDuration]);
+    }
+
+
+
+    ####################################################################
+    /* **********************End Doctor Module *************************/
+    ####################################################################
+
+
+
+    ####################################################################
+    /* **********************Start Employee Module ********************/
+    ####################################################################
+
+    
+    // View Add Employee Page
+    public function addEmployee(){
+        return view('HR.AddEmployee');
+    }
+
+    //Insert New Employee
+    public function insertEmployee(Request $req){
+        //Form Validation
+        $this->validate($req, [
+            'name'        => 'required',
+            'dob'         => 'required',
+            'gender'      => 'required',
+            'phone'       => 'required|max:11|min:11',
+            'email'       => 'required|email',
+            'designation' => 'required',
+            'monthlyfee'  => 'required|max:10',
+            'address'     => 'required',
+        ]);
+
+        //Insert Data in Employees Table
+        $emp = new Employee();
+        $emp->name        = $req->name;
+        $emp->dob         = $req->dob;
+        $emp->gender      = $req->gender;
+        $emp->phone       = $req->phone;
+        $emp->email       = $req->email;
+        $emp->designation = $req->designation;
+        $emp->monthlyfee  = $req->monthlyfee;
+        $emp->address     = $req->address;
+
+        $emp->save();
+        
+        $designation = $req->designation;
+        if($designation == "HR"){
+            return redirect()->route('HR.hrList')
+                        ->with('msg', 'Employee Successfully Added');
+        }
+
+        if ($designation == "Manager") {
+            
+        }
+
+        if ($designation == "Receiptionist") {
+            return redirect()->route('HR.receiptionistList')
+                        ->with('msg', 'Receiptionist ['.$req->name.'] Successfully Added');
+        }
+
+    }
+
+    
+    /****************************HR Dept Employee Module ******************************************/
+
+    //Get All HR Employee Lists
+    public function hrList(){
+        $hr = Employee::where('designation', 'HR')->paginate(10);
+        return view('HR.HRList',['hr' => $hr]);
+    }
+
+
+    /*******************************End HR Dept Employee Module ***********************************/
+    
+
+    /******************************Receptionist Employee Module *********************************/
+    
+    //View Receptionist List Page
+    public function receiptionistList(){
+        $reception = Employee::where('designation' , 'Receiptionist')->paginate(10);
+        return view('HR.ReceiptionistList',['reception' => $reception]);
+    }
+
+    
+    /********************End Receptionist Employee Module *******************/
+    
+
+    ####################################################################
+    /* **********************End Employee Module **********************/
+    ####################################################################
+
+
+
+    ####################################################################
+    /* **********************Hospital Test Module **********************/
+    ####################################################################
+
+
+    //View New Hospital Test
+    public function newTest(){
+        return view('HR.AddTest');
+    }
+
+    //Insert New Test
+    public function insertTest(Request $req){
+        $this->validate($req, [
+            'testName'      => 'required',
+            'testShortName' => 'required',
+            'testCost'      => 'required'
+        ]);
+
+        $test = new HospitalTest();
+
+        $test->addingDate = $req->addingDate;
+        $test->testName = $req->testName;
+        $test->testShortName = $req->testShortName;
+        $test->testCost = $req->testCost;
+
+        $test->save();
+
+        return redirect()->route('HR.testList')->with('msg','Test Added Successfully Done !');
+    }
+
+    //View Test List Page
+    public function testList(){
+        return view('HR.TestList');
+    }
+
+    //Search Test
+    function action(request $request){
+        if($request->ajax()){
+            $output = '';
+            $query = $request->get('query');
+            // error_log($query);
+            if($query != ''){
+                $data = DB::table('hospital_tests')
+                        -> where('testName','like','%'. $query .'%')
+                        ->orWhere('testShortName','like','%'.$query.'%')
+                        ->orWhere('Id','like','%'.$query.'%')
+                        ->get();
+            }
+            else{
+                $data = DB::table('hospital_tests')->get();
+            }
+            $total_row = $data->count();
+            if($total_row > 0){
+                foreach($data as $row){
+                    $output .= '
+                        <tr>
+                            <td>'.$row->Id.'</td>
+                            <td>'.$row->addingDate.'</td>
+                            <td>'.$row->testName.'</td>
+                            <td>'.$row->testShortName.'</td>
+                            <td>'.$row->testCost.'</td>
+                            <td>
+                                <a href="/HR/EditTest/'.$row->Id.'">
+                                    <input type="submit" class="btn btn-info" value="Edit">
+                                </a>
+
+                                <a href="/HR/TestList">
+                                <input type="submit" class="btn btn-danger" value="Delete" data-toggle="model" data-target="#logoutModel">
+                                </a>
+                            </td>
+                        </tr>
+                    ';
+                }
+            }
+            else{
+                $output = '
+                    <tr>
+                        <td align="center" colspan="5"> No Data Found  </td>
+                    </tr>
+                ';
+            }
+
+            $data = array(
+                'table_data'    => $output
+            );
+
+            echo json_encode($data);
+        }
+    }
+
+
+    //Edit Test List
+    public function editTest($Id){
+        $testInfo = HospitalTest::find($Id);
+        return view('HR.EditTest',['testInfo' => $testInfo]);
+    }
+
+
+    //Update test 
+    public function updateTest($Id, Request $req){
+        //Validate Edit Test Information
+        $this->validate($req, [
+            'addingDate'    => 'required',
+            'testName'      => 'required',
+            'testShortName' => 'required',
+            'testCost'      => 'required'
+        ]);
+
+        $testInfo = HospitalTest::find($Id);
+
+        $testInfo->addingDate       =   $req->addingDate;
+        $testInfo->testName         =   $req->testName;
+        $testInfo->testShortName    =   $req->testShortName;
+        $testInfo->testCost         =   $req->testCost;
+
+        $testInfo->update();
+
+        return redirect()->route('HR.testList')->with('msg', 'Test Successfully Updated');
+    }
+
+
+
+    #########################################################################
+    /* **********************End Hospital Test Module **********************/
+    #########################################################################
+
+
+    #########################################################################
+    /* ***************************Notice Module ****************************/
+    #########################################################################
+    public function notice(){
+        $date = date('Y-m-d H:i:s');
+        return view('HR.Notice');
+    }
+
+    #########################################################################
+    /* ************************End Notice Module ****************************/
+    #########################################################################
+    
+
+    //Manager List
+
+    public function managerList(){
+        return view('HR.ManagerList');
+    }
+
+    
 }

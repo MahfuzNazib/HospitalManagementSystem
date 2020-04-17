@@ -15,9 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/Home', function(){
-//     return view('Home.index');
-// });
+
 Route::get('/Home','HomeController@index')->name('Home.index');
 Route::get('/Department','HomeController@department')->name('Home.department');
 
@@ -32,10 +30,14 @@ Route::get('/admin','AdminController@index')->name('Admin.index');
 Route::get('/HR', 'HRController@index')->name('HR.index');
 Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
 
+//Insert Doctor
 Route::get('/HR/AddDoctor', 'HRController@addDoctor')->name('HR.addDoctor');
 Route::post('/HR/AddDoctor', 'HRController@insertDoctor')->name('HR.insertDoctor');
 
+//Insert Employees
 Route::get('/HR/AddEmployee', 'HRController@addEmployee')->name('HR.addEmployee');
+Route::post('/HR/AddEmployee', 'HRController@insertEmployee')->name('HR.insertEmployee');
+
 Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
 Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
 Route::get('/HR/HRList', 'HRController@hrList')->name('HR.hrList');
@@ -49,6 +51,24 @@ Route::post('/HR/EditDoctor/{DoctorId}', 'HRController@updateDoctor')->name('HR.
 //Upload Doctor Profile Picture
 Route::post('/HR/ProfilePicture', 'HRController@profilePicture')->name('HR.profilePicture');
 Route::get('/HR/Timing', 'HRController@timing')->name('HR.timing');
+
+//New Hospital Test Add
+Route::get('/HR/NewTest', 'HRController@newTest')->name('HR.newTest');
+Route::post('/HR/NewTest', 'HRController@insertTest')->name('HR.insertTest');
+
+//View Test List 
+Route::get('/HR/TestList', 'HRController@testList')->name('HR.testList');
+//Search Test List on HR Department
+Route::get('/HR/action', 'HRController@action')->name('HR.searchTest');
+
+//Edit Hospital Test
+Route::get('/HR/EditTest/{Id}', 'HRController@editTest')->name('HR.editTest');
+//Update Hospital TestInfo
+Route::post('/HR/EditTest/{Id}', 'HRController@updateTest')->name('HR.updateTest');
+
+
+
+
 //Day Testing Routing
 // Route::get('/day', function(){
 //     $date = '2020-03-20';
@@ -62,5 +82,6 @@ Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedul
 
 
 //Receptionist Route
-Route::get('/index', 'ReceptionController@index')->name('Reception.index');
+Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.index');
 Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
+Route::get('/action', 'ReceptionController@action')->name('Reception.action');

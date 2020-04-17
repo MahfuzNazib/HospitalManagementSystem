@@ -6,15 +6,34 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Add New Employee</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <h1 class="h3 mb-0 text-gray-800">
+              <center>
+                Add New Employee
+              </center>  
+            </h1>
+           
           </div>
 
       <!--Body Main Part-->
+      
+
+      <!-- print Error Messages -->
+      @if($errors->any())
+        <div class="alert alert-warning">
+          <ul>
+            @foreach($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
 
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
           <div class="container bg card">
+              <form method="POST">
+              {{ csrf_field() }}
               <table width="100%">
                 <tr>
                   <td colspan="2">
@@ -26,28 +45,28 @@
                 <tr>
                   <td>Doctor ID</td>
                   <td>
-                    <input type="text"  readonly class="form-control" value="D-123455" name="DID">
+                    <input type="text"  readonly class="form-control" value="D-123455" name="id">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Full Name</td>
                   <td>
-                    <input type="text" class="form-control" value="" name="name">
+                    <input type="text" class="form-control" value="{{old('name')}}" name="name">
                   </td>
                 </tr>
 
                 <tr>
                   <td>DOB</td>
                   <td>
-                    <input type="date" class="form-control" value="" name="dob">
+                    <input type="date" class="form-control" value="{{old('dob')}}" name="dob">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Gender</td>
                   <td>
-                    <select class="form-control" name="gender">
+                    <select class="form-control" name="gender" value="{{ old('gender') }}">
                       <option></option>
                       <option>Male</option>
                       <option>Female</option>
@@ -58,21 +77,21 @@
                 <tr>
                   <td>Phone</td>
                   <td>
-                    <input type="number" class="form-control" value="" name="phone">
+                    <input type="number" class="form-control" value="{{ old('phone') }}" name="phone">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Email</td>
                   <td>
-                    <input type="email" class="form-control" value="" name="email">
+                    <input type="email" class="form-control" value="{{ old('email') }}" name="email">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Designation</td>
                   <td>
-                    <select class="form-control" name="gender">
+                    <select class="form-control" name="designation" value="{{ old('designation') }}">
                       <option></option>
                       <option>HR</option>
                       <option>Manager</option>
@@ -87,21 +106,19 @@
                 <tr>
                   <td>Monthly Fee</td>
                   <td>
-                    <input type="number" name="monthlyfee" class="form-control">
+                    <input type="number" name="monthlyfee" class="form-control" value="{{ old('monthlyfee') }}">
                   </td>
                 </tr>
 
                 <tr>
                   <td>Address</td>
                   <td>
-                    <textarea class="form-control">
+                    <textarea class="form-control" name="address" value="{{ old('address') }}">
                       
                     </textarea>
                     <!-- <input type="text" class="form-control" value="" name="email"> -->
                   </td>
                 </tr>
-
-                
 
                 <tr>
                   <td colspan="2">
@@ -110,19 +127,11 @@
                     </center>
                   </td>
                 </tr>
-
               </table>
+              </form>
           </div>
         </div>
-        <div class="col-sm-4">
-          <div class="container bg card">
-            Set a profile Picture
-            <br>
-            <img src="" height="150px" width="150px"> <br>
-            
-            <input type="file" class="btn btn-info" value="Select a Picture">
-          </div>
-        </div>
+        <div class="col-sm-1"></div>
       </div>
 
       <!--End Of Body Main Part-->

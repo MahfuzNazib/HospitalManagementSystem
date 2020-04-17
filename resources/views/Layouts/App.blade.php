@@ -21,6 +21,7 @@
 
   <!-- JQuery Link -->
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 </head>
 
@@ -72,6 +73,14 @@
           <i class="fas fa-user-friends"></i>
           <span>Add Employee</span></a>
       </li>
+
+      <!-- Add New Test -->
+
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('HR.newTest')}}">
+          <i class="fas fa-user-friends"></i>
+          <span>Add New Test</span></a>
+      </li>
       
       <!-- Divider -->
       <hr class="sidebar-divider">
@@ -85,6 +94,13 @@
         <a class="nav-link" href="{{route('HR.doctorList')}}">
           <i class="fas fa-user-circle"></i>
           <span>View Doctor List</span></a>
+      </li>
+
+      <!-- View All Test List -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('HR.testList')}}">
+          <i class="fas fa-user-circle"></i>
+          <span>Hospital Test List</span></a>
       </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
@@ -318,7 +334,7 @@
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="#" data-toggle="model" data-target="#logoutModal">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Settings
                 </a>
@@ -327,10 +343,15 @@
                   Activity Log
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="{{route('Login.index')}}" data-toggle="modal" data-target="#logoutModal">
+                  <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Logout
+                  </a>
+
+                  <a class="dropdown-item" href="" data-toggle=""="model" data-target="#logoutModal">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
+                    Test
+                  </a>
               </div>
             </li>
 

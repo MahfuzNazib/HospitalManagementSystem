@@ -15,6 +15,12 @@
     <div class="card-header py-3">
     <!-- <h6 class="m-0 font-weight-bold text-primary">Doctor List</!-->  
 
+      @if(session('msg'))
+        <div class="alert alert-success">
+          {{ session('msg') }}
+        </div>
+      @endif
+
     <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
             <div class="input-group">
               <input type="text" class="form-control bg-light border-2 large" placeholder="Manager Name or ID" aria-label="Search" aria-describedby="basic-addon2">
@@ -42,63 +48,24 @@
         </thead>
         
         <tbody>
-          <tr>
-            <td>Emp-1001</td>
-            <td>Nazib Mahfuz</td>
-            <td>nazibmahfuz60@gmail.com</td>
-            <td>01777127618</td>
-            <td>
-                <a href="{{route('HR.doctorProfile')}}">
-                    <i class="fas fa-user btn btn-success"></i>
-                </a>
+        @foreach($reception as $reception)
+            <tr>
+              <td>{{ $reception['id'] }}</td>
+              <td>{{ $reception['name'] }}</td>
+              <td>{{ $reception['email'] }}</td>
+              <td>{{ $reception['phone'] }}</td>
+              <td>
+                <!-- View Profile -->
                 <a href="#">
-                    <i class="far fa-trash-alt btn btn-danger"></i>
-                </a>
-            </td>
-          </tr>
-          <tr>
-            <td>Emp-1001</td>
-            <td>Nazib Mahfuz</td>
-            <td>nazibmahfuz60@gmail.com</td>
-            <td>01777127618</td>
-            <td>
+                  <i class="fas fa-user btn btn-success"></i>
+                </a> | 
+                <!-- Active/Inactive Profile -->
                 <a href="#">
-                    <i class="fas fa-user btn btn-success"></i>
-                </a>
-                <a href="#">
-                    <i class="far fa-trash-alt btn btn-danger"></i>
-                </a>
-            </td>
-          </tr>
-          <tr>
-            <td>Emp-1001</td>
-            <td>Nazib Mahfuz</td>
-            <td>nazibmahfuz60@gmail.com</td>
-            <td>01777127618</td>
-            <td>
-                <a href="#">
-                    <i class="fas fa-user btn btn-success"></i>
-                </a>
-                <a href="#">
-                    <i class="far fa-trash-alt btn btn-danger"></i>
-                </a>
-            </td>
-          </tr>
-          <tr>
-            <td>Emp-1001</td>
-            <td>Nazib Mahfuz</td>
-            <td>nazibmahfuz60@gmail.com</td>
-            <td>01777127618</td>
-            <td>
-                <a href="#">
-                    <i class="fas fa-user btn btn-success"></i>
-                </a>
-                <a href="#">
-                    <i class="far fa-trash-alt btn btn-danger"></i>
-                </a>
-            </td>
-          </tr>
-          
+                  <i class="far fa-trash-alt btn btn-danger"></i>
+                </a> 
+              </td>
+            </tr>
+          @endforeach
         </tbody>
       </table>
     </div>
