@@ -324,6 +324,8 @@ class HRController extends Controller
         $emp->designation = $req->designation;
         $emp->monthlyfee  = $req->monthlyfee;
         $emp->address     = $req->address;
+        $emp->status = 'Active';
+        $emp->profilePicture = 'demoImg.png';
 
         $emp->save();
         
@@ -353,6 +355,12 @@ class HRController extends Controller
         return view('HR.HRList',['hr' => $hr]);
     }
 
+    //View HR Employee Profile
+    public function viewHRProfile($id){
+        $hrProfile = Employee::find($id);
+        return view('HR.HRProfile',['hrProfile' => $hrProfile]);
+    }
+
 
     /*******************************End HR Dept Employee Module ***********************************/
     
@@ -363,6 +371,35 @@ class HRController extends Controller
     public function receiptionistList(){
         $reception = Employee::where('designation' , 'Receiptionist')->paginate(10);
         return view('HR.ReceiptionistList',['reception' => $reception]);
+    }
+
+    //View Receptionist Employee Profile
+    public function viewReceptionProfile($id){
+        $receptionProfile = Employee::find($id);
+        return view('HR.ReceptionProfile',['receptionProfile' => $receptionProfile]);
+    }
+
+    public function editReception($id){
+        $receptionProfile = Employee::find($id);
+        return view('HR.EditReception', ['receptionProfile' => $receptionProfile]);
+    }
+
+    //Update Reception Data
+    public function updateReception($id, Request $req){
+        $reception = Employee::find($id);
+
+        $reception->name        = $req->name;
+        $reception->dob         = $req->dob;
+        $reception->gender      = $req->gender;
+        $reception->phone       = $req->phone;
+        $reception->email       = $req->email;
+        $reception->designation = $req->designation;
+        $reception->monthlyfee  = $req->monthlyfee;
+        $reception->address     = $req->address;
+        $reception->status      = $req->status;
+        
+        $reception->save();
+        return redirect('HR.ReceptionProfile',$id);
     }
 
     

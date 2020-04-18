@@ -30,6 +30,14 @@ Route::get('/admin','AdminController@index')->name('Admin.index');
 Route::get('/HR', 'HRController@index')->name('HR.index');
 Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
 
+//View HR Profile
+Route::get('/HR/HRProfile/{id}', 'HRController@viewHRProfile')->name('HR.HRProfile');
+//View Receptionist Profile
+Route::get('/HR/ReceptionProfile/{id}', 'HRController@viewReceptionProfile')->name('HR.ReceptionProfile');
+Route::get('/HR/EditReception/{id}', 'HRController@editReception')->name('HR.editReception');
+Route::post('/HR/EditReception/{id}', 'HRController@updateReception')->name('HR.updateReception');
+
+
 //Insert Doctor
 Route::get('/HR/AddDoctor', 'HRController@addDoctor')->name('HR.addDoctor');
 Route::post('/HR/AddDoctor', 'HRController@insertDoctor')->name('HR.insertDoctor');

@@ -51,17 +51,20 @@
         @foreach($reception as $reception)
             <tr>
               <td>{{ $reception['id'] }}</td>
-              <td>{{ $reception['name'] }}</td>
+              <td>
+                {{ $reception['name'] }}
+                <p class="badge badge-primary">{{ $reception['status'] }}</p>
+              </td>
               <td>{{ $reception['email'] }}</td>
               <td>{{ $reception['phone'] }}</td>
               <td>
                 <!-- View Profile -->
-                <a href="#">
+                <a href="{{ route('HR.ReceptionProfile', $reception['id']) }}">
                   <i class="fas fa-user btn btn-success"></i>
                 </a> | 
                 <!-- Active/Inactive Profile -->
                 <a href="#">
-                  <i class="far fa-trash-alt btn btn-danger"></i>
+                  <i class="far fa-trash-alt btn btn-primary"></i>
                 </a> 
               </td>
             </tr>

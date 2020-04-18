@@ -52,17 +52,20 @@
           @foreach($hr as $hr)
             <tr>
               <td>{{ $hr['id'] }}</td>
-              <td>{{ $hr['name'] }}</td>
+              <td>
+                {{ $hr['name'] }} 
+                <p class="badge badge-primary">{{ $hr['status'] }}</p>
+              </td>
               <td>{{ $hr['email'] }}</td>
               <td>{{ $hr['phone'] }}</td>
               <td>
                 <!-- View Profile -->
-                <a href="#">
+                <a href=" {{ route('HR.HRProfile',$hr['id']) }} ">
                   <i class="fas fa-user btn btn-success"></i>
                 </a> | 
                 <!-- Active/Inactive Profile -->
-                <a href="#">
-                  <i class="far fa-trash-alt btn btn-danger"></i>
+                <a href="{{ route('HR.HRProfile',$hr['id']) }}">
+                  <i class="far fa-trash-alt btn btn-primary"></i>
                 </a> 
               </td>
             </tr>
