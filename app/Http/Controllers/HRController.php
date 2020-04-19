@@ -8,6 +8,7 @@ use App\Employee;
 use App\AppointmentTime;
 use App\AppointmentTimeMaster;
 use App\HospitalTest;
+use App\HospitalDepartment;
 use DB;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
@@ -285,7 +286,7 @@ class HRController extends Controller
 
 
     ####################################################################
-    /* **********************End Doctor Module *************************/
+    /* **********************End Doctor Module ************************/
     ####################################################################
 
 
@@ -399,7 +400,7 @@ class HRController extends Controller
         $reception->status      = $req->status;
         
         $reception->save();
-        return redirect('HR.ReceptionProfile',$id);
+        return redirect()->route('HR.ReceptionProfile',$id);
     }
 
     
@@ -549,6 +550,39 @@ class HRController extends Controller
 
     #########################################################################
     /* ************************End Notice Module ****************************/
+    #########################################################################
+
+
+    #########################################################################
+    /* ***********************Hospital Dept. Module *************************/
+    #########################################################################
+    public function addDepartment(){
+        $dept = HospitalDepartment::all();
+        return view('HR.AddDepartment',['dept' => $dept]);
+    }
+
+    //Insert Department
+
+    public function insertDept(Request $req){
+        $this->validate($req,[
+            'deptCode' => 'required',
+            'deptName' => 'required',
+            'deptAddingDate' => 'required'
+        ]);
+
+        //insert data into Hospital_Departments Table
+
+        $dept = new HospitalDepartment();
+        $dept->deptCode = $req->deptCode;
+        $dept->deptName = $req->deptName;
+        $dept->deptAddingDate = $req->deptAddingDate;
+        $dept->save();
+
+        return redirect()->route('HR.addDepartment');
+    }
+
+    #########################################################################
+    /* *********************End Hospital Dept. Module ***********************/
     #########################################################################
     
 

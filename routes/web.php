@@ -74,6 +74,10 @@ Route::get('/HR/EditTest/{Id}', 'HRController@editTest')->name('HR.editTest');
 //Update Hospital TestInfo
 Route::post('/HR/EditTest/{Id}', 'HRController@updateTest')->name('HR.updateTest');
 
+//Hospital Department
+Route::get('/HR/AddDepartment', 'HRController@addDepartment')->name('HR.addDepartment');
+Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept');
+
 
 
 

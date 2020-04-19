@@ -81,6 +81,13 @@
           <i class="fas fa-user-friends"></i>
           <span>Add New Test</span></a>
       </li>
+
+      <!-- Add New Hospital Department -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('HR.addDepartment')}}">
+          <i class="fas fa-user-friends"></i>
+          <span>Add New Department</span></a>
+      </li>
       
       <!-- Divider -->
       <hr class="sidebar-divider">
