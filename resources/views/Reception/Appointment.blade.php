@@ -12,11 +12,11 @@
                         <td>Department</td>
                         <td>
                             <select class="form-control" name="department" id="dept">
-                                <option>Dental</option>
-                                <option>Neourology</option>
-                                <option>Heart</option>
-                                <option>Cardiology</option>
-                                <option>Ear,Nose & Tharot(ENT)</option>
+                                @foreach($dept as $dept)
+                                <option>
+                                    {{ $dept['deptName'] }}
+                                </option>
+                                @endforeach
                             </select>
                         </td>
                     </tr>
@@ -25,7 +25,7 @@
                         <td>Doctors</td>
                         <td>
                             <!-- <input type="text" class="form-control" name="doctors" id="doctors"> -->
-                            <select class="form-control" name="doctorName">
+                            <select class="form-control" name="doctorName" id="dname">
                                 <option>
 
                                 </option>
@@ -182,24 +182,29 @@
     <script>
             $(document).ready(function(){
 
-                function fetch_customer_data(query = ''){
+                $(document).on('change','#dept',function(){
+                    var query = $(this).val();
+                    console.log(query);
+                    fetch_doctor_data(query);
+                });
+                var op=" ";
+                var div = $(this).parent();
+                function fetch_doctor_data(query = ''){
                     $.ajax({
                         url: "{{ route('Reception.action') }}",
                         method: 'GET',
                         data : {query : query},
+                        success:function(data){
+                            console.log(data);
+                            for(var i=0;i<data.length;i++){
+                                op+='<option>'+data[i].Name+'</option>'
+                            }
+
+                            console.log(op);
+                            $('#dname').html(op);
+                        }
                         
                     })
-                }
-
-                // $(document).on('click', '#dept', function(){
-                //     var query = $(this).val();
-                //     console.log(query);
-                //     fetch_customer_data(query);
-                // });
-
-                $("#pId").keyup(function()){
-                    var query = $(this).val();
-                    console.log(query);
                 }
 
             });
