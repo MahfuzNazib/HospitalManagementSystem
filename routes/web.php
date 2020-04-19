@@ -81,13 +81,13 @@ Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept
 
 
 
-//Day Testing Routing
-// Route::get('/day', function(){
-//     $date = '2020-03-20';
-//     $d = new DateTime($date);
-//     echo $d->format('l');
+// Day Testing Routing
+Route::get('/day', function(){
+    $date = '2020-04-19';
+    $d = new DateTime($date);
+    echo $d->format('l');
     
-// });
+});
 
 Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
 Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
@@ -97,3 +97,4 @@ Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedul
 Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.index');
 Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
 Route::get('/action', 'ReceptionController@action')->name('Reception.action');
+Route::get('/doctorDate', 'ReceptionController@doctorDate')->name('Reception.doctorDate');
