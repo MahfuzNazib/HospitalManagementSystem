@@ -12,6 +12,7 @@
                         <td>Department</td>
                         <td>
                             <select class="form-control" name="department" id="dept">
+                                <option disabled selected>Select Department</option>
                                 @foreach($dept as $dept)
                                 <option>
                                     {{ $dept['deptName'] }}
@@ -27,7 +28,7 @@
                             <!-- <input type="text" class="form-control" name="doctors" id="doctors"> -->
                             <select class="form-control" name="doctorName" id="dname">
                                 <option>
-
+                                    <option disabled selected>Select Doctor</option>
                                 </option>
                             </select>
                         </td>
@@ -44,7 +45,7 @@
                         <td></td>
                         <td>
                             <a href="#">
-                                <input type="submit" class="btn btn-info" value="Search Doctor Time" id="btnDrTime">
+                                <!-- <input type="submit" class="btn btn-info" value="Search Doctor Time" id="btnDrTime"> -->
                             </a>
                         </td>
                     </tr>
@@ -107,20 +108,13 @@
                 </center>
                 <hr>
 
-                <table width="100%">
+                <table width="100%" id="times">
                     <tr>
                         <th>Shift</th>
                         <th>Time Slots</th>
                         <th>Action</th>
                     </tr>
 
-                    <tr>
-                        <td id="shift"></td>
-                        <td id="times"></td>
-                        
-                    </tr>
-
-                    
                 </table>
             </div>
         </div>
@@ -165,11 +159,21 @@
                     console.log(name);
                     console.log(date);
                     console.log(dept);
-                    fetch_doctor_time(name,date,dept);
+
+                    //Condition Checking
+
+                    if(dept == null){
+                        alert('Select Department Name First');
+                    }
+
+                    if(dept != null && name!= null){
+                        fetch_doctor_time(name,date,dept);
+                    }
                 });
 
                 var time = " ";
-                var shift = " ";
+                // var shift = " ";
+                var msg = 'Not Available on This Date';
                 
                 function fetch_doctor_time(name, date, dept){
                     $.ajax({
@@ -177,18 +181,30 @@
                         method: 'GET',
                         data : {date : date, name, dept },
                         success:function(data){
+                            // alert(data[Shift]);
                             for(var i=0;i<data.length;i++){
-                                shift+='<td>'+data[i].Shift+'</td>'
-                                time+='<td>'+data[i].TimeSchedule+'</td><br>'
+
+                                if(data[0].Shift == undefined){
+                                    time+='<tr>'
+                                    time+='<td colspan="2">'+msg+'</td>'
+                                    time+='</tr>'
+                                    break;
+                                }
+                                else{
+                                    time+='<tr>';
+                                    time+='<td>'+data[i].Shift+'</td>'
+                                    time+='<td>'+data[i].TimeSchedule+'</td><br>'
+                                    time+='<td> <input type="submit" class="btn btn-success" value="Book"></td>'
+                                    time+='</tr>';
+                                }
+                                
                             }
-                            $('#shift').html(shift);
-                            $('#times').html(time);
+                            $('#times').append(time);
                             console.log(data);
                         }
                         
                     })
                 }
-
 
             });
     </script>

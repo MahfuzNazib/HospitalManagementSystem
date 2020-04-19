@@ -54,9 +54,16 @@ class ReceptionController extends Controller
                                         ['DayName', '=', $day]
             ])->get(['Shift','TimeSchedule']);
 
-            error_log($apntTime);
-
-            return response()->json($apntTime);
+            $total_row = $apntTime->count();
+            error_log($total_row);
+            if($total_row > 0){
+                $AppointmentTimes = $apntTime;
+            }
+            else{
+                $AppointmentTimes = 'Dr.'.$name.' is not Available on that Day';
+            }
+            error_log($AppointmentTimes);
+            return response()->json($AppointmentTimes);
         }
     }
 
