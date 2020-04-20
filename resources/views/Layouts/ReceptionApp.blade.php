@@ -57,6 +57,13 @@
           <span>Appointment</span></a>
       </li>
 
+      <!-- Patient Registration -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('Reception.registration')}}">
+          <i class="fas fa-user-friends"></i>
+          <span>Registration</span></a>
+      </li>
+
 
       <!-- Add Employee -->
       <li class="nav-item">

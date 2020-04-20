@@ -92,7 +92,7 @@
                         <td></td>
                         <td>
                             <a href="#">
-                                <input type="submit" class="btn btn-primary" value="Registered">
+                                <input type="submit" class="btn btn-primary" value="Set Appointment">
                             </a>
                         </td>
                     </tr>

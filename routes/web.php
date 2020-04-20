@@ -98,3 +98,7 @@ Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.inde
 Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
 Route::get('/action', 'ReceptionController@action')->name('Reception.action');
 Route::get('/doctorDate', 'ReceptionController@doctorDate')->name('Reception.doctorDate');
+
+
+//Patient Registration
+Route::get('/Registration', 'ReceptionController@registration')->name('Reception.registration');
