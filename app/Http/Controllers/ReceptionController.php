@@ -16,12 +16,17 @@ class ReceptionController extends Controller
         return view('Reception.index');
     }
 
+    ####################################################################
+    /* **********************Doctors Appointment Set ********************/
+    ####################################################################
 
     //Appointment Function
     public function appointment(){
         $dept = HospitalDepartment::all();
         return view('Reception.Appointment',['dept' => $dept]);
     }
+
+    //Ajax Request to Load Doctor Name With Selected Department
     function action(Request $req){
         if($req->ajax()){
             $query = $req->get('query');
@@ -37,6 +42,7 @@ class ReceptionController extends Controller
         }
     }
 
+    //Ajax Request to Show Selected Doctor Time Slots for Appointment Booking;
     public function doctorDate(Request $req){
         if($req->ajax()){
             $date = $req->get('date');
@@ -52,7 +58,7 @@ class ReceptionController extends Controller
             $apntTime = AppointmentTime::where([
                                         ['DrName', '=', $name],
                                         ['DayName', '=', $day]
-            ])->get(['Shift','TimeSchedule']);
+            ])->get(['Id', 'Shift','TimeSchedule']);
 
             $total_row = $apntTime->count();
             error_log($total_row);
@@ -66,6 +72,10 @@ class ReceptionController extends Controller
             return response()->json($AppointmentTimes);
         }
     }
+
+    ####################################################################
+    /* **********************End Doctors Appointment********************/
+    ####################################################################
 
 
 }

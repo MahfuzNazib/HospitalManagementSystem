@@ -152,6 +152,7 @@
 
                 //Get Doctor Appointment Time Based on Date
 
+                var name=""; //Global Name Variable;
                 $(document).on('change', '#date', function(){
                     var date = $('#date').val();
                     var name = $('#dname').val();
@@ -173,7 +174,7 @@
 
                 var time = " ";
                 // var shift = " ";
-                var msg = 'Not Available on This Date';
+                var msg = 'Doctor is Not Available on This Date';
                 
                 function fetch_doctor_time(name, date, dept){
                     $.ajax({
