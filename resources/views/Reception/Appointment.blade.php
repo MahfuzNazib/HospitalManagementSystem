@@ -4,6 +4,12 @@
     <center>
         <h2>Doctors Appointment </h2>
     </center>
+
+    @if(session('msg'))
+        <div class="alert alert-info">
+            {{ session('msg') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-6">
             <div class="container bg card">
@@ -41,16 +47,9 @@
                         </td>
                     </tr>
 
+                    
                     <tr>
-                        <td></td>
-                        <td>
-                            <a href="#">
-                                <!-- <input type="submit" class="btn btn-info" value="Search Doctor Time" id="btnDrTime"> -->
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><u>Patient Information</u></td>
+                        <td><u><b>Patient Information</b></u></td>
                     </tr>
 
                     <tr>
@@ -63,39 +62,25 @@
                     <tr>
                         <td>Patient Name</td>
                         <td>
-                            <input type="text" name="pName" class="form-control">
+                            <input type="text" name="pName" id="pName"  class="form-control">
                         </td>
                     </tr>
                     <tr>
                         <td>Patient Contact</td>
                         <td>
-                            <input type="text" name="pContact" class="form-control">
+                            <input type="text" name="pContact" id="pContact" class="form-control">
                         </td>
                     </tr>
-                    <tr>
-                        <td>Patient Gender</td>
-                        <td>
-                            <select class="form-control" name="pGender">
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Patient Age</td>
-                        <td>
-                            <input type="number" name="pAge" class="form-control">
-                        </td>
-                    </tr>
-
-                    <tr>
+                    
+                    <!-- <tr>
                         <td></td>
                         <td>
                             <a href="#">
-                                <input type="submit" class="btn btn-primary" value="Set Appointment">
+                                <input type="submit" class="btn btn-primary" value="Set Appointment"><br>
                             </a>
                         </td>
-                    </tr>
+                        <br>
+                    </tr> -->
                 </table>
             </div>
         </div>
@@ -108,13 +93,17 @@
                 </center>
                 <hr>
 
-                <table width="100%" id="times">
-                    <tr>
-                        <th>Shift</th>
-                        <th>Time Slots</th>
-                        <th>Action</th>
-                    </tr>
+                <table width="100%" border="0">
+                    <thead>
+                        <tr>
+                            <th width="40%"><center>Shift</center></th>
+                            <th width="60%"><center>Time Slots</center></th>
+                        </tr>
+                    </thead>
 
+                    <tbody id="times">
+                    
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -123,6 +112,11 @@
     <!-- AJAX code for Department wise Doctor List -->
     <script>
             $(document).ready(function(){
+
+
+                //Some Global Variable
+
+                var patientInfo = '';
 
                 $(document).on('change','#dept',function(){
                     var query = $(this).val();
@@ -139,6 +133,8 @@
                         success:function(data){
                             console.log('Success On DName Action')
                             console.log(data);
+                            op = '';
+                            console.log(op);
                             for(var i=0;i<data.length;i++){
                                 op+='<option>'+data[i].Name+'</option>'
                             }
@@ -183,6 +179,7 @@
                         data : {date : date, name, dept },
                         success:function(data){
                             // alert(data[Shift]);
+                            time ='';
                             for(var i=0;i<data.length;i++){
 
                                 if(data[0].Shift == undefined){
@@ -192,20 +189,64 @@
                                     break;
                                 }
                                 else{
-                                    time+='<tr>';
-                                    time+='<td>'+data[i].Shift+'</td>'
-                                    time+='<td>'+data[i].TimeSchedule+'</td><br>'
-                                    time+='<td> <input type="submit" class="btn btn-success" value="Book"></td>'
-                                    time+='</tr>';
+                                    var shift = data[i].Shift;
+                                    if(shift == "Morning"){
+                                        time+='<tr>';
+                                        time+='<td> <center>'+data[i].Shift+'</center> </td>'
+
+                                        time+='<td> <center> <input type="submit" class="btn btn-info" value="'+data[i].TimeSchedule+'" id="booking"> </center> </td>'
+                                        time+='</tr>';
+                                    }
+                                    else{
+                                        time+='<tr>';
+                                        time+='<td> <center> '+data[i].Shift+' </center> </td>'
+                                        time+='<td> <center>  <input type="submit" class="btn btn-success" value="'+data[i].TimeSchedule+'" id="booking"> </center> </td>'
+                                        time+='</tr>';
+                                    }
+                                    
                                 }
                                 
                             }
-                            $('#times').append(time);
+                            $('#times').html(time);
                             console.log(data);
                         }
                         
-                    })
+                    });
                 }
+
+
+                //Set Patient Appointment Booking
+
+                $(document).on('click', '#booking', function(){
+                    //fetch All Information
+                    var patientId = $('#pId').val();
+                    var patientName = $('#pName').val();
+                    var patientContact = $('#pContact').val();
+                    var DrName = $('#dname').val();
+                    var appointmentDate = $('#date').val();
+                    var nn = '';
+
+                    if(patientId == '' || patientName == '' || patientContact == ''){
+                        alert('Please Fillup Patient Basic Information');
+                    }else{
+
+                        var bookingTime = $(this).val();
+                        console.log(patientId+' '+patientName+' '+patientContact+' --> '+DrName+' '+appointmentDate+' bTime : '+bookingTime);
+
+                        // console.log(bookingTime);
+                        alert('You Booked at '+bookingTime);
+                            $.ajax({
+                                url: "{{ route('Reception.setAppointment') }}",
+                                method: 'GET',
+                                data:{info: nn, patientName, patientId, patientContact, DrName, appointmentDate, bookingTime,},
+                                success:function(data){
+                                    alert('Booking Successfully Completed');
+                                }
+                            });
+                    }
+                    
+                    
+                });
 
             });
     </script>

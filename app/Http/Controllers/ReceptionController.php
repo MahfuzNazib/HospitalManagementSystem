@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
+use App\PatientAppointment;
 use DateTime;
 use DB;
 
@@ -51,9 +52,9 @@ class ReceptionController extends Controller
             //Get Day
             $d = new DateTime($date);
             $day = ($d->format('l'));
-            error_log('DrName = '.$name);
-            error_log('Day    = '.$day);  
-            error_log('Dept   = '.$dept);
+            // error_log('DrName = '.$name);
+            // error_log('Day    = '.$day);  
+            // error_log('Dept   = '.$dept);
 
             $apntTime = AppointmentTime::where([
                                         ['DrName', '=', $name],
@@ -61,15 +62,64 @@ class ReceptionController extends Controller
             ])->get(['Id', 'Shift','TimeSchedule']);
 
             $total_row = $apntTime->count();
-            error_log($total_row);
+            // error_log($total_row);
             if($total_row > 0){
                 $AppointmentTimes = $apntTime;
             }
             else{
                 $AppointmentTimes = 'Dr.'.$name.' is not Available on that Day';
             }
-            error_log($AppointmentTimes);
+            // error_log($AppointmentTimes);
             return response()->json($AppointmentTimes);
+        }
+    }
+
+
+    /*******************Set Patient Appointment Booking ***************************** */
+
+    public function setAppointment(Request $req){
+        if($req->ajax()){
+            $patientName = $req->get('patientName');
+            $patientId = $req->get('patientId');
+            $patientContact = $req->get('patientContact');
+            $DrName = $req->get('DrName');
+            $appointmentDate = $req->get('appointmentDate');
+            $bookingTime = $req->get('bookingTime');
+
+            //get Appointment Day from appointmentDate
+            $d = new DateTime($appointmentDate);
+            $appointmentDay = ($d->format('l'));
+
+            $bookingDate = new Carbon();
+            $bookingDate -> timezone('Asia/Dhaka');
+
+
+            // Now Insert Data into Patient_Appointments Table
+
+            $appointment = new PatientAppointment();
+
+            $appointment->appointmentDate = $appointmentDate;
+            $appointment->bookingDate = $bookingDate;
+            $appointment->appointmentDay = $appointmentDay;
+            $appointment->appointmentTime = $bookingTime;
+            $appointment->drName = $DrName;
+            $appointment->patientName = $patientName;
+            $appointment->patientId = $patientId;
+
+            $appointment->save();
+            
+            // return view('Reception.Appointment');
+            // return redirect()->route('Reception.appointment')->with('msg', $patientName.'s Appointment Successfully Done !');
+
+            // error_log('Patient ID :'.$patientId);
+            // error_log('Patient Name :'.$patientName);
+            // error_log('Patient Contact :'.$patientContact);
+            // error_log('DrName :'.$DrName);
+            // error_log('AppointmentDate :'.$appointmentDate);
+            // error_log('Booking Time :'.$bookingTime);
+            // error_log('Appointment Day: '.$appointmentDay);
+            // error_log('Booking Day: '.$bookingDay);
+
         }
     }
 
