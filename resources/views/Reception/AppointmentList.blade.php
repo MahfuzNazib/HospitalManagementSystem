@@ -13,9 +13,9 @@
         <div>
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" placeholder="Search by Phone or Id" id="search" name="search">
+                    <input type="text" class="form-control" placeholder="Search by Patient Name or Contact or ID..." id="search" name="search">
                     <hr>
-                    <table width="100%" border="0">
+                    <table width="100%" border="0" class="table-hover">
                         <thead>
                             <th>P.ID</th>
                             <th>BokkingDate</th>
@@ -47,6 +47,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{$patientAppointment->links()}}
                 </div>
             </div>
         </div>

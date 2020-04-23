@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon; //Use Package for Date and Time;
+use Carbon\Carbon; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
 use App\PatientAppointment;
 use App\PatientlistMaster;
-// use DB;
-use Illuminate\Support\Facades\DB;
 
 use DateTime;
 
@@ -47,11 +46,8 @@ class ReceptionController extends Controller
         if($req->ajax()){
             $query = $req->get('query');
 
-            // error_log($query);
             if($query != ''){
                 $doctorName = Doctor::where('Department', $query)->get(['Name']);
-
-                // error_log($doctorName);
                 return response()->json($doctorName);
             }
             
@@ -151,7 +147,7 @@ class ReceptionController extends Controller
     /**********************Patient All Appointment List**************** */
 
     public function appointmentList(){
-        $patientAppointment = PatientAppointment::all();
+        $patientAppointment = PatientAppointment::orderBy('id','desc')->paginate(10);
         return view('Reception.AppointmentList',['patientAppointment' => $patientAppointment]);
     }
 
@@ -159,20 +155,19 @@ class ReceptionController extends Controller
     public function searchAppointment(Request $req){
         if($req->ajax()){
             $query = $req->get('query');
-            // error_log($value);
             $patientAppnt = '';
             $result = '';
             if($query != ''){
-                $patientAppnt = PatientAppointment::where('patientId', '=', $query)
-                                            ->orWhere('patientName', '=', $query)
-                                            ->orWhere('pContact', '=', $query)
+                $patientAppnt = PatientAppointment::where('patientId', 'like', '%'. $query .'%')
+                                            ->orWhere('patientName', 'like', '%'. $query .'%')
+                                            ->orWhere('pContact', 'like', '%'. $query .'%')
                                             ->get();
             }
             else{
-                $patientAppnt = PatientAppointment::all();
+                $patientAppnt = PatientAppointment::orderBy('id','desc')->get();
             }
 
-            $row_data = $patientAppnt->count();
+            $row_data = $patientAppnt->count(); //Check Total Data Row.
 
             if($row_data > 0){
                 $result = $patientAppnt;
