@@ -105,3 +105,11 @@ Route::get('/setAppointment', 'ReceptionController@setAppointment')->name('Recep
 
 //Patient Registration
 Route::get('/Registration', 'ReceptionController@registration')->name('Reception.registration');
+
+//Patient AppointmentList
+Route::get('/AppointmentList', 'ReceptionController@appointmentList')->name('Reception.appointmentList');
+
+Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name('Reception.searchAppointment');
+
+
+

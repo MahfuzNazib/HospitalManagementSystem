@@ -147,6 +147,43 @@ class ReceptionController extends Controller
         }
     }
 
+
+    /**********************Patient All Appointment List**************** */
+
+    public function appointmentList(){
+        $patientAppointment = PatientAppointment::all();
+        return view('Reception.AppointmentList',['patientAppointment' => $patientAppointment]);
+    }
+
+    /**********************Search Appointment Patient List *************************/
+    public function searchAppointment(Request $req){
+        if($req->ajax()){
+            $query = $req->get('query');
+            // error_log($value);
+            $patientAppnt = '';
+            $result = '';
+            if($query != ''){
+                $patientAppnt = PatientAppointment::where('patientId', '=', $query)
+                                            ->orWhere('patientName', '=', $query)
+                                            ->orWhere('pContact', '=', $query)
+                                            ->get();
+            }
+
+            $row_data = $patientAppnt->count();
+
+            if($row_data > 0){
+                $result = $patientAppnt;
+            }
+            else{
+                $result = "No Data Found";
+            }
+
+            return response()->json($result);
+            
+            
+        }
+    }
+
     ####################################################################
     /* **********************End Doctors Appointment********************/
     ####################################################################
