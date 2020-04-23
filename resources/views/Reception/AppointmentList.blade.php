@@ -88,6 +88,7 @@
                                 td += '<td>'+data[i].appointmentDate+'</td>'
                                 td += '<td>'+data[i].appointmentTime+'</td>'
                                 td += '<td>'+data[i].drName+'</td>'
+                                td += '<td> <text class="btn btn-danger" value="'+data[i].patientId+'"> X </text> </td>'
                                 td += '</tr>'
                             }
                             

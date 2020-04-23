@@ -168,6 +168,9 @@ class ReceptionController extends Controller
                                             ->orWhere('pContact', '=', $query)
                                             ->get();
             }
+            else{
+                $patientAppnt = PatientAppointment::all();
+            }
 
             $row_data = $patientAppnt->count();
 
