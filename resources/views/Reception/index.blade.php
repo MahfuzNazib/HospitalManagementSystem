@@ -71,7 +71,7 @@
                 </table>
                 <!-- Added Test List -->
 
-                <table class="table" width="100%">
+                <table width="100%">
                     <th>SlNo</th>
                     <th>TestCode</th>
                     <th>TestName</th>
@@ -120,7 +120,7 @@
                 </button>
 
                 <div id="testList" class="collapse">
-                    <table class="table table-hover">
+                    <table class=" table-hover">
                         <th>TestCode</th>
                         <th>TestName</th>
                         <th>Cost</th>

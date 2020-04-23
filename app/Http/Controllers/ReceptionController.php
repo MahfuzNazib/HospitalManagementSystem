@@ -8,8 +8,12 @@ use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
 use App\PatientAppointment;
+use App\PatientlistMaster;
+// use DB;
+use Illuminate\Support\Facades\DB;
+
 use DateTime;
-use DB;
+
 
 class ReceptionController extends Controller
 {
@@ -24,7 +28,18 @@ class ReceptionController extends Controller
     //Appointment Function
     public function appointment(){
         $dept = HospitalDepartment::all();
-        return view('Reception.Appointment',['dept' => $dept]);
+        $pId = PatientlistMaster::max('patientId');
+
+        if($pId == null){
+            $nextId = 1001;
+        }
+        else{
+            $nextId = $pId+1;
+        }   
+        
+        error_log($nextId);
+        
+        return view('Reception.Appointment',['dept' => $dept,'nextId'=>$nextId]);
     }
 
     //Ajax Request to Load Doctor Name With Selected Department
@@ -52,17 +67,28 @@ class ReceptionController extends Controller
             //Get Day
             $d = new DateTime($date);
             $day = ($d->format('l'));
-            // error_log('DrName = '.$name);
-            // error_log('Day    = '.$day);  
-            // error_log('Dept   = '.$dept);
 
             $apntTime = AppointmentTime::where([
                                         ['DrName', '=', $name],
                                         ['DayName', '=', $day]
             ])->get(['Id', 'Shift','TimeSchedule']);
 
+            // $apntTime =  DB::table('patient_appointments')
+            //             ->join('appointment_times', 'appointment_times.TimeSchedule', 'patient_appointments.appointmentTime')
+            //             ->select('patient_appointments.appointmentDate','appointment_times.Shift','patient_appointments.appointmentTime')
+            //             ->get();
+
+            // $apntTime = DB::table('appointment_times')
+            //             ->join('patient_appointments',  'patient_appointments.appointmentDate' ,'=', $date)
+            //             ->get();
+
+            // print_r($apntTime);
+
+            // error_log($apntTime);
+
+            // error_log($data);
+
             $total_row = $apntTime->count();
-            // error_log($total_row);
             if($total_row > 0){
                 $AppointmentTimes = $apntTime;
             }
@@ -94,8 +120,16 @@ class ReceptionController extends Controller
             $bookingDate -> timezone('Asia/Dhaka');
 
 
-            // Now Insert Data into Patient_Appointments Table
+            //Insert Data Into Patientlist_Mater Table First
 
+            $patientlistMaster = new PatientlistMaster();
+
+            $patientlistMaster->patientId = $patientId;
+            $patientlistMaster->name = $patientName;
+            $patientlistMaster->contact = $patientContact;
+            $patientlistMaster->save();
+
+            // Now Insert Data into Patient_Appointments Table
             $appointment = new PatientAppointment();
 
             $appointment->appointmentDate = $appointmentDate;
@@ -105,20 +139,10 @@ class ReceptionController extends Controller
             $appointment->drName = $DrName;
             $appointment->patientName = $patientName;
             $appointment->patientId = $patientId;
+            $appointment->pContact = $patientContact;
 
             $appointment->save();
             
-            // return view('Reception.Appointment');
-            // return redirect()->route('Reception.appointment')->with('msg', $patientName.'s Appointment Successfully Done !');
-
-            // error_log('Patient ID :'.$patientId);
-            // error_log('Patient Name :'.$patientName);
-            // error_log('Patient Contact :'.$patientContact);
-            // error_log('DrName :'.$DrName);
-            // error_log('AppointmentDate :'.$appointmentDate);
-            // error_log('Booking Time :'.$bookingTime);
-            // error_log('Appointment Day: '.$appointmentDay);
-            // error_log('Booking Day: '.$bookingDay);
 
         }
     }

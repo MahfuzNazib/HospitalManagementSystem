@@ -55,7 +55,7 @@
                     <tr>
                         <td>Patient ID</td>
                         <td>
-                            <input type="text" name="pId" id="pId" class="form-control">
+                            <input type="text" name="pId" id="pId" class="form-control" value="{{$nextId}}" readonly>
                         </td>
                     </tr>
 
@@ -235,17 +235,15 @@
 
                         // console.log(bookingTime);
                         alert('You Booked at '+bookingTime);
-                            $.ajax({
-                                url: "{{ route('Reception.setAppointment') }}",
-                                method: 'GET',
-                                data:{info: nn, patientName, patientId, patientContact, DrName, appointmentDate, bookingTime,},
-                                success:function(data){
-                                    alert('Booking Successfully Completed');
-                                }
-                            });
+                        $.ajax({
+                            url: "{{ route('Reception.setAppointment') }}",
+                            method: 'GET',
+                            data:{info: nn, patientName, patientId, patientContact, DrName, appointmentDate, bookingTime,},
+                            success:function(data){
+                                alert('Booking Successfully Completed');
+                            }
+                        });
                     }
-                    
-                    
                 });
 
             });

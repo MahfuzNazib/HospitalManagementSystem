@@ -2,12 +2,9 @@
 
 namespace App;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientAppointment extends Model
+class PatientlistMaster extends Model
 {
     public $timestamps = false;
-
-    
 }
