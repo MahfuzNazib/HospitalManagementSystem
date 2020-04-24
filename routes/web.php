@@ -115,4 +115,6 @@ Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name(
 Route::get('/DoctorSchedule', 'ReceptionController@doctorSchedule')->name('Reception.doctorSchedule');
 Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleDetails')->name('Reception.doctorScheduleDetails');
 
+//get Patient Data from PID
+Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
 

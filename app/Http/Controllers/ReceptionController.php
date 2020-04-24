@@ -221,6 +221,33 @@ class ReceptionController extends Controller
         return view('Reception.PatientRegistration');
     }
 
+    //Get Patient Data From AJAX REQUEST
+    public function patientInfo(Request $req){
+        if($req->ajax()){
+            $pId = $req->get('patientId');
+            $patientInfo;
+            $doctorInfo;
+            // $pInfo = PatientlistMaster::where('patientId', '=', $pId)->get();
+            // $dInfo = DB::table('patient_appointments')
+            //         ->where('patientId', '=', $pId)
+            //         ->get();
+            
+            $pInfo = PatientAppointment::where('patientId', '=', $pId)->get();
+
+
+            $data_row = $pInfo->count();
+            if($data_row > 0){
+                $patientInfo = $pInfo;
+                // $doctorInfo  = $dInfo; 
+            }
+            else{
+                $patientInfo = 'No Record Found';
+            }
+        }
+
+        return response()->json($patientInfo);
+    }
+
 
     ####################################################################
     /* **********************End Patient Registration********************/
