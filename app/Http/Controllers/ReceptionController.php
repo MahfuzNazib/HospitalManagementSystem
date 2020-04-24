@@ -248,6 +248,12 @@ class ReceptionController extends Controller
         return response()->json($patientInfo);
     }
 
+    public function insertPatient(Request $req){
+        echo $req->pId;
+        echo $req->pName;
+
+    }
+
 
     ####################################################################
     /* **********************End Patient Registration********************/

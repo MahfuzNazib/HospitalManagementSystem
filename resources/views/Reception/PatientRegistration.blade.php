@@ -15,72 +15,75 @@
             <div class="row">
                 <div class="col-sm-7 bg card">
                     <div id="msg"></div>
-                    <table width="100%">
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Patient ID</td>
-                        <td>
-                            <input type="text" name="pId" id="pId" class="form-control">
-                        </td>
-                    </tr>
+                    <form method="POST">
+                        <table width="100%">
+                            {{ csrf_field() }}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Patient ID</td>
+                            <td>
+                                <input type="text" name="pId" id="pId" class="form-control">
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>Patient Type</td>
-                        <td>
-                            <select class="form-control">
-                                <option selected disabled>Select Patient Type</option>
-                                <option>Outdoor</option>
-                                <option>Indoor</option>
-                            </select>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>Patient Type</td>
+                            <td>
+                                <select class="form-control" name="type">
+                                    <option selected disabled>Select Patient Type</option>
+                                    <option>Outdoor</option>
+                                    <option>Indoor</option>
+                                </select>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>Patient Name</td>
-                        <td>
-                            <input type="text" name="pName" id="pName" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Patient Contact</td>
-                        <td>
-                            <input type="text" name="pContact" id="pContact" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Patient Gender</td>
-                        <td>
-                            <select class="form-control" name="pGender">
-                                <option selected disabled>Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Patient Age</td>
-                        <td>
-                            <input type="number" name="pAge" class="form-control">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <center>
-                            <a href="">
-                                <input type="submit" class="btn btn-success" value="Registared">
-                            </a>
-                            </center>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </table>
+                        <tr>
+                            <td>Patient Name</td>
+                            <td>
+                                <input type="text" name="pName" id="pName" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Contact</td>
+                            <td>
+                                <input type="text" name="pContact" id="pContact" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Gender</td>
+                            <td>
+                                <select class="form-control" name="pGender">
+                                    <option selected disabled>Select Gender</option>
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Patient Age</td>
+                            <td>
+                                <input type="number" name="pAge" class="form-control">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <center>
+                                <a href="{{ route('Reception.insertPatient') }}">
+                                    <input type="submit" class="btn btn-success" value="Registared">
+                                </a>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </table>
+                    </form>
                 </div>
 
                 <!-- Related Doctor Information -->
@@ -90,17 +93,28 @@
                         <tr>
                             <td>Doctor Name</td>
                             <td>
-                                <input type="text" id="dname" class="form-control">
+                                <text id="dname"></text>
                             </td>
                         </tr>
 
                         <tr>
                             <td>Visited Date</td>
-                            <td id="visitingDate"></td>
+                            <td>
+                                <text id="visitingDate"></text>
+                            </td>
                         </tr>
                         <tr>
                             <td>Time</td>
-                            <td id="visitingTime"></td>
+                            <td>
+                                <text id="visitingTime"></text>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Booking Date</td>
+                            <td>
+                                <text id="bookingDate"></text>
+                            </td>
                         </tr>
                     </table>
                 </div>
@@ -113,17 +127,17 @@
     <script>
         $(document).ready(function(){
             
-            $(document).on('change', '#pId', function(){
+            $(document).on('click', '#pId', function(){
                 var patientId = $(this).val();
                 console.log(patientId);
-                var noData = '';
-                var patientName = '';
-                var patientContact = '';
-                var doctorName = '';
-                var visitingDate = '';
-                var vistingTime = '';
-                var bookingDate = '';
-                var emptyData = '';
+                var noData          = '';
+                var patientName     = '';
+                var patientContact  = '';
+                var doctorName      = '';
+                var visitingDate    = '';
+                var vistingTime     = '';
+                var bookingDate     = '';
+                var emptyData       = '';
                 var msg = 'Maybe New Patient.Click Here To Appointment';
 
 
@@ -133,32 +147,35 @@
                     data:{data:noData,patientId},
                     success:function(data){
                         console.log(data);
-                        patientName = '';
-                        patientContact = '';
-                        doctorInfo = '';
+                        patientName     = '';
+                        patientContact  = '';
+                        doctorInfo      = '';
 
                         for(var i=0; i<data.length; i++){
                             if(data[i].patientName == undefined ){
-                                patientName += emptyData;
-                                patientContact += emptyData;
-                                noData += '<div> <a href="/Appointment"> <strong> '+msg+' </strong> </a> </div>'
+                                patientName     += emptyData;
+                                patientContact  += emptyData;
+                                noData          += '<div> <a href="/Appointment"> <strong> '+msg+' </strong> </a> </div>'
                                 alert('No Record Found!!');
                                 break;
                             }
                             else{
                                 patientName += data[i].patientName;
                                 patientContact += data[i].pContact;
-                                
                                 // Get Doctor Data
-                                doctorName += data[i].drName
+                                doctorName    += '<text>'+data[i].drName+'</text>'
+                                visitingDate  += '<text>'+data[i].appointmentDate+'</text>'
+                                vistingTime   += '<text>'+data[i].appointmentTime+'</text>'
+                                bookingDate   += '<text>'+data[i].bookingDate+'</text>'
                             }
                         } 
-                        console.log(doctorName);
-
                         $('#msg').html(noData);
                         $('#pName').val(patientName);
                         $('#pContact').val(patientContact);
-                        $('#dname').val(doctorName);
+                        $('#dname').html(doctorName);
+                        $('#visitingDate').html(visitingDate);
+                        $('#visitingTime').html(vistingTime);
+                        $('#bookingDate').html(bookingDate);
                     }
                 });
             });

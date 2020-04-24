@@ -105,6 +105,8 @@ Route::get('/setAppointment', 'ReceptionController@setAppointment')->name('Recep
 
 //Patient Registration
 Route::get('/Registration', 'ReceptionController@registration')->name('Reception.registration');
+//Insert New Patient
+Route::post('/Registration', 'ReceptionController@insertPatient')->name('Reception.insertPatient');
 
 //Patient AppointmentList
 Route::get('/AppointmentList', 'ReceptionController@appointmentList')->name('Reception.appointmentList');
@@ -117,4 +119,7 @@ Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleD
 
 //get Patient Data from PID
 Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
+
+
+
 
