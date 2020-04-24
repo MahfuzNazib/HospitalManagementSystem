@@ -63,6 +63,12 @@
           <span>Appointment List</span></a>
       </li>
 
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('Reception.doctorSchedule')}}">
+          <i class="fas fa-user-friends"></i>
+          <span>Doctors Schedule</span></a>
+      </li>
+
       <!-- Patient Registration -->
       <li class="nav-item">
         <a class="nav-link" href="{{route('Reception.registration')}}">

@@ -111,5 +111,8 @@ Route::get('/AppointmentList', 'ReceptionController@appointmentList')->name('Rec
 
 Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name('Reception.searchAppointment');
 
+//See Doctors Schedule
+Route::get('/DoctorSchedule', 'ReceptionController@doctorSchedule')->name('Reception.doctorSchedule');
+Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleDetails')->name('Reception.doctorScheduleDetails');
 
 

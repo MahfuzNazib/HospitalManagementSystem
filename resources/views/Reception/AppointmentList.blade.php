@@ -60,7 +60,6 @@
         $(document).ready(function(){
             $(document).on('keyup','#search',function(){
                 var src = $(this).val();
-                console.log(src);
                 var td = '';
                 var msg = 'No Data Found';
 
@@ -69,13 +68,15 @@
                     method: 'GET',
                     data: {query:src},
                     success:function(data){
-                        // console.log('Success Message Retured');
-                        console.log(data);
                         td='';
                         for(var i=0; i<data.length;i++){
 
                             if(data[i].patientId == undefined){
                                 td += '<tr>'
+                                td += '<td></td>'
+                                td += '<td></td>'
+                                td += '<td></td>'
+                                td += '<td></td>'
                                 td += '<td>'+msg+'</td>'
                                 td += '</tr>'
                                 break;

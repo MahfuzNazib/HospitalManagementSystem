@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
+use App\AppointmentTimeMaster;
 use App\PatientAppointment;
 use App\PatientlistMaster;
 
@@ -186,6 +187,30 @@ class ReceptionController extends Controller
     /* **********************End Doctors Appointment********************/
     ####################################################################
 
+
+    /*******************View Doctor Time Schedule******************* */
+    public function doctorSchedule(){
+
+        $doctorTimes = DB::table('appointment_time_masters')
+                        ->join('doctors','doctors.DoctorId', '=', 'appointment_time_masters.DrId')
+                        ->select('appointment_time_masters.DrId','appointment_time_masters.DrName','doctors.Department')
+                        // ->groupBy('doctors.DoctorId')
+                        ->paginate(10);
+        error_log($doctorTimes);
+        return view('Reception.DoctorSchedule',['doctorTimes' => $doctorTimes]);
+    }
+
+    /*******************View Doctor Time Schedule Details******************* */
+
+    public function doctorScheduleDetails($DrId){
+        $DrDetails = AppointmentTimeMaster::where('DrId', '=', $DrId)
+                                            ->get();
+        $getDrName = DB::table('doctors')
+                        ->where('DoctorId', '=', $DrId)
+                        ->select('Name')
+                        ->get();
+        return view('Reception.ViewDoctorTimeDetails',['DrDetails' => $DrDetails,'DrName' => $getDrName]);
+    }
 
 
     ####################################################################
