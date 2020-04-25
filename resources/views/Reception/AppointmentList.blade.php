@@ -38,8 +38,8 @@
                                     <td>{{ $p['appointmentTime'] }}</td>
                                     <td>{{ $p['drName'] }}</td>
                                     <td>
-                                        <a href="#">
-                                            <input type="submit" class="btn btn-danger" value="X">
+                                        <a href="{{ route('Reception.emptyPrecription',$p['patientId']) }}">
+                                            <input type="submit" class="btn btn-info" value="Print">
                                         </a>
                                     </td>
 
@@ -90,7 +90,7 @@
                                 td += '<td>'+data[i].appointmentDate+'</td>'
                                 td += '<td>'+data[i].appointmentTime+'</td>'
                                 td += '<td>'+data[i].drName+'</td>'
-                                td += '<td> <text class="btn btn-danger" value="'+data[i].patientId+'"> X </text> </td>'
+                                td += '<td> <a href="/EmptyPrecription/'+data[i].patientId+'"> <text class="btn btn-info"> Print </text> </a> </td>'
                                 td += '</tr>'
                             }
                             

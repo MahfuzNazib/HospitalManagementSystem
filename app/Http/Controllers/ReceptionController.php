@@ -274,4 +274,19 @@ class ReceptionController extends Controller
     ####################################################################
 
 
+    ####################################################################
+    /* **********************Print Empty Prescription********************/
+    ####################################################################
+
+    public function emptyPrecription($patientId){
+        $information = PatientAppointment::where('patientId', '=', $patientId)->get();
+        error_log($information);
+        return view('Reception.EmptyPrecription',['information' => $information]);
+    }
+
+    ####################################################################
+    /* *****************End Print Empty Prescription********************/
+    ####################################################################
+
+
 }

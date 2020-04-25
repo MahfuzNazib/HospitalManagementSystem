@@ -121,5 +121,10 @@ Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleD
 Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
 
 
+//Print Appointment Page as Blank Prescription
+Route::get('/EmptyPrecription/{patientId}', 'ReceptionController@emptyPrecription')->name('Reception.emptyPrecription');
+
+
+
 
 
