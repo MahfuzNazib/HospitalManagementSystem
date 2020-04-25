@@ -9,6 +9,25 @@
         </center>
     </div>
 
+    <!-- Print Error message -->
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Registration Message -->
+
+    @if(session('msg'))
+        <div class="alert alert-success">
+            {{ session('msg') }}
+        </div>
+    @endif
+
 
     <div class="card-body">
         <div>
@@ -25,14 +44,14 @@
                         <tr>
                             <td>Patient ID</td>
                             <td>
-                                <input type="text" name="pId" id="pId" class="form-control">
+                                <input type="text" name="pId" id="pId" class="form-control" value="{{old('pId')}}">
                             </td>
                         </tr>
 
                         <tr>
                             <td>Patient Type</td>
                             <td>
-                                <select class="form-control" name="type">
+                                <select class="form-control" name="type" value="{{old('type')}}">
                                     <option selected disabled>Select Patient Type</option>
                                     <option>Outdoor</option>
                                     <option>Indoor</option>
@@ -43,19 +62,19 @@
                         <tr>
                             <td>Patient Name</td>
                             <td>
-                                <input type="text" name="pName" id="pName" class="form-control">
+                                <input type="text" name="pName" id="pName" class="form-control" value="{{old('pName')}}">
                             </td>
                         </tr>
                         <tr>
                             <td>Patient Contact</td>
                             <td>
-                                <input type="text" name="pContact" id="pContact" class="form-control">
+                                <input type="text" name="pContact" id="pContact" class="form-control" value="{{old('pContact')}}">
                             </td>
                         </tr>
                         <tr>
                             <td>Patient Gender</td>
                             <td>
-                                <select class="form-control" name="pGender">
+                                <select class="form-control" name="pGender" value="{{old('pGender')}}">
                                     <option selected disabled>Select Gender</option>
                                     <option>Male</option>
                                     <option>Female</option>
@@ -65,7 +84,7 @@
                         <tr>
                             <td>Patient Age</td>
                             <td>
-                                <input type="number" name="pAge" class="form-control">
+                                <input type="number" name="pAge" class="form-control" value="{{old('pAge')}}">
                             </td>
                         </tr>
                         <tr>
@@ -73,7 +92,7 @@
                             <td>
                                 <center>
                                 <a href="{{ route('Reception.insertPatient') }}">
-                                    <input type="submit" class="btn btn-success" value="Registared">
+                                    <button class="btn btn-success">Registered</button>
                                 </a>
                                 </center>
                             </td>
@@ -127,7 +146,7 @@
     <script>
         $(document).ready(function(){
             
-            $(document).on('click', '#pId', function(){
+            $(document).on('change', '#pId', function(){
                 var patientId = $(this).val();
                 console.log(patientId);
                 var noData          = '';
@@ -179,6 +198,11 @@
                     }
                 });
             });
+
+            $('#pId').keyup(function(){
+                $(this).next('#pAge').focus();
+            });
+            
         });
     </script>
 @endsection

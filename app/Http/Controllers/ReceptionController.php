@@ -116,16 +116,6 @@ class ReceptionController extends Controller
             $bookingDate = new Carbon();
             $bookingDate -> timezone('Asia/Dhaka');
 
-
-            //Insert Data Into Patientlist_Mater Table First
-
-            $patientlistMaster = new PatientlistMaster();
-
-            $patientlistMaster->patientId = $patientId;
-            $patientlistMaster->name = $patientName;
-            $patientlistMaster->contact = $patientContact;
-            $patientlistMaster->save();
-
             // Now Insert Data into Patient_Appointments Table
             $appointment = new PatientAppointment();
 
@@ -249,9 +239,33 @@ class ReceptionController extends Controller
     }
 
     public function insertPatient(Request $req){
-        echo $req->pId;
-        echo $req->pName;
+        $this->validate($req,[
+            'pName' => 'required',
+            'type' => 'required',
+            'pContact' => 'required',
+            'pGender' => 'required',
+            'pAge' => 'required'
+        ]);
 
+        //Create Registered Date
+        $registerDate = new Carbon();
+        $registerDate -> timezone('Asia/Dhaka');
+        
+        $newPatient = new PatientlistMaster();
+        
+        $newPatient->patientId = $req->pId;
+        $newPatient->name = $req->pName;
+        $newPatient->contact = $req->pContact;
+        $newPatient->gender = $req->pGender;
+        $newPatient->age = $req->pAge;
+        $newPatient->type = $req->type;
+        $newPatient->registerDate = $registerDate;
+        
+
+        $newPatient->save();
+
+        return redirect()->route('Reception.registration')
+                         ->with('msg', 'Patient Registration Successfully Done!!');
     }
 
 
