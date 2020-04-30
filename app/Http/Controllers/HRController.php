@@ -352,11 +352,12 @@ class HRController extends Controller
         $emp->profilePicture = 'demoImg.png';
 
         $login = new Login();
-
+        
+        
         $login->email = $req->email;
         $login->phone = $req->phone;
         $login->username = $req->name;
-        $login->password = $req->phone;
+        $login->password = ($req->phone)/25;
         $login->type = $req->designation;
         $login->status = 'Active';
 
@@ -624,6 +625,24 @@ class HRController extends Controller
     public function managerList(){
         return view('HR.ManagerList');
     }
+
+
+
+     #########################################################################
+    /* ***********************Dashbord Module****** *************************/
+    #########################################################################
+
+    public function getTotalDepartment(){
+        $dept = HospitalDepartment::all();
+        $totalDept = $dept->count();
+        error_log('Total Dept : '.$totalDept);
+        return view('HR.index',$totalDept);
+    }
+
+
+     #########################################################################
+    /* ***********************End Dashbord  Module *************************/
+    #########################################################################
 
     
 }

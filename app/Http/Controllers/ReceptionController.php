@@ -10,6 +10,7 @@ use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
 use App\AppointmentTimeMaster;
+use App\HospitalTest;
 use App\PatientAppointment;
 use App\PatientlistMaster;
 
@@ -19,7 +20,9 @@ use SebastianBergmann\Environment\Console;
 class ReceptionController extends Controller
 {
     public function index(){
-        return view('Reception.index');
+        $testList = HospitalTest::all();
+        return view('Reception.index',['testList' => $testList]);
+        // return view('Reception.index');
     }
 
     ####################################################################
@@ -311,6 +314,19 @@ class ReceptionController extends Controller
 
     ####################################################################
     /* *****************End Print Empty Prescription********************/
+    ####################################################################
+
+    ####################################################################
+    /* *****************Patient Invoice Module Page********************/
+    ####################################################################
+
+    // public function getAllTestList(){
+    //     $testList = HospitalTest::all();
+    //     return view('Reception.index',['testList' => $testList]);
+    // }
+
+    ####################################################################
+    /* *****************EndPatient Invoice Module Page********************/
     ####################################################################
 
 

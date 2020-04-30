@@ -1,11 +1,62 @@
 @extends('Layouts.ReceptionApp')
 @section('content') 
 
+    <!-- Test List Table Style -->
+    <style>
+        #tblHeader{
+            height: 30px;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            background-color: gray;
+            color: white;
+        }
+        #tHead{
+            font-family: Tahoma;
+            width:100%;
+            cellspacing:0px;
+            cellpadding:0px;
+        }
+        #testListData{
+            height: 130px;
+            width:100%;
+            overflow: auto;
+            overflow-x: hidden;
+            text-align: center;
+            color: gray;
+        }
+        #tblData{
+            text-align: center;
+            font-family: 'Lucida Bright';
+            width:100%;
+            cellspacing:0px;
+            cellpadding:0px;
+        }
+
+        /* Save Button Style */
+        #btnSave{
+            width: 100%;
+            height: 45px;
+            border-radius: 5px;
+            border:none;
+            padding: 0;
+            background-color: rgb(24, 150, 110);
+            font-family: 'Lucida Bright';
+            font-size: larger;
+            color: white;
+        }
+        #btnSave:hover{
+            background-color: rgb(18, 99, 73);
+            border-radius: 7px;
+            color: white;
+            font-style: bold;
+        }
+    </style>
     <!-- Body Main Part Start Here -->
     <div class="row">
         <div class="col-sm-7">
             <div class="container bg card">
-                Patient Information
+                <center class="text-primary font-weight-bold">Patient Information</center>
                 <hr>
                 <table>
                     <tr>
@@ -47,7 +98,7 @@
 
                 <table>
                     <tr>
-                        <td>TestCode</td>
+                        <td>TestShortName</td>
                         <td>
                             <input type="text" class="form-control" name="testCode" id="testCode">
                         </td>
@@ -115,43 +166,39 @@
         <div class="col-sm-5">
             <div class="container bg card">
                 <br>
-                <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#testList">
-                    View Test List
-                </button>
+                    <center class="text-primary font-weight-bold">Hospital Test List</center>
+                    <hr>
+                    <div id="tblHeader">
+                        <table  class=" table-hover" id="tHead">
+                            <th><center>S.Name</center></th>
+                            <th><center>TestName</center></th>
+                            <th><center>Cost</center></th>
+                        </table>
+                    </div>
 
-                <div id="testList" class="collapse">
-                    <table class=" table-hover">
-                        <th>TestCode</th>
-                        <th>TestName</th>
-                        <th>Cost</th>
+                    <div id="testListData">
+                    <table id="tblData">
+                        @foreach($testList as $test)
+                            <tr>
+                                <td>
+                                    <center>{{ $test['testShortName'] }}</center>
+                                </td>
 
-                        <tr>
-                            <td>1001</td>
-                            <td>CBC</td>
-                            <td>300</td>
-                        </tr>
+                                <td>
+                                    <center>{{ $test['testName'] }}</center>
+                                </td>
 
-                        <tr>
-                            <td>1001</td>
-                            <td>CBC</td>
-                            <td>300</td>
-                        </tr>
-
-                        <tr>
-                            <td>1001</td>
-                            <td>CBC</td>
-                            <td>300</td>
-                        </tr>
-                        <tr>
-                            <td>1001</td>
-                            <td>CBC</td>
-                            <td>300</td>
-                        </tr>
-
+                                <td>
+                                    <center>{{ $test['testCost'] }}</center>
+                                </td>
+                            </tr>
+                        @endforeach
                     </table>
-                </div>
+                    </div>
             </div>
 
+            <div class="container bg card">
+            <center class="text-primary font-weight-bold">Billing Information</center>
             <table>
                 <tr>
                     <td>Total Cost</td>
@@ -190,13 +237,13 @@
                 </tr>
 
                 <tr>
-                    <td colspan="1">
-                        <center>
-                        <input type="submit" class="btn btn-info" value="SAVE">
-                        </center>
+                    <td></td>
+                    <td>
+                        <button id="btnSave">Save</button>
                     </td>
                 </tr>
             </table>
+            </div>
         </div>
     </div>
 
