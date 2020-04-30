@@ -34,48 +34,60 @@
 			<div class="wrap-login100 p-t-50 p-b-90">
 				<!-- <form class="login100-form validate-form flex-sb flex-w"> -->
 					<span class="login100-form-title p-b-51">
-						Login
-					</span>
+						User Login
+					</span><br>
+
+					<!-- Error Message -->
+					@if($errors->any())
+						<div class="alertt alert-danger">
+							@foreach($errors->all() as $error)	
+								<ul>{{ $error }}</ul>
+							@endforeach
+						</div>
+					@endif
+
+					<!-- Invalid Message  -->
+					@if(session('msg'))
+						<div class="alert alert-warning">
+							{{ session('msg') }}
+						</div>
+					@endif
 
 					<form method="POST">
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
-						<input class="input100" type="text" name="username" placeholder="Username">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<input type="hidden" name="_token" value="{{csrf_token()}}">
-					
-					<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
-						<span class="focus-input100"></span>
-					</div>
-					
-					<div class="flex-sb-m w-full p-t-3 p-b-24">
-						<div class="contact100-form-checkbox">
-							<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-							<label class="label-checkbox100" for="ckb1">
-								Remember me
-							</label>
+						{{ csrf_field() }}
+						<div class="wrap-input100 validate-input m-b-16" data-validate = "Username is required">
+							<input class="input100" type="text" name="username" placeholder="Username">
+							<span class="focus-input100"></span>
 						</div>
-
-						<div>
-							<a href="F:/AIUB Program/10th semester/2.Final Term/ATP 3/Project/HMS/Admin/admin-dashbord/index.html" class="txt1">
-								Forgot?
-							</a>
-						</div>
-					</div>
-
-					<div class="container-login100-form-btn m-t-17">
-						<button class="login100-form-btn">
-							Login
-						</button>
 						
-					</div>
+						<input type="hidden" name="_token" value="{{csrf_token()}}">
+						
+						<div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
+							<input class="input100" type="password" name="password" placeholder="Password">
+							<span class="focus-input100"></span>
+						</div>
+						
+						<div class="flex-sb-m w-full p-t-3 p-b-24">
+							<div class="contact100-form-checkbox">
+								<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+								<label class="label-checkbox100" for="ckb1">
+									Remember me
+								</label>
+							</div>
 
-					<div class="createAccout" href="F:/AIUB Program/10th semester/2.Final Term/ATP 3/Project/HMS/Admin/admin-dashbord/index.html">
-						Create Accout
-					</div>
+							<div>
+								<a href="F:/AIUB Program/10th semester/2.Final Term/ATP 3/Project/HMS/Admin/admin-dashbord/index.html" class="txt1">
+									Forgot?
+								</a>
+							</div>
+						</div>
 
+						<!-- <div class="container-login100-form-btn m-t-17">
+							
+						</div> -->
+						<a href="{{ route('Login.verifyUser') }}">
+							<input type="submit" class="login100-form-btn" value="Login">
+						</a>
 				</form>
 			</div>
 		</div>

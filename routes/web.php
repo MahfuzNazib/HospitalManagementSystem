@@ -81,13 +81,13 @@ Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept
 
 
 
-// Day Testing Routing
-Route::get('/day', function(){
-    $date = '2020-04-19';
-    $d = new DateTime($date);
-    echo $d->format('l');
+// // Day Testing Routing
+// Route::get('/day', function(){
+//     $date = '2020-04-19';
+//     $d = new DateTime($date);
+//     echo $d->format('l');
     
-});
+// });
 
 Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
 Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
@@ -116,6 +116,7 @@ Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name(
 //See Doctors Schedule
 Route::get('/DoctorSchedule', 'ReceptionController@doctorSchedule')->name('Reception.doctorSchedule');
 Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleDetails')->name('Reception.doctorScheduleDetails');
+Route::get('/SearchDoctorTime', 'ReceptionController@searchDoctorTime')->name('Reception.searchDoctorTime');
 
 //get Patient Data from PID
 Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
@@ -123,7 +124,6 @@ Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.p
 
 //Print Appointment Page as Blank Prescription
 Route::get('/EmptyPrecription/{patientId}', 'ReceptionController@emptyPrecription')->name('Reception.emptyPrecription');
-
 
 
 

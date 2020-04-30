@@ -31,7 +31,6 @@
                     <tr>
                         <td>Doctors</td>
                         <td>
-                            <!-- <input type="text" class="form-control" name="doctors" id="doctors"> -->
                             <select class="form-control" name="doctorName" id="dname">
                                 <option>
                                     <option disabled selected>Select Doctor</option>
@@ -39,6 +38,14 @@
                             </select>
                         </td>
                     </tr>
+
+                    <!-- <tr>
+                        <td>Doctor ID</td>
+                        <td>
+                            <input type="text" id="DrId" name="DrId">
+                        </td>
+                    </tr> -->
+
 
                     <tr>
                         <td>Date</td>
@@ -72,15 +79,6 @@
                         </td>
                     </tr>
                     
-                    <!-- <tr>
-                        <td></td>
-                        <td>
-                            <a href="#">
-                                <input type="submit" class="btn btn-primary" value="Set Appointment"><br>
-                            </a>
-                        </td>
-                        <br>
-                    </tr> -->
                 </table>
             </div>
         </div>
@@ -115,15 +113,15 @@
 
 
                 //Some Global Variable
-
+                var DrId='';
                 var patientInfo = '';
-
+                var op='';
                 $(document).on('change','#dept',function(){
                     var query = $(this).val();
                     console.log(query);
                     fetch_doctor_data(query);
                 });
-                var op=" ";
+                
                 var div = $(this).parent();
                 function fetch_doctor_data(query = ''){
                     $.ajax({
@@ -131,16 +129,18 @@
                         method: 'GET',
                         data : {query : query},
                         success:function(data){
-                            console.log('Success On DName Action')
                             console.log(data);
                             op = '';
                             console.log(op);
                             for(var i=0;i<data.length;i++){
-                                op+='<option>'+data[i].Name+'</option>'
+                                DrId += data[i].DoctorId;
+                                op += data[i].DoctorId;
+                                op += '<option>'+data[i].Name+'</option>'
                             }
 
                             console.log(op);
                             $('#dname').html(op);
+                            $('#DrId').val(op);
                         }
                         
                     })
@@ -153,9 +153,11 @@
                     var date = $('#date').val();
                     var name = $('#dname').val();
                     var dept = $('#dept').val();
-                    console.log(name);
-                    console.log(date);
-                    console.log(dept);
+
+                    // console.log('Doctor ID :'+DrId);
+                    console.log('Doctor Name :'+name);
+                    console.log('Date '+date);
+                    console.log('Department'+dept);
 
                     //Condition Checking
 
@@ -178,16 +180,22 @@
                         method: 'GET',
                         data : {date : date, name, dept },
                         success:function(data){
-                            // alert(data[Shift]);
                             time ='';
+                            
                             for(var i=0;i<data.length;i++){
 
-                                if(data[0].Shift == undefined){
+                                if(data[0].Shift == ''){
                                     time+='<tr>'
                                     time+='<td colspan="2">'+msg+'</td>'
                                     time+='</tr>'
                                     break;
                                 }
+                                // if(data.length = 0){
+                                //     time+='<tr>'
+                                //     time+='<td colspan="2">'+msg+'</td>'
+                                //     time+='</tr>'
+                                //     break;
+                                // }
                                 else{
                                     var shift = data[i].Shift;
                                     if(shift == "Morning"){

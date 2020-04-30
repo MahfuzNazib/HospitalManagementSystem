@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// use DB;
 use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
@@ -13,7 +14,7 @@ use App\PatientAppointment;
 use App\PatientlistMaster;
 
 use DateTime;
-
+use SebastianBergmann\Environment\Console;
 
 class ReceptionController extends Controller
 {
@@ -28,7 +29,7 @@ class ReceptionController extends Controller
     //Appointment Function
     public function appointment(){
         $dept = HospitalDepartment::all();
-        $pId = PatientlistMaster::max('patientId');
+        $pId = PatientAppointment::max('patientId');
 
         if($pId == null){
             $nextId = 1001;
@@ -48,7 +49,7 @@ class ReceptionController extends Controller
             $query = $req->get('query');
 
             if($query != ''){
-                $doctorName = Doctor::where('Department', $query)->get(['Name']);
+                $doctorName = Doctor::where('Department', $query)->get(['DoctorId','Name']);
                 return response()->json($doctorName);
             }
             
@@ -61,41 +62,43 @@ class ReceptionController extends Controller
             $date = $req->get('date');
             $name = $req->get('name');
             $dept = $req->get('dept');
+
+            error_log('Date   : '.$date);
+            error_log('DrName : '.$name);
+            error_log('Dept   : '.$dept);
             //Get Day
             $d = new DateTime($date);
             $day = ($d->format('l'));
+            error_log($day);
 
-            $apntTime = AppointmentTime::where([
-                                        ['DrName', '=', $name],
-                                        ['DayName', '=', $day]
-            ])->get(['Id', 'Shift','TimeSchedule']);
+            // $apntTime = AppointmentTime::where([
+            //                             ['DrName', '=', $name],
+            //                             ['DayName', '=', $day]
+            // ])->get(['Id', 'Shift','TimeSchedule']);
 
-            // $apntTime =  DB::table('patient_appointments')
-            //             ->join('appointment_times', 'appointment_times.TimeSchedule', 'patient_appointments.appointmentTime')
-            //             ->select('patient_appointments.appointmentDate','appointment_times.Shift','patient_appointments.appointmentTime')
-            //             ->get();
+            //Raw SQL Query for Getting Doctor Available Time Slots Joining appointment_times and patient_appointments Table;
+            $apntTime = DB::select('SELECT  Shift,TimeSchedule FROM appointment_times
+            WHERE  DayName=? AND DrName = ? AND TimeSchedule NOT IN(SELECT appointmentTime FROM patient_appointments WHERE appointmentDate = ? AND drName = ? and appointmentDay = ?)',[$day,$name,$date,$name,$day]);
+            error_log('Before $apntTime');
+            return $apntTime;
 
-            // $apntTime = DB::table('appointment_times')
-            //             ->join('patient_appointments',  'patient_appointments.appointmentDate' ,'=', $date)
-            //             ->get();
+            //This Part would not work Because we return the DB Value;
+            // error_log('After $apntTime');
 
-            // print_r($apntTime);
+            
+            // $total_row = $apntTime->count();
+            // error_log('Total Row :'.$total_row);
+            // if($total_row > 0){
+            //     $AppointmentTimes = $apntTime;
+            // }
+            // else{
+            //     $AppointmentTimes = 'Dr.'.$name.' is not Available on that Day';
+            // }
 
-            // error_log($apntTime);
-
-            // error_log($data);
-
-            $total_row = $apntTime->count();
-            if($total_row > 0){
-                $AppointmentTimes = $apntTime;
-            }
-            else{
-                $AppointmentTimes = 'Dr.'.$name.' is not Available on that Day';
-            }
-            // error_log($AppointmentTimes);
-            return response()->json($AppointmentTimes);
+            // return response()->json($AppointmentTimes);
         }
     }
+
 
 
     /*******************Set Patient Appointment Booking ***************************** */
@@ -186,7 +189,7 @@ class ReceptionController extends Controller
                         ->select('appointment_time_masters.DrId','appointment_time_masters.DrName','doctors.Department')
                         // ->groupBy('doctors.DoctorId')
                         ->paginate(10);
-        error_log($doctorTimes);
+                        
         return view('Reception.DoctorSchedule',['doctorTimes' => $doctorTimes]);
     }
 
@@ -200,6 +203,28 @@ class ReceptionController extends Controller
                         ->select('Name')
                         ->get();
         return view('Reception.ViewDoctorTimeDetails',['DrDetails' => $DrDetails,'DrName' => $getDrName]);
+    }
+
+    //Search Doctor Time Schedule
+
+    public function searchDoctorTime(Request $req){
+        if($req->ajax()){
+            $query = $req->get('search');
+            $doctorTimes;
+            if($query!=''){
+                $doctorTimes = DB::table('appointment_time_masters')
+                        ->join('doctors','doctors.DoctorId', '=', 'appointment_time_masters.DrId')
+                        ->where('appointment_time_masters.DrName','like','%'.$query. '%')
+                        ->orWhere('doctors.Department','like','%'.$query. '%')
+                        // ->groupBy('appointment_time_masters.DrName')
+                        ->select('appointment_time_masters.DrId','appointment_time_masters.DrName','doctors.Department')
+                        ->get();
+
+               
+            }
+
+            return response()->json($doctorTimes);
+        }
     }
 
 

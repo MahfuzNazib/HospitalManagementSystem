@@ -13,7 +13,7 @@
         <div>
             <div class="row">
                 <div class="col-sm-12">
-                    <input type="text" class="form-control" placeholder="Enter Dept or DrName" id="search" name="search">
+                    <input type="text" class="form-control" placeholder="Enter Dept or DrName..." id="search" name="search">
                     <hr>
                     
                     <table class="table-hover" width="100%">
@@ -24,7 +24,7 @@
                             <th><center>Action</center></th>
                         </thead>
                         
-                        <tbody>
+                        <tbody id="dData">
                             @foreach($doctorTimes as $time)
                                 <tr>
                                     <td><center>{{ $time->DrId }}</center></td>
@@ -45,4 +45,44 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Searching Code AJAX -->
+
+    <script>
+        $(document).ready(function(){
+            var noData = '';
+            var td = '';
+            var msg = 'No Data Found';
+            $(document).on('keyup','#search', function(){
+                var search = $(this).val();
+                console.log(search);
+                td='';
+                $.ajax({
+                    url: "{{ route('Reception.searchDoctorTime') }}",
+                    method: 'GET',
+                    data:{data:noData, search},
+                    success:function(data){
+                        for(var i=0; i<data.length; i++){
+                            if(data[i].DrName == undefined){
+                                td += '<tr>'
+                                td += '<td>'+msg+'</td>'
+                                td += '</tr>'
+                                break;
+                            }
+                            else{
+                                td += '<tr>'
+                                td += '<td>'+data[i].DrId+'</td>'
+                                td += '<td>'+data[i].DrName+'</td>'
+                                td += '<td>'+data[i].Department+'</td>'
+                                td += '</tr>'
+
+                            }
+                        }
+                        $('#dData').html(td);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

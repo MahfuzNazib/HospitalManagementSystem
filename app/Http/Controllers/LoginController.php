@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\FuncCall;
+use App\Login;
 
 class LoginController extends Controller
 {
@@ -12,15 +13,31 @@ class LoginController extends Controller
     }
 
     public function verifyUser(Request $req){
-        if($req->username == $req->password){
-            return redirect('/admin');
-        }
-        else if($req->username == "hr" && $req->password == "11"){
-            return redirect('/HR');
+        $username =  $req->username;
+        $password =  $req->password;
+
+        //Null Validation
+
+        $this->validate($req,[
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        $user = Login::where('username', '=', $username)
+                    ->where('password', '=', $password)
+                    ->first();
+        
+        if($user != null){
+            if($user['type'] == 'Doctor'){
+                echo 'Doctor Login Request';
+            }
+            if($user['type'] == 'Receiptionist'){
+                return redirect()->route('Reception.index');
+            }
         }
         else{
-            // return redirect('/login');
-            echo "Invalid Username or Password";
+            return redirect()->route('Login.index')->with('msg', 'Invalid Username or Password');
         }
+        
     }
 }

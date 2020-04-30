@@ -9,6 +9,7 @@ use App\AppointmentTime;
 use App\AppointmentTimeMaster;
 use App\HospitalTest;
 use App\HospitalDepartment;
+use App\Login;
 use DB;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
@@ -50,16 +51,20 @@ class HRController extends Controller
             'comission'  => 'required',
             'closingDay' => 'required',
         ]);
+        
+        $name = $req->name;
+        $phone = $req->phone;
+        $email  = $req->email;
 
         //Insert Data into Doctors DB Table
 
         $doctor = new Doctor;
-        $doctor->Name       = $req->name;
+        $doctor->Name       = $name;
         $doctor->DOB        = $req->dob;
         $doctor->Gender     = $req->gender;
-        $doctor->Phone      = $req->phone;
+        $doctor->Phone      = $phone;
         $doctor->Emergency  = $req->emergency;
-        $doctor->Email      = $req->email;
+        $doctor->Email      = $email;
         $doctor->Address    = $req->address;
         $doctor->Department = $req->department;
         $doctor->Specialist = $req->specialist; 
@@ -80,8 +85,26 @@ class HRController extends Controller
 		}else{
             return $req;
             $doctor->ProfilePicture = null;
-		}
+        }
+        
+        //Insert Doctor Login Information in LoginInfo Table;
 
+        //Genarate Auto Username and Password from Name and Phone No.
+        // $username = str_split($name,2)+str_split($phone,4);
+        // $password = str_split($phone,2)+str_split($name,2);
+
+        // error_log($username);
+        // error_log($password);
+        $login = new Login();
+
+        $login->email = $email;
+        $login->phone = $phone;
+        $login->username = $name;
+        $login->password = $phone;
+        $login->type = 'Doctor';
+        $login->status = 'Active';
+
+        $login->save();
         $doctor->save();
 
         return redirect()->route('HR.addDoctor')
@@ -328,6 +351,16 @@ class HRController extends Controller
         $emp->status = 'Active';
         $emp->profilePicture = 'demoImg.png';
 
+        $login = new Login();
+
+        $login->email = $req->email;
+        $login->phone = $req->phone;
+        $login->username = $req->name;
+        $login->password = $req->phone;
+        $login->type = $req->designation;
+        $login->status = 'Active';
+
+        $login->save();
         $emp->save();
         
         $designation = $req->designation;
