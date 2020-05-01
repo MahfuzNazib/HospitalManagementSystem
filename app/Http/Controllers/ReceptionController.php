@@ -325,6 +325,49 @@ class ReceptionController extends Controller
     //     return view('Reception.index',['testList' => $testList]);
     // }
 
+    public function patientData(Request $req){
+        if($req->ajax()){
+            $patientId = $req->get('pId');
+            $patientData;
+            $pInfo = PatientlistMaster::where('patientId', '=', $patientId)->get();
+            
+            $total_row = $pInfo->count();
+            if($total_row > 0){
+                $patientData = $pInfo;
+            }
+            else{
+                $patientData = 'No Record Found!';
+            }
+
+            return response()->json($patientData);
+        }
+    }
+
+    public function testInfo(Request $req){
+        if($req->ajax()){
+            $testInfo;
+            $testCode = $req->get('testCode');
+            
+            if($testCode != ''){
+                $tInfo = HospitalTest::where('testShortName', '=', $testCode)->get();
+            }
+            else{
+                $tInfo = HospitalTest::all();
+            }
+            
+            $total_row = $tInfo->count();
+
+            if($total_row > 0){
+                $testCode = $tInfo;
+            }
+            else{
+                $testCode = 'Test Code dosent Matched';
+            }
+
+            return response()->json($testCode);
+        }
+    }
+
     ####################################################################
     /* *****************EndPatient Invoice Module Page********************/
     ####################################################################

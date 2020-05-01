@@ -46,7 +46,7 @@
       <li class="nav-item">
         <a class="nav-link" href="{{route('Reception.index')}}">
           <i class="fas fa-user-nurse"></i>
-          <span>Home</span></a>
+          <span>Investigation</span></a>
       </li>
 
 

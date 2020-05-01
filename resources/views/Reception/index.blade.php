@@ -42,14 +42,14 @@
             padding: 0;
             background-color: rgb(24, 150, 110);
             font-family: 'Lucida Bright';
-            font-size: larger;
+            font-size: large;
             color: white;
         }
         #btnSave:hover{
             background-color: rgb(18, 99, 73);
             border-radius: 7px;
             color: white;
-            font-style: bold;
+            font-size: larger;
         }
     </style>
     <!-- Body Main Part Start Here -->
@@ -75,11 +75,11 @@
                     <tr>
                         <td>Phone</td>
                         <td>
-                            <input type="text" readonly class="form-control" name="phone" id="phone">
+                            <input type="text" readonly class="form-control" name="phone" id="patientPhone">
                         </td>
                         <td>Gender</td>
                         <td>
-                            <input type="text" readonly class="form-control" name="gender" id="gender">
+                            <input type="text" readonly class="form-control" name="gender" id="patientGender">
                         </td>
                     </tr>
                     <tr>
@@ -98,7 +98,7 @@
 
                 <table>
                     <tr>
-                        <td>TestShortName</td>
+                        <td>TestCode</td>
                         <td>
                             <input type="text" class="form-control" name="testCode" id="testCode">
                         </td>
@@ -170,7 +170,7 @@
                     <hr>
                     <div id="tblHeader">
                         <table  class=" table-hover" id="tHead">
-                            <th><center>S.Name</center></th>
+                            <th><center>TestCode</center></th>
                             <th><center>TestName</center></th>
                             <th><center>Cost</center></th>
                         </table>
@@ -247,5 +247,116 @@
         </div>
     </div>
 
+
+    <!-- JS Code/Ajax Code -->
+
+    <script>
+        $(document).ready(function(){
+            //Patient Field Variable Declaration
+            var noData = '';
+            var patientName = '';
+            var patientPhone = '';
+            var patientGender = '';
+            var drName = '';
+            //Test Field Variable Declaration
+            var td = '';
+            var msg = 'No Test Record Found';
+            var testName = '';
+            var testCost = '';
+
+            //Get Patient Information from PatientId
+            $(document).on('change', '#patientId', function(){
+                var pId = $(this).val();
+                console.log(pId);
+                $.ajax({
+                    url : "{{ route('Reception.patientData') }}",
+                    method: 'GET',
+                    data: {data:noData,pId},
+                    success:function(data){
+                        console.log('Data Returned Success');
+                        // console.log(data);
+
+                        //Refresh all Variable Data
+                        patientName = '';
+                        patientPhone = '';
+                        patientGender = '';
+                        drName = '';
+                        for(var i=0; i<data.length; i++){
+                            if(data[i].name == undefined){
+                                alert('No Record Found');
+                                break;
+                            }
+                            else{
+                                patientName += data[i].name;
+                                patientPhone += data[i].contact;
+                                patientGender += data[i].gender;
+                            }
+                        }
+
+                        $('#patientName').val(patientName);
+                        $('#patientGender').val(patientGender);
+                        $('#patientPhone').val(patientPhone);
+                    }
+                });
+            });
+
+            //Test Name by TestCode
+            
+            $(document).on('keyup','#testCode', function(){
+                if(patientName == ''){
+                    alert('Please Entere a Valid Patient ID');
+                }
+                else{
+                    var testCode = $(this).val();
+                    console.log(testCode);
+
+                    $.ajax({
+                        url: "{{ route('Reception.testInfo') }}",
+                        method: 'GET',
+                        data: {data:noData,testCode},
+                        success:function(data){
+                            console.log('Test AJAX Return');
+                            console.log(data);
+
+                            td = '';
+                            testName = '';
+                            testCost = '';
+                            for(var i=0; i<data.length; i++){
+                                if(data[i].testName == undefined){
+                                    td += '<tr>'
+                                    td += '<td></td>'
+                                    td += '<td>'+msg+'</td>'
+                                    td += '<td></td>'
+                                    td += '</tr>'
+                                    break;
+                                }
+                                else{
+                                    td += '<tr>'
+                                    td += '<td>'+data[i].testShortName+'</td>'
+                                    td += '<td>'+data[i].testName+'</td>'
+                                    td += '<td>'+data[i].testCost+'</td>'
+                                    td += '</tr>'
+
+                                    testName += data[i].testName;
+                                    testCost += data[i].testCost;
+                                }
+                                
+                            }
+
+                            $('#tblData').html(td);
+                            if(testCode != ''){
+                                $('#testName').val(testName);
+                                $('#testCost').val(testCost);
+                            }
+                            else{
+                                $('#testName').val('');
+                                $('#testCost').val('');
+                            }
+                        }
+                    });
+                }     
+            });            
+        });
+    </script>
 
 @endsection
