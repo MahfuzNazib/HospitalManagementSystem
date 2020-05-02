@@ -13,6 +13,7 @@ use App\AppointmentTimeMaster;
 use App\HospitalTest;
 use App\PatientAppointment;
 use App\PatientlistMaster;
+use App\TempTestlist;
 
 use DateTime;
 use SebastianBergmann\Environment\Console;
@@ -21,8 +22,8 @@ class ReceptionController extends Controller
 {
     public function index(){
         $testList = HospitalTest::all();
-        return view('Reception.index',['testList' => $testList]);
-        // return view('Reception.index');
+        // $testRecord = TempTestlist::all();
+        return view('Reception.index',['testList' => $testList]);//, 'testRecord' => $testRecord]);
     }
 
     ####################################################################
@@ -367,6 +368,30 @@ class ReceptionController extends Controller
             return response()->json($testCode);
         }
     }
+
+    public function tempTestList(Request $req){
+        if($req->ajax()){
+            $testCode = $req->get('testCode');
+            $testName = $req->get('testName');
+            $testCost = $req->get('testCost');
+
+            $testList = new TempTestlist();
+
+            $testList->testCode = $testCode;
+            $testList->testName = $testName;
+            $testList->testCost = $testCost;
+
+            $testList->save();
+
+            //Get All TestList after Saving into TempTest Table;
+            $testRecord = TempTestlist::all();
+
+            return response()->json($testRecord);
+        }
+    }
+
+
+    
 
     ####################################################################
     /* *****************EndPatient Invoice Module Page********************/

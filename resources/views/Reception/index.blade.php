@@ -103,8 +103,9 @@
                             <input type="text" class="form-control" name="testCode" id="testCode">
                         </td>
                         <td></td>
+                        <!-- Adding Button -->
                         <td>
-                            <input type="submit" class="btn btn-success" value="Add">
+                            <button class="btn btn-primary" id="btnAddTest">Add Test</button>
                         </td>
                     </tr>
 
@@ -123,41 +124,17 @@
                 <!-- Added Test List -->
 
                 <table width="100%">
-                    <th>SlNo</th>
-                    <th>TestCode</th>
-                    <th>TestName</th>
-                    <th>Cost</th>
-                    <th>Action</th>
+                    <thead id="tblHeader">
+                        <th>SlNo</th>
+                        <th>TestCode</th>
+                        <th>TestName</th>
+                        <th>Cost</th>
+                        <th>Action</th>
+                    </thead>
+                    
+                    <tbody id="testList">
 
-                    <tr>
-                        <td>01</td>
-                        <td>1002</td>
-                        <td>CBC</td>
-                        <td>230</td>
-                        <td>
-                            <input type="submit" class="btn btn-danger" value="X">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>01</td>
-                        <td>1002</td>
-                        <td>CBC</td>
-                        <td>230</td>
-                        <td>
-                            <input type="submit" class="btn btn-danger" value="X">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>01</td>
-                        <td>1002</td>
-                        <td>CBC</td>
-                        <td>230</td>
-                        <td>
-                            <input type="submit" class="btn btn-danger" value="X">
-                        </td>
-                    </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -203,36 +180,36 @@
                 <tr>
                     <td>Total Cost</td>
                     <td>
-                        <input type="number" class="form-control" name="totalCost" id="totalCost">
+                        <input type="number" readonly class="form-control" name="totalCost" id="totalCost" value=0>
                     </td>
                 </tr>
 
 
                 <tr>
-                    <td>Discount</td>
+                    <td>Discount(TK)</td>
                     <td>
-                        <input type="number" class="form-control" name="totalCost" id="totalCost">
+                        <input type="number" class="form-control" name="discount" id="discount" value=0>
                     </td>
                 </tr>
 
                 <tr>
                     <td>NetAmount</td>
                     <td>
-                        <input type="number" class="form-control" name="totalCost" id="totalCost">
+                        <input type="number" readonly class="form-control" name="netAmount" id="netAmount">
                     </td>
                 </tr>
 
                 <tr>
                     <td>Paid Amount</td>
                     <td>
-                        <input type="number" class="form-control" name="totalCost" id="totalCost">
+                        <input type="number"  class="form-control" name="paidAmount" id="paidAmount">
                     </td>
                 </tr>
 
                 <tr>
                     <td>Due Amount</td>
                     <td>
-                        <input type="number" class="form-control" name="totalCost" id="totalCost">
+                        <input type="number" readonly class="form-control" name="dueAmount" id="dueAmount">
                     </td>
                 </tr>
 
@@ -263,6 +240,17 @@
             var msg = 'No Test Record Found';
             var testName = '';
             var testCost = '';
+
+            //TestList Variable Declaration
+            var testDataList = '';
+
+            // Billing Calculation Variables
+            var initialTotalCost='';
+            var totalCost = '';
+            var discount = '';
+            var netAmount = '';
+            var paidAmount = '';
+            var dueAmount = ''; 
 
             //Get Patient Information from PatientId
             $(document).on('change', '#patientId', function(){
@@ -355,7 +343,56 @@
                         }
                     });
                 }     
-            });            
+            });  
+            
+            //Add TempTest List 
+
+            $(document).on('click', '#btnAddTest', function(){
+                var btnAddTest = $(this).val();
+
+                var testCode = $('#testCode').val();
+                var testName = $('#testName').val();
+                var testCost = $('#testCost').val();
+
+
+                $.ajax({
+                    url: "{{ route('Reception.tempTestList') }}",
+                    method: 'GET',
+                    data:{data: noData,testCode,testName,testCost},
+                    success:function(data){
+                        console.log(data);
+                        testDataList='';
+                        for(var i=0; i<data.length;i++){
+                            testDataList += '<tr>'
+                            testDataList += '<td>'+data[i].id+'</td>'
+                            testDataList += '<td>'+data[i].testCode+'</td>'
+                            testDataList += '<td>'+data[i].testName+'</td>'
+                            testDataList += '<td>'+data[i].testCost+'</td>'
+                            testDataList += '<td> <input type="button" class="btn btn-danger" value="'+data[i].id+'"X </td>'
+                            testDataList += '</tr>'
+                        }
+                        $('#testList').html(testDataList);
+
+                        //Billing Calculation 
+                         initialTotalCost = $('#totalCost').val();
+                         totalCost = parseInt(initialTotalCost) + parseInt(testCost) ;
+                         discount = $('#discount').val();
+                        $('#totalCost').val(totalCost);
+                         netAmount = totalCost - parseInt(discount);
+                        $('#netAmount').val(netAmount); 
+                    }
+                });
+
+                
+            });
+
+            $(document).on('keyup','#discount', function(){
+                discount = $('#discount').val();
+                $('#totalCost').val(totalCost);
+                netAmount = totalCost - parseInt(discount);
+                $('#netAmount').val(netAmount); 
+            });
+
         });
     </script>
 

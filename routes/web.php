@@ -95,6 +95,8 @@ Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedul
 
 //Receptionist Route
 Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.index');
+
+
 Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
 Route::get('/action', 'ReceptionController@action')->name('Reception.action');
 Route::get('/doctorDate', 'ReceptionController@doctorDate')->name('Reception.doctorDate');
@@ -131,4 +133,4 @@ Route::get('/PatientData', 'ReceptionController@patientData')->name('Reception.p
 //Get TestInfo from TestCode
 Route::get('/TestInfo', 'ReceptionController@testInfo')->name('Reception.testInfo');
 
-
+Route::get('/TempTest', 'ReceptionController@tempTestList')->name('Reception.tempTestList');
