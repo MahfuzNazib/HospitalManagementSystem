@@ -390,8 +390,47 @@ class ReceptionController extends Controller
         }
     }
 
+    public function deleteTempData(Request $req){
+        if($req->ajax()){
+            $deleteTest = DB::table('temp_testlists')->delete();
 
-    
+            //Get All TestList after Saving into TempTest Table;
+            $testRecord = TempTestlist::all();
+
+            return response()->json($testRecord);     
+        }
+    }
+
+    public function removeTest(Request $req){
+        if($req->ajax()){
+            $id = $req->get('tid');
+            $getTestPrice = DB::table('temp_testlists')
+                            ->where('id', '=', $id)
+                            ->select('testCost')
+                            ->get();
+                            
+            error_log('Delete Test Price is :::: --- '.$getTestPrice);
+            $removeTest = DB::table('temp_testlists')
+                    ->where('id', '=', $id)
+                    ->delete();
+            
+            $testRecord = TempTestlist::all();
+            // error_log($testRecord);
+            return response()->json(array('testRecord'=>$testRecord, 'price'=>$getTestPrice));
+        }
+        
+    }
+    // Invoice Work
+
+    public function createInvoice(Request $req){
+        if($req->ajax()){
+            $data = ($req->get('testListRecords'));
+            $dataLength = strlen($data);
+            
+            error_log('Total Length : '.$dataLength);
+            // for($i=0; )
+        }
+    }
 
     ####################################################################
     /* *****************EndPatient Invoice Module Page********************/

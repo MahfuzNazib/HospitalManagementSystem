@@ -10,6 +10,7 @@ use App\AppointmentTimeMaster;
 use App\HospitalTest;
 use App\HospitalDepartment;
 use App\Login;
+use Carbon\Carbon;
 use DB;
 use PhpParser\Comment\Doc;
 use SebastianBergmann\Environment\Console;
@@ -466,8 +467,11 @@ class HRController extends Controller
         ]);
 
         $test = new HospitalTest();
+        
+        $addingDate = new Carbon();
+        $addingDate -> timezone('Asia/Dhaka');
 
-        $test->addingDate = $req->addingDate;
+        $test->addingDate = $addingDate;
         $test->testName = $req->testName;
         $test->testShortName = $req->testShortName;
         $test->testCost = $req->testCost;

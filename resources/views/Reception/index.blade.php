@@ -105,7 +105,8 @@
                         <td></td>
                         <!-- Adding Button -->
                         <td>
-                            <button class="btn btn-primary" id="btnAddTest">Add Test</button>
+                            <button class="btn btn-primary" id="btnAddTest">Add Test</button>|
+                            <button class="btn btn-info" id="refresh">Refresh</button>
                         </td>
                     </tr>
 
@@ -178,6 +179,13 @@
             <center class="text-primary font-weight-bold">Billing Information</center>
             <table>
                 <tr>
+                    <td>InvoiceNo</td>
+                    <td>
+                        <input type="text" readonly class="form-control" name="invoice" id="invoice" value=1022569>
+                    </td>
+                </tr>
+
+                <tr>
                     <td>Total Cost</td>
                     <td>
                         <input type="number" readonly class="form-control" name="totalCost" id="totalCost" value=0>
@@ -214,11 +222,25 @@
                 </tr>
 
                 <tr>
+                    <td>PaymentType</td>
+                    <td>
+                        <select class="form-control" name="paymentType">
+                            <option disabled selected>Select PaymentType</option>
+                            <option>Cash</option>
+                            <option>bKash</option>
+                            <option>DBBL</option>
+                            <option>Rocket</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
                     <td></td>
                     <td>
                         <button id="btnSave">Save</button>
                     </td>
                 </tr>
+                
             </table>
             </div>
         </div>
@@ -243,6 +265,8 @@
 
             //TestList Variable Declaration
             var testDataList = '';
+            var testId = '';
+            var reducePrice = '';
 
             // Billing Calculation Variables
             var initialTotalCost='';
@@ -251,6 +275,9 @@
             var netAmount = '';
             var paidAmount = '';
             var dueAmount = ''; 
+
+            //All Test List Record 
+            var testListRecords = '';
 
             //Get Patient Information from PatientId
             $(document).on('change', '#patientId', function(){
@@ -303,8 +330,6 @@
                         method: 'GET',
                         data: {data:noData,testCode},
                         success:function(data){
-                            console.log('Test AJAX Return');
-                            console.log(data);
 
                             td = '';
                             testName = '';
@@ -360,19 +385,23 @@
                     method: 'GET',
                     data:{data: noData,testCode,testName,testCost},
                     success:function(data){
-                        console.log(data);
-                        testDataList='';
+                        // console.log(data);
+                        testListRecords = data;
+                        // console.log(testListRecords);
+                        testDataList = '';
+                        testId = '';
                         for(var i=0; i<data.length;i++){
                             testDataList += '<tr>'
                             testDataList += '<td>'+data[i].id+'</td>'
                             testDataList += '<td>'+data[i].testCode+'</td>'
                             testDataList += '<td>'+data[i].testName+'</td>'
                             testDataList += '<td>'+data[i].testCost+'</td>'
-                            testDataList += '<td> <input type="button" class="btn btn-danger" value="'+data[i].id+'"X </td>'
+                            testDataList += '<td> <input type="button" id="testId" class="btn btn-danger" value="'+data[i].id+'"X </td>'
                             testDataList += '</tr>'
                         }
                         $('#testList').html(testDataList);
-
+                        // console.log(testId);
+                        
                         //Billing Calculation 
                          initialTotalCost = $('#totalCost').val();
                          totalCost = parseInt(initialTotalCost) + parseInt(testCost) ;
@@ -386,11 +415,124 @@
                 
             });
 
+            //Get Specific Test ID for delete a specific Test
+            $(document).on('click', '#testId', function(){
+                var tid = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('Reception.removeTest') }}",
+                    method: 'GET',
+                    data:{data:noData,tid},
+                    success:function(data){
+                        console.log('Test id Data Received');
+                        // console.log(data['testRecord']);
+                        // console.log(data['price']);
+                        var testRecords = data['testRecord'];
+                        var price = data['price'];
+
+                        reducePrice = '';
+                        for(var i=0; i<price.length; i++){
+                            reducePrice = price[i].testCost;
+                        }
+                        console.log(testListRecords);
+                        console.log(price);
+                        testDataList = '';
+                        for(var i=0; i<testRecords.length;i++){
+                            testDataList += '<tr>'
+                            testDataList += '<td>'+testRecords[i].id+'</td>'
+                            testDataList += '<td>'+testRecords[i].testCode+'</td>'
+                            testDataList += '<td>'+testRecords[i].testName+'</td>'
+                            testDataList += '<td>'+testRecords[i].testCost+'</td>'
+                            testDataList += '<td> <input type="button" id="testId" class="btn btn-danger" value="'+testRecords[i].id+'"X </td>'// testDataList += '<td> <a href="removeTest/'+data[i].id+'"> <text class="btn btn-danger">X</text> </a> </td>'
+                            
+                            testDataList += '</tr>'
+                        }
+                        
+                        $('#testList').html(testDataList);
+                        totalCost = totalCost - parseInt(reducePrice);
+                        $('#totalCost').val(totalCost);
+                        netAmount = totalCost - discount;
+                        $('#netAmount').val(netAmount);
+                    }
+                });
+            });
+
+            //Discount Field
             $(document).on('keyup','#discount', function(){
                 discount = $('#discount').val();
-                $('#totalCost').val(totalCost);
-                netAmount = totalCost - parseInt(discount);
-                $('#netAmount').val(netAmount); 
+                if(discount == ''){
+                    discount = 0;
+                    $('#totalCost').val(totalCost);
+                    netAmount = totalCost - parseInt(discount);
+                    $('#netAmount').val(netAmount);
+                }
+                else{
+                    $('#totalCost').val(totalCost);
+                    netAmount = totalCost - parseInt(discount);
+                    $('#netAmount').val(netAmount);
+                }
+                 
+            });
+
+            //Paid Amount Field
+            $(document).on('keyup', '#paidAmount',function(){
+                paidAmount = $(this).val();
+                dueAmount = netAmount - parseInt(paidAmount);
+                $('#dueAmount').val(dueAmount);
+            });
+
+
+            //Delete all Test List from RempTestList Table by Clicking Refresh Button
+
+            $(document).on('click', '#refresh', function(){
+                var test = 'testDelete';
+                $.ajax({
+                    url: "{{ route('Reception.deleteTempData') }}",
+                    method: 'GET',
+                    data:{data:noData,test},
+                    success:function(data){
+                        testDataList='';
+                        for(var i=0; i<data.length;i++){
+                            testDataList += '<tr>'
+                            testDataList += '<td>'+data[i].id+'</td>'
+                            testDataList += '<td>'+data[i].testCode+'</td>'
+                            testDataList += '<td>'+data[i].testName+'</td>'
+                            testDataList += '<td>'+data[i].testCost+'</td>'
+                            testDataList += '<td> <a href="removeTest/'+data[i].id+'"> <text class="btn btn-danger">X</text> </a> </td>'
+                            testDataList += '</tr>'
+                        }
+                        $('#testList').html(testDataList);
+                        alert('All Test Deleted');
+                        
+                        // Empty All Field
+                        $('#testCode').val(null);
+                        $('#testName').val('');
+                        $('#testCost').val('');
+                        $('#totalCost').val(0);
+                        $('#discount').val(0);
+                        $('#netAmount').val('');
+                        $('#paidAmount').val('');
+                        $('#dueAmount').val('');
+                        $('#patientId').val('');
+                        $('#patientName').val('');
+                        $('#patientPhone').val('');
+                        $('#patientGender').val('');
+                    }
+                });
+            });
+
+            //click Save Button
+            $(document).on('click', '#btnSave', function(){
+                alert('Invoice Creating...');
+                console.log(testListRecords);
+                $.ajax({
+                    url: "{{ route('Reception.createInvoice') }}",
+                    method: 'GET',
+                    data: {data:noData, testListRecords},
+                    success:function(data){
+                        console.log('Invoice Fire');
+                    }
+                });
             });
 
         });

@@ -133,4 +133,12 @@ Route::get('/PatientData', 'ReceptionController@patientData')->name('Reception.p
 //Get TestInfo from TestCode
 Route::get('/TestInfo', 'ReceptionController@testInfo')->name('Reception.testInfo');
 
+//Remove Test
+Route::get('/removeTest', 'ReceptionController@removeTest')->name('Reception.removeTest');
 Route::get('/TempTest', 'ReceptionController@tempTestList')->name('Reception.tempTestList');
+
+//Delete All Data from TempTest List
+Route::get('/DeleteTempTest', 'ReceptionController@deleteTempData')->name('Reception.deleteTempData');
+
+//Patient Invoice Section
+Route::get('/CreateInvoice', 'ReceptionController@createInvoice')->name('Reception.createInvoice');
