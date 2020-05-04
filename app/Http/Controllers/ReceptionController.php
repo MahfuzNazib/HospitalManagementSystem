@@ -422,12 +422,14 @@ class ReceptionController extends Controller
 
     public function tempTestList(Request $req){
         if($req->ajax()){
+            $invoiceNo = $req->get('invoiceNo');
             $testCode = $req->get('testCode');
             $testName = $req->get('testName');
             $testCost = $req->get('testCost');
 
             $testList = new TempTestlist();
 
+            $testList->invoiceNo= $invoiceNo;
             $testList->testCode = $testCode;
             $testList->testName = $testName;
             $testList->testCost = $testCost;
@@ -435,7 +437,8 @@ class ReceptionController extends Controller
             $testList->save();
 
             //Get All TestList after Saving into TempTest Table;
-            $testRecord = TempTestlist::all();
+            // $testRecord = TempTestlist::all();
+            $testRecord = TempTestlist::where('invoiceNo', '=', $invoiceNo)->get();
 
             return response()->json($testRecord);
         }
@@ -454,7 +457,9 @@ class ReceptionController extends Controller
 
     public function removeTest(Request $req){
         if($req->ajax()){
+
             $id = $req->get('tid');
+            $invoiceNo = $req->get('invoiceNo');
             $getTestPrice = DB::table('temp_testlists')
                             ->where('id', '=', $id)
                             ->select('testCost')
@@ -465,7 +470,9 @@ class ReceptionController extends Controller
                     ->where('id', '=', $id)
                     ->delete();
             
-            $testRecord = TempTestlist::all();
+            // $testRecord = TempTestlist::all();
+            $testRecord = TempTestlist::where('invoiceNo', '=', $invoiceNo)->get();
+
             // error_log($testRecord);
             return response()->json(array('testRecord'=>$testRecord, 'price'=>$getTestPrice));
         }
@@ -479,25 +486,8 @@ class ReceptionController extends Controller
             $status = 'Not Clear';
             $invoiceDate = new Carbon();
             $invoiceDate -> timezone('Asia/Dhaka');
-            
-            //Save Data into Invoice_Masters Table
-            error_log('Function Called');
-            
-            
-            $inv = $req->get('invoiceNo');
-            error_log('InvNo'.$inv);
-            error_log('Date '.$invoiceDate);
-            error_log( 'Pid'.$req->get('patientId'));
-            error_log( 'PNAME'.$req->get('patientName'));
-            error_log( 'PPhone'.$req->get('patientPhone'));
-            error_log( 'TotalCost'.$req->get('totalCost'));
-            error_log( 'Dis'.$req->get('discount'));
-            error_log( 'Net'.$req->get('netAmount'));
-            error_log( 'Paid'.$req->get('paidAmount'));
-            error_log( 'Due'.$req->get('dueAmount'));
-            error_log( 'given'.$req->get('givenAmount'));
-            error_log( 'Return'.$req->get('returnAmount'));
-            error_log( 'Status :'.$status);
+
+            $invoiceNo = $req->get('invoiceNo');
 
             $dueAmount = $req->get('dueAmount');
             if($dueAmount == 0){
@@ -505,25 +495,32 @@ class ReceptionController extends Controller
             }
 
             $data = array();
-            $data['invoiceNo'] = $req->get('invoiceNo');
-            $data['invoiceDate'] = $invoiceDate;
-            $data['patientId'] = $req->get('patientId');
-            $data['patientName'] = $req->get('patientName');
-            $data['patientPhone'] = $req->get('patientPhone');
-            $data['totalCost'] = $req->get('totalCost');
-            $data['discount'] = $req->get('discount');
-            $data['netAmount'] = $req->get('netAmount');
-            $data['paidAmount'] = $req->get('paidAmount');
-            $data['dueAmount'] = $dueAmount;
-            $data['givenAmount'] = $req->get('givenAmount');
-            $data['returnAmount'] = $req->get('returnAmount');
-            $data['status'] = $status;
+            $data['invoiceNo']      = $req->get('invoiceNo');
+            $data['invoiceDate']    = $invoiceDate;
+            $data['patientId']      = $req->get('patientId');
+            $data['patientName']    = $req->get('patientName');
+            $data['patientPhone']   = $req->get('patientPhone');
+            $data['totalCost']      = $req->get('totalCost');
+            $data['discount']       = $req->get('discount');
+            $data['netAmount']      = $req->get('netAmount');
+            $data['paidAmount']     = $req->get('paidAmount');
+            $data['dueAmount']      = $dueAmount;
+            $data['givenAmount']    = $req->get('givenAmount');
+            $data['returnAmount']   = $req->get('returnAmount');
+            $data['status']         = $status;
 
             $invoiceMaster = DB::table('invoice_masters')->insert($data);
 
+            //Delete Test from TempTestList for This InvoiceNo;
+            $deleteTest = DB::table('temp_testlists')
+                            ->where('invoiceNo', '=', $invoiceNo)
+                            ->delete();
+
             
-            return redirect()->route('Reception.index');
+            // return redirect()->route('Reception.index');
         }
+        return redirect()->route('Reception.index');
+
     }
 
     ####################################################################

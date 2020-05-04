@@ -181,7 +181,7 @@
                 <tr>
                     <td>InvoiceNo</td>
                     <td>
-                        <input type="text" readonly class="form-control" name="invoice" id="invoiceNo" value="{{ $invoiceNo }}">
+                        <input type="text" readonly class="form-control" name="invoiceNo" id="invoiceNo" value="{{ $invoiceNo }}">
                     </td>
                 </tr>
 
@@ -394,12 +394,12 @@
                 var testCode = $('#testCode').val();
                 var testName = $('#testName').val();
                 var testCost = $('#testCost').val();
-
+                var invoiceNo= $('#invoiceNo').val();
 
                 $.ajax({
                     url: "{{ route('Reception.tempTestList') }}",
                     method: 'GET',
-                    data:{data: noData,testCode,testName,testCost},
+                    data:{data: noData,invoiceNo,testCode,testName,testCost},
                     success:function(data){
                         // console.log(data);
                         testListRecords = data;
@@ -434,11 +434,12 @@
             //Get Specific Test ID for delete a specific Test
             $(document).on('click', '#testId', function(){
                 var tid = $(this).val();
+                var invoiceNo= $('#invoiceNo').val();
 
                 $.ajax({
                     url: "{{ route('Reception.removeTest') }}",
                     method: 'GET',
-                    data:{data:noData,tid},
+                    data:{data:noData,tid,invoiceNo},
                     success:function(data){
                         console.log('Test id Data Received');
                         // console.log(data['testRecord']);
