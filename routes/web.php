@@ -81,13 +81,44 @@ Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept
 
 
 
-// // Day Testing Routing
-// Route::get('/day', function(){
-//     $date = '2020-04-19';
-//     $d = new DateTime($date);
-//     echo $d->format('l');
-    
-// });
+// Day Testing Routing
+Route::get('/day', function(){
+    // $date = '2020-04-19';
+    // $d = new DateTime($date);
+    // echo $d->format('l');
+
+    $dt = new Carbon();
+    $dt->timezone('Asia/Dhaka');
+    $year =  $dt->year;
+    $month = $dt->month;
+    $day = $dt->day;
+    $sec = $dt->second;
+    $milisec = $dt->millisecond;
+    if($month < 10){
+        $month = '0'.$month;
+    }
+    if($day < 10){
+        $day = '0'.$day;
+    }
+    echo $day;
+    echo '<br>';
+    echo $month;
+    echo '<br>';
+    echo $year;
+    echo '<br>';
+    echo $sec;
+    echo '<br>';
+    echo $milisec;
+    echo '<br>';
+    $invoice = $year.$month.$day;
+    echo $invoice;
+
+
+    for($i=0; $i<30;$i++){
+        $invoice++;
+        echo $invoice.'<br>';
+    }
+});
 
 Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
 Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');

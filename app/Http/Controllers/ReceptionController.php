@@ -14,16 +14,72 @@ use App\HospitalTest;
 use App\PatientAppointment;
 use App\PatientlistMaster;
 use App\TempTestlist;
+use App\InvoiceMaster;
+use App\InvoiceDetails;
 
 use DateTime;
 use SebastianBergmann\Environment\Console;
 
 class ReceptionController extends Controller
 {
+    //Genarate Invoice
+    public function invoice(){
+        $dt = new Carbon();
+        $dt->timezone('Asia/Dhaka');
+        $year =  $dt->year;
+        $month = $dt->month;
+        $day = $dt->day;
+        if($month < 10){
+            $month = '0'.$month;
+        }
+        if($day < 10){
+            $day = '0'.$day;
+        }
+        // echo $day;
+        // echo '<br>';
+        // echo $month;
+        // echo '<br>';
+        // echo $year;
+        // echo '<br>';
+        $invoice = $year.$month.$day;
+        // echo $invoice;
+        return $invoice;
+    }
+
     public function index(){
         $testList = HospitalTest::all();
-        // $testRecord = TempTestlist::all();
-        return view('Reception.index',['testList' => $testList]);//, 'testRecord' => $testRecord]);
+        // $getInvoice = InvoiceMaster::max('invoiceNo');
+        // $invoice;
+        // if($getInvoice == null){
+            // $netInvoiceNo = invoice();
+            $dt = new Carbon();
+            $dt->timezone('Asia/Dhaka');
+            $year =  $dt->year;
+            $month = $dt->month;
+            $day = $dt->day;
+            $seconds = $dt->second;
+            $milisec = $dt->millisecond;
+            $incrementDigits = '0000';
+            $lastDayofCurrentMonth = $dt->daysInMonth;
+            $lastDay = $lastDayofCurrentMonth;
+            if($month < 10){
+                $month = '0'.$month;
+            }
+            if($day < 10){
+                $day = '0'.$day;
+            }
+            if($lastDay > $lastDayofCurrentMonth+1){
+                $incrementDigits = '0000';
+            }
+            $invoice = $year.$month.$day.$seconds.$milisec;
+            $nextInvoiceNo = $invoice;
+
+        // }
+        // else{
+            // $invoice = $year.$month.$day.$seconds;
+            // $nextInvoiceNo = $getInvoice+1;
+        // }
+        return view('Reception.index',['testList' => $testList, 'invoiceNo' => $nextInvoiceNo]);
     }
 
     ####################################################################
@@ -321,11 +377,6 @@ class ReceptionController extends Controller
     /* *****************Patient Invoice Module Page********************/
     ####################################################################
 
-    // public function getAllTestList(){
-    //     $testList = HospitalTest::all();
-    //     return view('Reception.index',['testList' => $testList]);
-    // }
-
     public function patientData(Request $req){
         if($req->ajax()){
             $patientId = $req->get('pId');
@@ -424,11 +475,54 @@ class ReceptionController extends Controller
 
     public function createInvoice(Request $req){
         if($req->ajax()){
-            $data = ($req->get('testListRecords'));
-            $dataLength = strlen($data);
+            // $data = ($req->get('testListRecords'));
+            $status = 'Not Clear';
+            $invoiceDate = new Carbon();
+            $invoiceDate -> timezone('Asia/Dhaka');
             
-            error_log('Total Length : '.$dataLength);
-            // for($i=0; )
+            //Save Data into Invoice_Masters Table
+            error_log('Function Called');
+            
+            
+            $inv = $req->get('invoiceNo');
+            error_log('InvNo'.$inv);
+            error_log('Date '.$invoiceDate);
+            error_log( 'Pid'.$req->get('patientId'));
+            error_log( 'PNAME'.$req->get('patientName'));
+            error_log( 'PPhone'.$req->get('patientPhone'));
+            error_log( 'TotalCost'.$req->get('totalCost'));
+            error_log( 'Dis'.$req->get('discount'));
+            error_log( 'Net'.$req->get('netAmount'));
+            error_log( 'Paid'.$req->get('paidAmount'));
+            error_log( 'Due'.$req->get('dueAmount'));
+            error_log( 'given'.$req->get('givenAmount'));
+            error_log( 'Return'.$req->get('returnAmount'));
+            error_log( 'Status :'.$status);
+
+            $dueAmount = $req->get('dueAmount');
+            if($dueAmount == 0){
+                $status = 'Clear';
+            }
+
+            $data = array();
+            $data['invoiceNo'] = $req->get('invoiceNo');
+            $data['invoiceDate'] = $invoiceDate;
+            $data['patientId'] = $req->get('patientId');
+            $data['patientName'] = $req->get('patientName');
+            $data['patientPhone'] = $req->get('patientPhone');
+            $data['totalCost'] = $req->get('totalCost');
+            $data['discount'] = $req->get('discount');
+            $data['netAmount'] = $req->get('netAmount');
+            $data['paidAmount'] = $req->get('paidAmount');
+            $data['dueAmount'] = $dueAmount;
+            $data['givenAmount'] = $req->get('givenAmount');
+            $data['returnAmount'] = $req->get('returnAmount');
+            $data['status'] = $status;
+
+            $invoiceMaster = DB::table('invoice_masters')->insert($data);
+
+            
+            return redirect()->route('Reception.index');
         }
     }
 

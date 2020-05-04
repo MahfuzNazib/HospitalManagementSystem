@@ -181,7 +181,7 @@
                 <tr>
                     <td>InvoiceNo</td>
                     <td>
-                        <input type="text" readonly class="form-control" name="invoice" id="invoice" value=1022569>
+                        <input type="text" readonly class="form-control" name="invoice" id="invoiceNo" value="{{ $invoiceNo }}">
                     </td>
                 </tr>
 
@@ -211,6 +211,20 @@
                     <td>Paid Amount</td>
                     <td>
                         <input type="number"  class="form-control" name="paidAmount" id="paidAmount">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Given Amount</td>
+                    <td>
+                        <input type="number"  class="form-control" name="givenAmount" id="givenAmount">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Return Amount</td>
+                    <td>
+                        <input type="number" readonly class="form-control" name="returnAmount" id="returnAmount">
                     </td>
                 </tr>
 
@@ -275,6 +289,8 @@
             var netAmount = '';
             var paidAmount = '';
             var dueAmount = ''; 
+            var givenAmount = '';
+            var returnAmount = '';
 
             //All Test List Record 
             var testListRecords = '';
@@ -477,8 +493,20 @@
             //Paid Amount Field
             $(document).on('keyup', '#paidAmount',function(){
                 paidAmount = $(this).val();
+                givenAmount = $(this).val();
                 dueAmount = netAmount - parseInt(paidAmount);
                 $('#dueAmount').val(dueAmount);
+                $('#givenAmount').val(paidAmount);
+                returnAmount = parseInt(givenAmount) - paidAmount;
+                $('#returnAmount').val(returnAmount);
+            });
+
+            //Return Amount Field
+
+            $(document).on('keyup', '#givenAmount', function(){
+                givenAmount = $(this).val();
+                returnAmount = parseInt(givenAmount) - paidAmount;
+                $('#returnAmount').val(returnAmount);
             });
 
 
@@ -521,19 +549,37 @@
                 });
             });
 
+            //*********************************************** */
+            //Save All Data into Invoice_Masters and Invoice_Details Table
             //click Save Button
+
             $(document).on('click', '#btnSave', function(){
-                alert('Invoice Creating...');
+                var patientId = $('#patientId').val();
+                var invoiceNo = $('#invoiceNo').val();
+                alert(invoiceNo);
                 console.log(testListRecords);
                 $.ajax({
                     url: "{{ route('Reception.createInvoice') }}",
                     method: 'GET',
-                    data: {data:noData, testListRecords},
+                    data: {data:noData, 
+                                invoiceNo,
+                                patientId,
+                                patientName,
+                                patientPhone,
+                                totalCost,
+                                discount,
+                                netAmount,
+                                paidAmount,
+                                dueAmount,
+                                givenAmount,
+                                returnAmount
+                                },
                     success:function(data){
                         console.log('Invoice Fire');
                     }
                 });
             });
+
 
         });
     </script>
