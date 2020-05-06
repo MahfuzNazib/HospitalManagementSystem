@@ -28,6 +28,8 @@ class CreateInvoiceMastersTable extends Migration
             $table->string('givenAmount');
             $table->string('returnAmount');
             $table->string('status');
+            $table->string('reportDelivery');
+            $table->string('deliveryDate');
             $table->timestamps();
         });
     }

@@ -451,7 +451,7 @@
                         for(var i=0; i<price.length; i++){
                             reducePrice = price[i].testCost;
                         }
-                        console.log(testListRecords);
+                        // console.log(testListRecords);
                         console.log(price);
                         testDataList = '';
                         for(var i=0; i<testRecords.length;i++){
@@ -558,7 +558,12 @@
                 var patientId = $('#patientId').val();
                 var invoiceNo = $('#invoiceNo').val();
                 alert(invoiceNo);
+                //All TestList Records
                 console.log(testListRecords);
+                var arr = [
+                    'nazib', '17-34418-1'
+                ]
+                console.log(arr);
                 $.ajax({
                     url: "{{ route('Reception.createInvoice') }}",
                     method: 'GET',
@@ -573,8 +578,11 @@
                                 paidAmount,
                                 dueAmount,
                                 givenAmount,
-                                returnAmount
+                                returnAmount,
+                                arr,
+                                testListRecords
                                 },
+                            
                     success:function(data){
                         console.log('Invoice Fire');
                     }

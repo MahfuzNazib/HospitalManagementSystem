@@ -42,13 +42,19 @@
         
       </a>
 
-      <!-- Add Doctor -->
+      <!-- Investigation -->
       <li class="nav-item">
         <a class="nav-link" href="{{route('Reception.index')}}">
           <i class="fas fa-user-nurse"></i>
           <span>Investigation</span></a>
       </li>
 
+      <!-- Report Delivery -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('Reception.reportDelivery')}}">
+          <i class="fas fa-user-nurse"></i>
+          <span>Report Delivery</span></a>
+      </li>
 
       <!-- Doctor Appointment -->
       <li class="nav-item">

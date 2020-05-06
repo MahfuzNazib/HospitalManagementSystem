@@ -1,6 +1,6 @@
 @extends('Layouts.ReceptionApp')
 @section('content')
-<div class="container-fluid">
+    <div class="container-fluid">
         <div class="card shadow mb-4">
         <div class="card-header py-3">  
         <center class="text-primary font-weight-bold ">
