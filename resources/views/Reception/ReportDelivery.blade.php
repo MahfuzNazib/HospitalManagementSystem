@@ -213,6 +213,8 @@
         $(document).ready(function(){
             var noData = '';
             var deliveryDate = '';
+            var td = '';
+            
             // OnChange Event Fire on Invoice feild
             $(document).on('change', '#invoiceNo', function(){
                 var invoiceNo = $(this).val();
@@ -225,54 +227,61 @@
                         method: 'GET',
                         data:{data:noData,invoiceNo},
                         success:function(data){
-                            console.log(data);
 
-                            for(var i=0; i<data.length; i++){
-                                
-                                // var patientName = data[i].patientName; 
-                                // var patientPhone = data[i].patientPhone;
-                                var invoiceNo = data[i].invoiceNo;
+                            var invoiceInfo = data['invoiceInfo'];
+                            var invoiceDetail = data['invoiceDetail'];
+                            console.log(invoiceInfo);
+                            console.log(invoiceDetail);
+                            td = '';
+                            for(var i=0; i<invoiceDetail.length; i++){
+                                td += '<tr>'
+                                td += '<td>'+invoiceDetail[i].testCode+'</td>'
+                                td += '<td>'+invoiceDetail[i].testName+'</td>'
+                                td += '<td>'+invoiceDetail[i].testCost+'</td>'
+                                td += '</tr>'
+                            }
 
-                                if(data[i].invoiceNo == undefined){
+                            for(var i=0; i<invoiceInfo.length; i++){
+                                var invoiceNo = invoiceInfo[i].invoiceNo;
+
+                                if(invoiceInfo[i].invoiceNo == undefined){
                                     alert('No Record Found');
                                     break;
                                 }
                                 else{
-                                    var invoiceNo2 = data[i].invoiceNo;
-                                    var patientName = data[i].patientName; 
-                                    var patientPhone = data[i].patientPhone;
-                                    var invoiceDate = data[i].invoiceDate;
-                                    var totalCost = data[i].totalCost;
-                                    var discount = data[i].discount;
-                                    var netAmount = data[i].netAmount;
-                                    var paidAmount = data[i].paidAmount;
-                                    var dueAmount = data[i].dueAmount;
-                                    var status = data[i].status;
-                                    var reportDelivery = data[i].reportDelivery;
-                                        deliveryDate = data[i].deliveryDate;
+                                    var invoiceNo2 = invoiceInfo[i].invoiceNo;
+                                    var patientName = invoiceInfo[i].patientName; 
+                                    var patientPhone = invoiceInfo[i].patientPhone;
+                                    var invoiceDate = invoiceInfo[i].invoiceDate;
+                                    var totalCost = invoiceInfo[i].totalCost;
+                                    var discount = invoiceInfo[i].discount;
+                                    var netAmount = invoiceInfo[i].netAmount;
+                                    var paidAmount = invoiceInfo[i].paidAmount;
+                                    var dueAmount = invoiceInfo[i].dueAmount;
+                                    var status = invoiceInfo[i].status;
+                                    var reportDelivery = invoiceInfo[i].reportDelivery;
+                                        deliveryDate = invoiceInfo[i].deliveryDate;
 
-                                    if(data[i].status == 'Clear'){
-                                        status = '<text class="badge badge-success">'+data[i].status+'</text>'
+                                    if(invoiceInfo[i].status == 'Clear'){
+                                        status = '<text class="badge badge-success">'+invoiceInfo[i].status+'</text>'
                                     }
                                     else{
-                                        status = '<text class="badge badge-danger">'+data[i].status+'</text>'
+                                        status = '<text class="badge badge-danger">'+invoiceInfo[i].status+'</text>'
                                     }
 
-                                    if(data[i].reportDelivery == 'Not Delivered'){
-                                        reportDelivery = '<text class="badge badge-warning">'+data[i].reportDelivery+'</text>'
-
-                                    }
-                                    else{
-                                        reportDelivery = '<text class="badge badge-success">'+data[i].reportDelivery+'</text>'
-                                    }
-
-                                    if(data[i].deliveryDate != 'No Date'){
-                                        // deliveryDate = '';
-                                        deliveryDate = '<text class="delivery">This Report is Delivered at - '+data[i].deliveryDate+'</text>'
+                                    if(invoiceInfo[i].reportDelivery == 'Not Delivered'){
+                                        reportDelivery = '<text class="badge badge-warning">'+invoiceInfo[i].reportDelivery+'</text>'
 
                                     }
                                     else{
-                                        // deliveryDate = '<text class="delivery">This Report is Delivered at - '+data[i].deliveryDate+'</text>'
+                                        reportDelivery = '<text class="badge badge-success">'+invoiceInfo[i].reportDelivery+'</text>'
+                                    }
+
+                                    if(invoiceInfo[i].deliveryDate != 'No Date'){
+                                        deliveryDate = '<text class="delivery">This Report is Delivered at - '+invoiceInfo[i].deliveryDate+'</text>'
+
+                                    }
+                                    else{
                                         deliveryDate = '';
                                     }
                                 }
@@ -290,6 +299,9 @@
                             $('#status').html(status);
                             $('#reportDelivery').html(reportDelivery);
                             $('#deliveryDate').html(deliveryDate);
+
+                            //Test List 
+                            $('#testRecords').html(td);
                         }
                     });
                 }
@@ -337,7 +349,7 @@
                 $('#status').html('');
                 $('#reportDelivery').html('');
                 $('#deliveryDate').html('');
-
+                $('#testRecords').html('');
             });
 
             //Click Delivery Button 

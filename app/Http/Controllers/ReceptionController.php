@@ -549,20 +549,26 @@ class ReceptionController extends Controller
     public function reportDeliveryInfo(Request $req){
         if($req->ajax()){
             $invoiceInfo;
+            $invoiceDetail;
             $invoiceNo = $req->get('invoiceNo');
             error_log($invoiceNo);
             if($invoiceNo != ''){
                 $getInvoiceData = InvoiceMaster::where('invoiceNo','like','%'. $invoiceNo .'%')->get();
-
+                $getInvoiceDetails = InvoiceDetail::where('invoiceNo', 'like', '%'.$invoiceNo. '%')->get();
+                error_log($getInvoiceDetails);
+                
                 $total_row = $getInvoiceData->count();
                 if($total_row > 0){
-                    $invoiceInfo = $getInvoiceData;
+                    $invoiceInfo    = $getInvoiceData;
+                    $invoiceDetail  = $getInvoiceDetails;
                 }
                 else{
                     $invoiceInfo = 'No Record Found';
                 }
 
-                return response()->json($invoiceInfo);
+                // return response()->json($invoiceInfo);
+                return response()->json(array('invoiceInfo' => $invoiceInfo, 'invoiceDetail' => $invoiceDetail));
+
             }
 
             else{
