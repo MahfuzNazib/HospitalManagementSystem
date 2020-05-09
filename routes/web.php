@@ -173,6 +173,7 @@ Route::get('/DeleteTempTest', 'ReceptionController@deleteTempData')->name('Recep
 
 //Patient Invoice Section
 Route::get('/CreateInvoice', 'ReceptionController@createInvoice')->name('Reception.createInvoice');
+Route::get('/InvoiceDetails', 'ReceptionController@invoiceDetails')->name('Reception.invoiceDetails');
 
 
 //Report Delivery

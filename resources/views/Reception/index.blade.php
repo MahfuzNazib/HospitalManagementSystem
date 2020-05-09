@@ -304,9 +304,6 @@
                     method: 'GET',
                     data: {data:noData,pId},
                     success:function(data){
-                        console.log('Data Returned Success');
-                        // console.log(data);
-
                         //Refresh all Variable Data
                         patientName = '';
                         patientPhone = '';
@@ -401,9 +398,8 @@
                     method: 'GET',
                     data:{data: noData,invoiceNo,testCode,testName,testCost},
                     success:function(data){
-                        // console.log(data);
+                        // Put All Data into 'testListRecords' variable 
                         testListRecords = data;
-                        // console.log(testListRecords);
                         testDataList = '';
                         testId = '';
                         for(var i=0; i<data.length;i++){
@@ -416,8 +412,6 @@
                             testDataList += '</tr>'
                         }
                         $('#testList').html(testDataList);
-                        // console.log(testId);
-                        
                         //Billing Calculation 
                          initialTotalCost = $('#totalCost').val();
                          totalCost = parseInt(initialTotalCost) + parseInt(testCost) ;
@@ -441,18 +435,12 @@
                     method: 'GET',
                     data:{data:noData,tid,invoiceNo},
                     success:function(data){
-                        console.log('Test id Data Received');
-                        // console.log(data['testRecord']);
-                        // console.log(data['price']);
                         var testRecords = data['testRecord'];
                         var price = data['price'];
-
                         reducePrice = '';
                         for(var i=0; i<price.length; i++){
                             reducePrice = price[i].testCost;
                         }
-                        // console.log(testListRecords);
-                        console.log(price);
                         testDataList = '';
                         for(var i=0; i<testRecords.length;i++){
                             testDataList += '<tr>'
@@ -460,8 +448,7 @@
                             testDataList += '<td>'+testRecords[i].testCode+'</td>'
                             testDataList += '<td>'+testRecords[i].testName+'</td>'
                             testDataList += '<td>'+testRecords[i].testCost+'</td>'
-                            testDataList += '<td> <input type="button" id="testId" class="btn btn-danger" value="'+testRecords[i].id+'"X </td>'// testDataList += '<td> <a href="removeTest/'+data[i].id+'"> <text class="btn btn-danger">X</text> </a> </td>'
-                            
+                            testDataList += '<td> <input type="button" id="testId" class="btn btn-danger" value="'+testRecords[i].id+'"X </td>'
                             testDataList += '</tr>'
                         }
                         
@@ -553,17 +540,30 @@
             //*********************************************** */
             //Save All Data into Invoice_Masters and Invoice_Details Table
             //click Save Button
-
             $(document).on('click', '#btnSave', function(){
                 var patientId = $('#patientId').val();
                 var invoiceNo = $('#invoiceNo').val();
                 alert(invoiceNo);
-                //All TestList Records
-                console.log(testListRecords);
-                var arr = [
-                    'nazib', '17-34418-1'
-                ]
-                console.log(arr);
+
+                // $('#testList tr').each(function(){
+                //     var testCode = $(this).find("td").eq(1).html();
+                //     var testName = $(this).find("td").eq(2).html();
+                //     var testCost = $(this).find("td").eq(3).html();
+
+                //     console.log(testCode);
+                //     console.log(testName);
+                //     console.log(testCost);
+
+                //     $.ajax({
+                //         url: "{{ route('Reception.invoiceDetails') }}",
+                //         method:'GET',
+                //         data:{data:noData,testCode,testName,testCost,invoiceNo,patientId},
+                //         success:function(data){
+                //             console.log('Almighty Allah');
+                //         }
+                //     });
+                // });
+
                 $.ajax({
                     url: "{{ route('Reception.createInvoice') }}",
                     method: 'GET',
@@ -578,19 +578,35 @@
                                 paidAmount,
                                 dueAmount,
                                 givenAmount,
-                                returnAmount,
-                                arr,
-                                testListRecords
+                                returnAmount
                                 },
                             
                     success:function(data){
                         console.log('Invoice Fire');
                     }
                 });
+
+                $('#testList tr').each(function(){
+                    var testCode = $(this).find("td").eq(1).html();
+                    var testName = $(this).find("td").eq(2).html();
+                    var testCost = $(this).find("td").eq(3).html();
+
+                    console.log(testCode);
+                    console.log(testName);
+                    console.log(testCost);
+
+                    $.ajax({
+                        url: "{{ route('Reception.invoiceDetails') }}",
+                        method:'GET',
+                        data:{data:noData,testCode,testName,testCost,invoiceNo,patientId},
+                        success:function(data){
+                            console.log('Almighty Allah');
+                        }
+                    });
+                });
             });
 
-
+            
         });
     </script>
-
 @endsection

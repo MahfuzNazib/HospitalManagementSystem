@@ -38,6 +38,13 @@
             color: white;
             font-size: larger;
         }
+
+        .delivery{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color:blue;
+            font-size: larger;
+            font-style: bold;
+        }
     </style>
 
     <div class="container-fluid">
@@ -53,6 +60,9 @@
         <div>
             <div class="row">
                 <div class="col-sm-7 ">
+                    <center>
+                        <div id="deliveryDate"></div>
+                    </center>
                     <table border="0">
                         <tr>
                             <td>InvoiceNo </td>
@@ -202,6 +212,7 @@
     <script>
         $(document).ready(function(){
             var noData = '';
+            var deliveryDate = '';
             // OnChange Event Fire on Invoice feild
             $(document).on('change', '#invoiceNo', function(){
                 var invoiceNo = $(this).val();
@@ -238,6 +249,7 @@
                                     var dueAmount = data[i].dueAmount;
                                     var status = data[i].status;
                                     var reportDelivery = data[i].reportDelivery;
+                                        deliveryDate = data[i].deliveryDate;
 
                                     if(data[i].status == 'Clear'){
                                         status = '<text class="badge badge-success">'+data[i].status+'</text>'
@@ -253,6 +265,16 @@
                                     else{
                                         reportDelivery = '<text class="badge badge-success">'+data[i].reportDelivery+'</text>'
                                     }
+
+                                    if(data[i].deliveryDate != 'No Date'){
+                                        // deliveryDate = '';
+                                        deliveryDate = '<text class="delivery">This Report is Delivered at - '+data[i].deliveryDate+'</text>'
+
+                                    }
+                                    else{
+                                        // deliveryDate = '<text class="delivery">This Report is Delivered at - '+data[i].deliveryDate+'</text>'
+                                        deliveryDate = '';
+                                    }
                                 }
                             }
 
@@ -267,6 +289,7 @@
                             $('#dueAmount').val(dueAmount);
                             $('#status').html(status);
                             $('#reportDelivery').html(reportDelivery);
+                            $('#deliveryDate').html(deliveryDate);
                         }
                     });
                 }
@@ -313,6 +336,7 @@
                 $('#invoiceDate').val('');
                 $('#status').html('');
                 $('#reportDelivery').html('');
+                $('#deliveryDate').html('');
 
             });
 
@@ -322,6 +346,11 @@
                 if(invoiceNo == ''){
                     alert('Please Enter a Valid Invoice No');
                 }
+
+                else if(deliveryDate != ''){
+                    alert('This Report is Already Delivered');
+                }
+
                 else{
                     alert(invoiceNo);
                     var paidAmount = $('#netAmount').val();

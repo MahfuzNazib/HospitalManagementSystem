@@ -15,7 +15,8 @@ use App\PatientAppointment;
 use App\PatientlistMaster;
 use App\TempTestlist;
 use App\InvoiceMaster;
-use App\InvoiceDetails;
+// use App\InvoiceDetails;
+use App\InvoiceDetail;
 
 use DateTime;
 use SebastianBergmann\Environment\Console;
@@ -478,35 +479,39 @@ class ReceptionController extends Controller
         }
         
     }
-    // Invoice Work
 
-    public function createInvoice(Request $req){
+    //Invoice Details
+    public function invoiceDetails(Request $req){
         if($req->ajax()){
-            // $data = json_encode('testListRecords[0]');
-            // $data = $req->get(data2);
-            // error_log('DataChecked : '.$data);
-            // $data = request()->data2;
-            // error_log($data2[0]);
-            $testRecords = $req->get('testListRecords');
-            error_log($testRecord[0]);
-            $arr = $req->get('arr');
-            error_log($arr[1]);
-
-            $status = 'Not Clear';
             $invoiceDate = new Carbon();
             $invoiceDate -> timezone('Asia/Dhaka');
 
+            $invoiceDetail = new InvoiceDetail();
+
+            $invoiceDetail->invoiceNo = $req->get('invoiceNo');
+            $invoiceDetail->invoiceDate = $invoiceDate;
+            $invoiceDetail->patientId = $req->get('patientId');
+            $invoiceDetail->testCode = $req->get('testCode');
+            $invoiceDetail->testName = $req->get('testName');
+            $invoiceDetail->testCost = $req->get('testCost');
+
+            $invoiceDetail->save();
+        }
+    }
+
+    //Invoice Masters
+    public function createInvoice(Request $req){
+        if($req->ajax()){
             $invoiceNo = $req->get('invoiceNo');
+            $status = 'Not Clear';
+
+            $invoiceDate = new Carbon();
+            $invoiceDate -> timezone('Asia/Dhaka');
 
             $dueAmount = $req->get('dueAmount');
             if($dueAmount == 0){
                 $status = 'Clear';
             }
-
-            $pName = $req->get('patientName');
-            // error_log($pName.'jkdjkdbvkdjvk'.$testRecords);
-            error_log($pName);
-
 
             $data = array();
             $data['invoiceNo']      = $req->get('invoiceNo');
@@ -531,9 +536,6 @@ class ReceptionController extends Controller
             $deleteTest = DB::table('temp_testlists')
                             ->where('invoiceNo', '=', $invoiceNo)
                             ->delete();
-
-            
-            // return redirect()->route('Reception.index');
         }
         return redirect()->route('Reception.index');
 
@@ -550,12 +552,7 @@ class ReceptionController extends Controller
             $invoiceNo = $req->get('invoiceNo');
             error_log($invoiceNo);
             if($invoiceNo != ''){
-                // $getInvoiceData = InvoiceMaster::where('invoiceNo','=',$invoiceNo)->get();
                 $getInvoiceData = InvoiceMaster::where('invoiceNo','like','%'. $invoiceNo .'%')->get();
-
-                // $getInvoiceData = DB::table('invoice_masters')
-                //                     ->where('invoiceNo', '=', $invoiceNo)
-                //                     ->get();
 
                 $total_row = $getInvoiceData->count();
                 if($total_row > 0){
@@ -572,51 +569,57 @@ class ReceptionController extends Controller
                 $getInvoiceData = '';
             }
         }
-        //     // $getInvoiceData = InvoiceMaster::where('invoiceNo','=',$invoiceNo)->get();
-        //     $getInvoiceData = InvoiceMaster::where('invoiceNo','like','%'. $invoiceNo .'%')->get();
-
-        //     // $getInvoiceData = DB::table('invoice_masters')
-        //     //                     ->where('invoiceNo', '=', $invoiceNo)
-        //     //                     ->get();
-        //     error_log($getInvoiceData);
-
-        //     $total_row = $getInvoiceData->count();
-        //     error_log($total_row);
-        //     if($total_row > 0){
-        //         $invoiceInfo = $getInvoiceData;
-        //     }
-        //     else{
-        //         $invoiceInfo = 'No Record Found';
-        //     }
-
-        //     return response()->json($invoiceInfo);
-        // }
     }
 
     //Update Invoice after Report Delivered
-
     public function updateInvoice(Request $req){
         if($req->ajax()){
-            error_log('Function Called');
-            $paidAmount = $req->get('paidAmount');
-            $dueAmount = $req->get('discount');
+            // error_log('Function Called');
+            // $paidAmount = $req->get('paidAmount');
+            // $dueAmount = $req->get('discount');
             $invoiceNo = $req->get('invoiceNo');
-            $status = 'Clear';
-            $reportDelivery = 'Delivered';
+            // $status = 'Clear';
+            // $reportDelivery = 'Delivered';
 
             $deliveryDate = new Carbon();
             $deliveryDate->timezone('Asia/Dhaka'); 
 
+            $updateDetails = [
+                'paidAmount' => $req->get('paidAmount'),
+                'dueAmount'  => $req->get('dueAmount'),
+                'status'     => 'Clear',
+                'reportDelivery' => 'Delivered',
+                'deliveryDate' => $deliveryDate
+            ];
+
+            //Update Table Information
+            DB::table('invoice_masters')
+                ->where('invoiceNo' ,'=', $invoiceNo)
+                ->update($updateDetails);
+            
+
+            //Select Updated Informations
+            $invoiceInfo;
+            $getInvoiceData = InvoiceMaster::where('invoiceNo','like','%'. $invoiceNo .'%')->get();
+
+            $total_row = $getInvoiceData->count();
+                if($total_row > 0){
+                    $invoiceInfo = $getInvoiceData;
+                }
+                else{
+                    $invoiceInfo = 'No Record Found';
+                }
+
+                return response()->json($invoiceInfo);
             // $updateInvoice = DB::table('invoice_masters')
             //                     ->where('invoiceNo', '=', $invoiceNo)
             //                     ->update(['paidAmount' => $paidAmount , 'dueAmount' => $dueAmount]);
-            // $updateInvoice = DB::select('SELECT  Shift,TimeSchedule FROM appointment_times
-            // WHERE  DayName=? AND DrName = ? AND TimeSchedule NOT IN(SELECT appointmentTime FROM patient_appointments WHERE appointmentDate = ? AND drName = ? and appointmentDay = ?)',[$day,$name,$date,$name,$day]);
             
-            $updateInvoice = DB::update('UPDATE invoice_masters SET paidAmount=?, dueAmount=?, status=?, reportDelivery=?, deliveryDate=? WHERE invoiceNo=?)',[$paidAmount, $dueAmount, $status, $reportDelivery, $deliveryDate, $invoiceNo]);
             
-            return $updateInvoice;
-            return response()->json($updateInvoice);
+            // $updateInvoice = DB::update('UPDATE invoice_masters SET paidAmount=?, dueAmount=?, status=?, reportDelivery=?, deliveryDate=? WHERE invoiceNo=?)',[$paidAmount, $dueAmount, $status, $reportDelivery, $deliveryDate, $invoiceNo]);
+            
+            // return $updateInvoice;
+            return response()->json($invoiceInfo);
         }
     }
     
