@@ -7,7 +7,7 @@
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">New Notice Posting</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> View All Notices</a>
+            <a href="{{ route('HR.allNotices') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> View All Notices</a>
           </div>
 
       <!--Body Main Part-->
@@ -16,14 +16,22 @@
         <div class="col-sm-10">
           <div class="container bg card">
             <br><br>
-              <table width="100%">
-                
-                <tr>
+
+            <!-- Success Message -->
+            @if(session('msg'))
+              <div class="alert alert-primary">
+                {{session('msg')}}
+              </div>
+            @endif
+              <form method="POST">
+              {{csrf_field()}}
+              <table width="100%">    
+                <!-- <tr>
                   <td>Notice ID</td>
                   <td>
                     <input type="text"  readonly class="form-control" value="D-123455" name="nId">
                   </td>
-                </tr>
+                </tr> -->
 
                 <tr>
                   <td>Date</td>
@@ -42,7 +50,7 @@
                 <tr>
                   <td>Notice Body</td>
                   <td>
-                    <textarea class="form-control">
+                    <textarea class="form-control" name="body">
                       
                     </textarea>
                   </td>
@@ -53,7 +61,7 @@
                 <tr>
                   <td>Tag Pepoles</td>
                   <td>
-                    <select class="form-control" name="tag">
+                    <select class="form-control" name="tagPeople">
                       <option>All</option>
                       <option>HR Dept</option>
                       <option>Doctors</option>
@@ -67,31 +75,20 @@
                 <tr>
                   <td>Additional File</td>
                   <td>
-                    <input type="file"   name="file">
+                    <input type="file"   name="addtionalFile">
                   </td>
                 </tr>
                 <tr>
                   <td colspan="2">
                     <center>
                       <input type="submit" class="btn btn-info" value="Post">
-                
                     </center>
                   </td>
                 </tr>
-
               </table>
+              </form>
           </div>
         </div>
-        <!-- <div class="col-sm-4">
-          <div class="container bg card">
-            Set a profile Picture
-            <br>
-            <img src="" height="150px" width="150px"> <br>
-            
-            <input type="file" class="btn btn-info" value="Select a Picture">
-          </div>
-        </div>
-      </div> -->
 
       <!--End Of Body Main Part-->
 @endsection

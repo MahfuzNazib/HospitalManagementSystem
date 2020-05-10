@@ -15,8 +15,8 @@ use App\PatientAppointment;
 use App\PatientlistMaster;
 use App\TempTestlist;
 use App\InvoiceMaster;
-// use App\InvoiceDetails;
 use App\InvoiceDetail;
+use App\Notice;
 
 use DateTime;
 use SebastianBergmann\Environment\Console;
@@ -646,6 +646,18 @@ class ReceptionController extends Controller
 
     ####################################################################
     /* *****************EndPatient Invoice Module Page********************/
+    ####################################################################
+
+    ####################################################################
+    /* *****************View All Notices ********************/
+    ####################################################################
+    // public function viewMyNotices(){
+    //     $myNotices = Notice::orderBy('id', 'desc')->get();
+    //     return view('Layouts.ReceptionApp',['myNotices' => $myNotices]);
+    // }
+
+    ####################################################################
+    /* *****************End View All Notices ********************/
     ####################################################################
 
 

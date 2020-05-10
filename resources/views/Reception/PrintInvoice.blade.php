@@ -162,7 +162,11 @@
                     @endforeach
                     </table>
                 </div>
-                
+                <center>
+                    <a href="{{ route('Reception.index') }}">
+                        <input type="submit" class="btn btn-primary" value="Back to Home">
+                    </a>
+                </center>
             </div>
         </section>
         <section class="s2 item2"></section>

@@ -47,6 +47,9 @@ Route::get('/HR/AddEmployee', 'HRController@addEmployee')->name('HR.addEmployee'
 Route::post('/HR/AddEmployee', 'HRController@insertEmployee')->name('HR.insertEmployee');
 
 Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
+Route::post('/HR/Notice', 'HRController@postNotice')->name('HR.notice');
+Route::get('/HR/AllNotices', 'HRController@allNotices')->name('HR.allNotices');
+
 Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
 Route::get('/HR/HRList', 'HRController@hrList')->name('HR.hrList');
 Route::get('/HR/ManagerList', 'HRController@managerList')->name('HR.managerList');

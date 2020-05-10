@@ -10,6 +10,7 @@ use App\AppointmentTimeMaster;
 use App\HospitalTest;
 use App\HospitalDepartment;
 use App\Login;
+use App\Notice;
 use Carbon\Carbon;
 use DB;
 use PhpParser\Comment\Doc;
@@ -584,6 +585,27 @@ class HRController extends Controller
     public function notice(){
         $date = date('Y-m-d H:i:s');
         return view('HR.Notice');
+    }
+
+    public function postNotice(Request $req){
+        //Genarate Today Date and Time;
+        $date = new Carbon();
+        $date->timezone('Asia/Dhaka');
+
+        $notice = new Notice();
+        $notice->date = $date;
+        $notice->title = $req->title;
+        $notice->body = $req->body;
+        $notice->tagPeople = $req->tagPeople;
+        $notice->additionalFile = $req->additionalFile;
+
+        $notice->save();
+        return redirect()->route('HR.notice')->with('msg', 'Notice Successfully Posting Done!');
+    }
+
+    public function allNotices(){
+        $allNoticeList = Notice::orderBy('id', 'desc')->paginate(10);
+        return view('HR.AllNotices',['notices' => $allNoticeList]);
     }
 
     #########################################################################
