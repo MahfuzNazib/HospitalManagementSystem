@@ -537,9 +537,24 @@ class ReceptionController extends Controller
                             ->where('invoiceNo', '=', $invoiceNo)
                             ->delete();
         }
-        return redirect()->route('Reception.index');
-
+        
     }
+
+    //Print Invoice Report
+
+    public function printInvoice($invoiceNo){
+        $getInvoiceMasterData = InvoiceMaster::where('invoiceNo', '=', $invoiceNo)->get();
+        $getInvoiceDetailData = InvoiceDetail::where('invoiceNo', '=', $invoiceNo)->get();
+        
+        return view('Reception.PrintInvoice', ['invoiceMaster'=> $getInvoiceMasterData, 'invoiceDetail'=>$getInvoiceDetailData]);
+    }
+
+    // public function getInvoiceData(Request $req){
+    //     $invoiceNo = $req->invoiceNo;
+    //     error_log('Invoice No :- '.$invoiceNo);
+    //     // $invoiceMasters = InvoiceMaster::where('invoiceNo', '=', '2020051021715')->get();
+
+    // }
 
     /*****************REPORT DELIVERY SECTION ******************** */
     public function reportDelivery(){
@@ -555,7 +570,6 @@ class ReceptionController extends Controller
             if($invoiceNo != ''){
                 $getInvoiceData = InvoiceMaster::where('invoiceNo','like','%'. $invoiceNo .'%')->get();
                 $getInvoiceDetails = InvoiceDetail::where('invoiceNo', 'like', '%'.$invoiceNo. '%')->get();
-                error_log($getInvoiceDetails);
                 
                 $total_row = $getInvoiceData->count();
                 if($total_row > 0){

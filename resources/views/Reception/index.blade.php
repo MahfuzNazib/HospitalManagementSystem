@@ -252,9 +252,14 @@
                     <td></td>
                     <td>
                         <button id="btnSave">Save</button>
+
+                        <a href="PrintInvoice/{{ $invoiceNo }}">
+                            <center>
+                                <button id="pr" class="btn btn-info">Print Invoice</button>
+                            </center>
+                        </a>
                     </td>
                 </tr>
-                
             </table>
             </div>
         </div>
@@ -265,6 +270,9 @@
 
     <script>
         $(document).ready(function(){
+            $('#pr').hide();
+            $('#btnSave').hide();
+            $('#patientId').focus();
             //Patient Field Variable Declaration
             var noData = '';
             var patientName = '';
@@ -480,6 +488,7 @@
 
             //Paid Amount Field
             $(document).on('keyup', '#paidAmount',function(){
+                $('#btnSave').show();
                 paidAmount = $(this).val();
                 givenAmount = $(this).val();
                 dueAmount = netAmount - parseInt(paidAmount);
@@ -545,25 +554,6 @@
                 var invoiceNo = $('#invoiceNo').val();
                 alert(invoiceNo);
 
-                // $('#testList tr').each(function(){
-                //     var testCode = $(this).find("td").eq(1).html();
-                //     var testName = $(this).find("td").eq(2).html();
-                //     var testCost = $(this).find("td").eq(3).html();
-
-                //     console.log(testCode);
-                //     console.log(testName);
-                //     console.log(testCost);
-
-                //     $.ajax({
-                //         url: "{{ route('Reception.invoiceDetails') }}",
-                //         method:'GET',
-                //         data:{data:noData,testCode,testName,testCost,invoiceNo,patientId},
-                //         success:function(data){
-                //             console.log('Almighty Allah');
-                //         }
-                //     });
-                // });
-
                 $.ajax({
                     url: "{{ route('Reception.createInvoice') }}",
                     method: 'GET',
@@ -583,9 +573,12 @@
                             
                     success:function(data){
                         console.log('Invoice Fire');
+                        $('#pr').show();
+                        $('#btnSave').hide();
                     }
                 });
 
+                //For Catch All TestRecords From testRecords Table Body :) 
                 $('#testList tr').each(function(){
                     var testCode = $(this).find("td").eq(1).html();
                     var testName = $(this).find("td").eq(2).html();

@@ -299,7 +299,6 @@
                             $('#status').html(status);
                             $('#reportDelivery').html(reportDelivery);
                             $('#deliveryDate').html(deliveryDate);
-
                             //Test List 
                             $('#testRecords').html(td);
                         }
@@ -331,8 +330,8 @@
                 $('#returnAmount').val(returnAmount);
             });
 
-            //Refresh Button Click
-            $(document).on('click', '#refresh', function(){
+            //Clear All Data Function
+            function ClearAllData(){
                 $('#patientName').val('');
                 $('#patientPhone').val('');
                 $('#invoiceNo').val('');
@@ -350,11 +349,18 @@
                 $('#reportDelivery').html('');
                 $('#deliveryDate').html('');
                 $('#testRecords').html('');
+            }
+
+            //Refresh Button Click
+            $(document).on('click', '#refresh', function(){
+                ClearAllData();
             });
 
             //Click Delivery Button 
             $(document).on('click', '#btnDelivery', function(){
                 var invoiceNo = $('#invoiceNo2').val();
+                var dueAmount = $('#dueAmount').val();
+
                 if(invoiceNo == ''){
                     alert('Please Enter a Valid Invoice No');
                 }
@@ -363,12 +369,14 @@
                     alert('This Report is Already Delivered');
                 }
 
+                else if(dueAmount != 0){
+                    alert('Please Clear This Invoice DUE_AMOUNT First');
+                }
+
                 else{
-                    alert(invoiceNo);
                     var paidAmount = $('#netAmount').val();
                     var dueAmount = $('#dueAmount').val();
 
-                    alert("p "+paidAmount+' d: '+dueAmount);
                     $.ajax({
                         url: "{{ route('Reception.updateInvoice') }}",
                         method: 'GET',
@@ -376,6 +384,7 @@
                         success:function(data){
                             console.log(data);
                             alert('Delivery Successfully Done!');
+                            ClearAllData(); //Call CearAllData function to ReFresh this Page;
                         }
                     });
                 }

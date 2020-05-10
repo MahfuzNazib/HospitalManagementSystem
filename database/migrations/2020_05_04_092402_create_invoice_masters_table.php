@@ -27,6 +27,7 @@ class CreateInvoiceMastersTable extends Migration
             $table->string('dueAmount');
             $table->string('givenAmount');
             $table->string('returnAmount');
+            $table->string('paymentType');
             $table->string('status');
             $table->string('reportDelivery');
             $table->string('deliveryDate');
