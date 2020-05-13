@@ -1,10 +1,10 @@
-@extends('Layouts.App')
+@extends('Layouts.ReceptionApp')
 @section('content')
     <div class="container-fluid">
         <div class="card shadow mb-4">
         <div class="card-header py-3">  
         <center class="text-primary font-weight-bold ">
-            All Notice List
+           <strong>All Notifications</strong>
         </center>
     </div>
 
@@ -12,39 +12,29 @@
         <div>
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="container bg card">
-                        <table width="100%" border="0" class="table table-hover">
-                            <thead>
-                                <th><center>ID</center></th>
+                    <table class="table table-hover" width="100%">
+                        <thead>
                                 <th><center>Post Date</center></th>
                                 <th><center>Title</center></th>
-                                <th><center>Tag Peoples</center></th>
-                                <th><center>Files</center></th>
                                 <th><center>Action</center></th>
                             </thead>
 
                             <tbody>
-                                @foreach($notices as $notice)
+                                @foreach($allNotice as $notice)
                                     <tr>
-                                        <td><center>{{ $notice['id'] }}</center></td>
                                         <td><center>{{ $notice['date'] }}</center></td>
                                         <td><center>{{ $notice['title'] }}</center></td>
-                                        <td><center>{{ $notice['tagPeople'] }}</center></td>
-                                        <td><center>{{ $notice['addtionalFile'] }}</center></td>
                                         <td><center>
-                                            <a href="#">
-                                                <input type="submit" class="btn btn-info" value="Edit">
-                                            </a>
-                                            <a href="#">
-                                                <input type="submit" class="btn btn-danger" value="Delete">
+                                            <a href="/Notice/{{ $notice['id'] }}">
+                                                <input type="submit" class="btn btn-info" value="Read Notice">
                                             </a>
                                             </center>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
-                        </table>
-                    </div>
+                    </table>
+                    {{$allNotice->links()}}
                 </div>
             </div>
         </div>

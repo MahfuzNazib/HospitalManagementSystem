@@ -43,6 +43,7 @@
             <th>Name</th>
             <th>Email</th>
             <th>Phone</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -53,10 +54,10 @@
               <td>{{ $reception['id'] }}</td>
               <td>
                 {{ $reception['name'] }}
-                <p class="badge badge-primary">{{ $reception['status'] }}</p>
               </td>
               <td>{{ $reception['email'] }}</td>
               <td>{{ $reception['phone'] }}</td>
+              <td><p class="badge badge-primary">{{ $reception['status'] }}</p></td>
               <td>
                 <!-- View Profile -->
                 <a href="{{ route('HR.ReceptionProfile', $reception['id']) }}">

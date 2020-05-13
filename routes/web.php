@@ -46,9 +46,11 @@ Route::post('/HR/AddDoctor', 'HRController@insertDoctor')->name('HR.insertDoctor
 Route::get('/HR/AddEmployee', 'HRController@addEmployee')->name('HR.addEmployee');
 Route::post('/HR/AddEmployee', 'HRController@insertEmployee')->name('HR.insertEmployee');
 
+//Notice Section
 Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
 Route::post('/HR/Notice', 'HRController@postNotice')->name('HR.notice');
 Route::get('/HR/AllNotices', 'HRController@allNotices')->name('HR.allNotices');
+
 
 Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
 Route::get('/HR/HRList', 'HRController@hrList')->name('HR.hrList');
@@ -61,6 +63,9 @@ Route::post('/HR/EditDoctor/{DoctorId}', 'HRController@updateDoctor')->name('HR.
 
 //Upload Doctor Profile Picture
 Route::post('/HR/ProfilePicture', 'HRController@profilePicture')->name('HR.profilePicture');
+//Search Doctor
+Route::get('/HR/SearchDoctor', 'HRController@searchDoctor')->name('HR.searchDoctor');
+
 Route::get('/HR/Timing', 'HRController@timing')->name('HR.timing');
 
 //New Hospital Test Add
@@ -73,13 +78,19 @@ Route::get('/HR/TestList', 'HRController@testList')->name('HR.testList');
 Route::get('/HR/action', 'HRController@action')->name('HR.searchTest');
 
 //Edit Hospital Test
-Route::get('/HR/EditTest/{Id}', 'HRController@editTest')->name('HR.editTest');
-//Update Hospital TestInfo
-Route::post('/HR/EditTest/{Id}', 'HRController@updateTest')->name('HR.updateTest');
+Route::get('/HR/EditTest/{id}', 'HRController@editTest')->name('HR.editTest');
+Route::post('/HR/EditTest/{id}', 'HRController@updateTest')->name('HR.updateTest');
+
+//Delete Test
+Route::get('/HR/DeleteTest/{id}', 'HRController@deleteTest')->name('HR.deleteTest');
+Route::get('/HR/RemoveTest/{id}', 'HRController@removeTest')->name('HR.removeTest');
 
 //Hospital Department
 Route::get('/HR/AddDepartment', 'HRController@addDepartment')->name('HR.addDepartment');
 Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept');
+//Update Departments updateDepartment
+Route::get('/HR/UpdateDepartments/{id}', 'HRController@updateDepartment')->name('HR.updateDepartment');
+Route::post('/HR/UpdateDepartments/{id}', 'HRController@updateDepartmentInfo')->name('HR.updateDepartment');
 
 
 
@@ -92,35 +103,38 @@ Route::get('/day', function(){
 
     $dt = new Carbon();
     $dt->timezone('Asia/Dhaka');
-    $year =  $dt->year;
-    $month = $dt->month;
-    $day = $dt->day;
-    $sec = $dt->second;
-    $milisec = $dt->millisecond;
-    if($month < 10){
-        $month = '0'.$month;
-    }
-    if($day < 10){
-        $day = '0'.$day;
-    }
-    echo $day;
-    echo '<br>';
-    echo $month;
-    echo '<br>';
-    echo $year;
-    echo '<br>';
-    echo $sec;
-    echo '<br>';
-    echo $milisec;
-    echo '<br>';
-    $invoice = $year.$month.$day;
-    echo $invoice;
+    // $dt->toDayDateTimeString();
+    $dt->toFormattedDateString();
+    echo $dt;
+    // $year =  $dt->year;
+    // $month = $dt->month;
+    // $day = $dt->day;
+    // $sec = $dt->second;
+    // $milisec = $dt->millisecond;
+    // if($month < 10){
+    //     $month = '0'.$month;
+    // }
+    // if($day < 10){
+    //     $day = '0'.$day;
+    // }
+    // echo $day;
+    // echo '<br>';
+    // echo $month;
+    // echo '<br>';
+    // echo $year;
+    // echo '<br>';
+    // echo $sec;
+    // echo '<br>';
+    // echo $milisec;
+    // echo '<br>';
+    // $invoice = $year.$month.$day;
+    // echo $invoice;
 
 
-    for($i=0; $i<30;$i++){
-        $invoice++;
-        echo $invoice.'<br>';
-    }
+    // for($i=0; $i<30;$i++){
+    //     $invoice++;
+    //     echo $invoice.'<br>';
+    // }
 });
 
 Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
@@ -190,5 +204,12 @@ Route::get('/ReportDeliveyInfo', 'ReceptionController@reportDeliveryInfo')->name
 
 //Report Delivery And Update Invoice_Masters Table
 Route::get('/UpdateInvoice', 'ReceptionController@updateInvoice')->name('Reception.updateInvoice');
+
+//View Full Notice
+Route::get('/Notice/{id}', 'ReceptionController@viewNotice')->name('Reception.viewNotice');
+
+//All Notification
+Route::get('/AllNotification', 'ReceptionController@allNotification')->name('Reception.allNotification');
+
                                                                         
 

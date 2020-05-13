@@ -23,16 +23,9 @@
                 {{session('msg')}}
               </div>
             @endif
-              <form method="POST">
+              <form method="POST" enctype="multipart/form-data">
               {{csrf_field()}}
               <table width="100%">    
-                <!-- <tr>
-                  <td>Notice ID</td>
-                  <td>
-                    <input type="text"  readonly class="form-control" value="D-123455" name="nId">
-                  </td>
-                </tr> -->
-
                 <tr>
                   <td>Date</td>
                   <td>

@@ -12,6 +12,22 @@
 
     <div class="card-body">
         <div>
+            <!-- Error Message -->
+            @if($errors->any())
+                    <div class="alert alert-warning">
+                        <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+            @if(session('msg'))
+                <div class="alert alert-primary">
+                    {{session('msg')}}
+                </div>
+            @endif
             <div class="row">
                 <div class="col-sm-6 bg card">
                     <form method="POST">
@@ -20,21 +36,21 @@
                             <tr>
                                 <td>Dept. Code</td>
                                 <td>
-                                    <input type="text" class="form-control" name="deptCode">
+                                    <input type="text" class="form-control" name="deptCode" value="{{ old('deptCode') }}">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>Dept. Name</td>
                                 <td>
-                                    <input type="text" class="form-control" name="deptName">
+                                    <input type="text" class="form-control" name="deptName" value="{{ old('deptName') }}">
                                 </td>
                             </tr>
 
                             <tr>
                                 <td>Date</td>
                                 <td>
-                                    <input type="date" class="form-control" name="deptAddingDate">
+                                    <input type="date" class="form-control" name="deptAddingDate" value="{{ old('deptAddingDate') }}">
                                 </td>
                             </tr>
 
@@ -65,10 +81,10 @@
                                     <td>{{ $dept['id'] }}</td>
                                     <td>{{ $dept['deptName'] }}</td>
                                     <td>
-                                        <a href="#">
+                                        <a href="{{route('HR.updateDepartment', $dept['id'])}}">
                                             <i class="fas fa-user btn btn-success"></i>
                                         </a>|
-                                        <a href="#">
+                                        <a href="{{route('HR.updateDepartment', $dept['id'])}}">
                                             <i class="far fa-trash-alt btn btn-danger"></i>
                                         </a>
                                     </td>

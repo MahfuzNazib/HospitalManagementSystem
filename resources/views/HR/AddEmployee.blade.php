@@ -42,12 +42,6 @@
                     </center>
                   </td>
                 </tr>
-                <tr>
-                  <td>Doctor ID</td>
-                  <td>
-                    <input type="text"  readonly class="form-control" value="D-123455" name="id">
-                  </td>
-                </tr>
 
                 <tr>
                   <td>Full Name</td>
@@ -67,7 +61,7 @@
                   <td>Gender</td>
                   <td>
                     <select class="form-control" name="gender" value="{{ old('gender') }}">
-                      <option></option>
+                      <option selected disabled>{{ old('gender') }}</option>
                       <option>Male</option>
                       <option>Female</option>
                     </select>
@@ -92,7 +86,7 @@
                   <td>Designation</td>
                   <td>
                     <select class="form-control" name="designation" value="{{ old('designation') }}">
-                      <option></option>
+                      <option selected disabled>{{ old('designation') }}</option>
                       <option>HR</option>
                       <option>Manager</option>
                       <option>Receiptionist</option>
@@ -114,7 +108,7 @@
                   <td>Address</td>
                   <td>
                     <textarea class="form-control" name="address" value="{{ old('address') }}">
-                      
+                    {{ old('address') }}
                     </textarea>
                     <!-- <input type="text" class="form-control" value="" name="email"> -->
                   </td>

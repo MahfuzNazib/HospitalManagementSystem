@@ -23,7 +23,18 @@
   <!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <?php $myNotices = DB::table('notices')->orderby('id', 'desc')->get() ?>
+  <!-- *********************************************
+  ******************************************** -->
+  <!-- NOTICE DB QUERY -->
+
+  <?php 
+    $myNotices = DB::table('notices')
+                  ->where('tagPeople','=','All')
+                  ->orWhere('tagPeople', '=', 'Reciptionists')
+                  ->orderby('id', 'desc')
+                  ->limit(6)
+                  ->get() 
+  ?>
 </head>
 
 <body id="page-top">
@@ -157,13 +168,13 @@
                 <!-- Counter - Alerts -->
                 <span class="badge badge-danger badge-counter">99+</span>
               </a>
-              <!-- Dropdown - Alerts -->
+              <!-- Dropdown - NOTIFICATIONS -->
               <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                   Notifications
                 </h6>
                 @foreach($myNotices as $notice)
-                <a class="dropdown-item d-flex align-items-center" href="#">
+                <a class="dropdown-item d-flex align-items-center" href="/Notice/{{ $notice->id }}">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -175,7 +186,7 @@
                   </div>
                 </a>
                 @endforeach
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
+                <a class="dropdown-item text-center small text-black-500" href="{{ route('Reception.allNotification') }}">Show All Notification</a>
               </div>
             </li>
 

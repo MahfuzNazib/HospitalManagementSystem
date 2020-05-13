@@ -44,8 +44,8 @@ class HRController extends Controller
             'name'       => 'required',
             'dob'        => 'required',
             'gender'     => 'required',
-            'phone'      => 'required|max:12|min:11',
-            'email'      => 'required|email',
+            'phone'      => 'required|max:12|min:11|unique:doctors',
+            'email'      => 'required|email|unique:doctors',
             'department' => 'required',
             'specialist' => 'required',
             'visitingFee'=> 'required',
@@ -308,6 +308,29 @@ class HRController extends Controller
         return view('HR.DoctorTiming',['doctor'=> $doctor, 'timeList'=> $timeList, 'timeDuration'=>$timeDuration]);
     }
 
+    //Search Docotr
+    public function searchDoctor(Request $req){
+        if($req->ajax()){
+            $query = $req->get('query');
+            error_log('Name : '.$query);
+            error_log('Function Called');
+            $doctorData;
+            $doctorInfo = Doctor::where('Name','like','%'.$query.'%')
+                                ->orWhere('Phone', 'like', '%'.$query.'%')
+                                ->orWhere('Department','like','%'.$query.'%')
+                                ->get();
+            $total_row = $doctorInfo->count();
+            if($total_row > 0){
+                $doctorData = $doctorInfo;
+            }
+            else{
+                $doctorData = 'No Record Found';
+            }
+
+            return response()->json($doctorData);
+        }
+    }
+
 
 
     ####################################################################
@@ -333,8 +356,8 @@ class HRController extends Controller
             'name'        => 'required',
             'dob'         => 'required',
             'gender'      => 'required',
-            'phone'       => 'required|max:11|min:11',
-            'email'       => 'required|email',
+            'phone'       => 'required|max:11|min:11|unique:employees',
+            'email'       => 'required|email|unique:employees',
             'designation' => 'required',
             'monthlyfee'  => 'required|max:10',
             'address'     => 'required',
@@ -462,8 +485,8 @@ class HRController extends Controller
     //Insert New Test
     public function insertTest(Request $req){
         $this->validate($req, [
-            'testName'      => 'required',
-            'testShortName' => 'required',
+            'testName'      => 'required|unique:hospital_tests',
+            'testShortName' => 'required|unique:hospital_tests',
             'testCost'      => 'required'
         ]);
 
@@ -478,7 +501,6 @@ class HRController extends Controller
         $test->testCost = $req->testCost;
 
         $test->save();
-
         return redirect()->route('HR.testList')->with('msg','Test Added Successfully Done !');
     }
 
@@ -492,7 +514,6 @@ class HRController extends Controller
         if($request->ajax()){
             $output = '';
             $query = $request->get('query');
-            // error_log($query);
             if($query != ''){
                 $data = DB::table('hospital_tests')
                         -> where('testName','like','%'. $query .'%')
@@ -508,17 +529,17 @@ class HRController extends Controller
                 foreach($data as $row){
                     $output .= '
                         <tr>
-                            <td>'.$row->Id.'</td>
+                            <td>'.$row->id.'</td>
                             <td>'.$row->addingDate.'</td>
                             <td>'.$row->testName.'</td>
                             <td>'.$row->testShortName.'</td>
                             <td>'.$row->testCost.'</td>
                             <td>
-                                <a href="/HR/EditTest/'.$row->Id.'">
+                                <a href="/HR/EditTest/'.$row->id.'">
                                     <input type="submit" class="btn btn-info" value="Edit">
                                 </a>
 
-                                <a href="/HR/TestList">
+                                <a href="/HR/DeleteTest/'.$row->id.'">
                                 <input type="submit" class="btn btn-danger" value="Delete" data-toggle="model" data-target="#logoutModel">
                                 </a>
                             </td>
@@ -544,15 +565,13 @@ class HRController extends Controller
 
 
     //Edit Test List
-    public function editTest($Id){
-        $testInfo = HospitalTest::find($Id);
-        return view('HR.EditTest',['testInfo' => $testInfo]);
+    public function editTest($id){
+        $testInfo = HospitalTest::find($id);
+        return view('HR.EditTest',$testInfo);
     }
 
-
     //Update test 
-    public function updateTest($Id, Request $req){
-        //Validate Edit Test Information
+    public function updateTest($id, Request $req){
         $this->validate($req, [
             'addingDate'    => 'required',
             'testName'      => 'required',
@@ -560,18 +579,30 @@ class HRController extends Controller
             'testCost'      => 'required'
         ]);
 
-        $testInfo = HospitalTest::find($Id);
-
-        $testInfo->addingDate       =   $req->addingDate;
+        error_log($req->testCost);
+        error_log($req->testName);
+        
+        $testinfo = HospitalTest::find($id);
         $testInfo->testName         =   $req->testName;
         $testInfo->testShortName    =   $req->testShortName;
         $testInfo->testCost         =   $req->testCost;
 
-        $testInfo->update();
+        $testInfo->save();
 
         return redirect()->route('HR.testList')->with('msg', 'Test Successfully Updated');
     }
 
+    //Delete Confirmation Message
+    public function deleteTest($id){
+        $test = HospitalTest::find($id);
+        return view('HR.DeleteTest',$test);
+    }
+
+    public function removeTest($id){
+        $test = HospitalTest::find($id);
+        $test->delete();
+        return redirect()->route('HR.testList')->with('msg', 'Test Successfully Deleted');
+    }
 
 
     #########################################################################
@@ -591,14 +622,23 @@ class HRController extends Controller
         //Genarate Today Date and Time;
         $date = new Carbon();
         $date->timezone('Asia/Dhaka');
+        $date->toDateTimeString();
 
         $notice = new Notice();
         $notice->date = $date;
         $notice->title = $req->title;
         $notice->body = $req->body;
         $notice->tagPeople = $req->tagPeople;
-        $notice->additionalFile = $req->additionalFile;
-
+        //Store Additional File 
+        if($req->hasFile('addtionalFile')){
+			$file = $req->file('addtionalFile');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time(). '.' .$extension;
+            $file->move('noticeFile/',$filename);
+            $notice->additionalFile  = $filename;
+		}else{
+            $notice->additionalFile =  null;
+        }
         $notice->save();
         return redirect()->route('HR.notice')->with('msg', 'Notice Successfully Posting Done!');
     }
@@ -625,8 +665,8 @@ class HRController extends Controller
 
     public function insertDept(Request $req){
         $this->validate($req,[
-            'deptCode' => 'required',
-            'deptName' => 'required',
+            'deptCode' => 'required|unique:hospital_departments',
+            'deptName' => 'required|unique:hospital_departments',
             'deptAddingDate' => 'required'
         ]);
 
@@ -639,6 +679,27 @@ class HRController extends Controller
         $dept->save();
 
         return redirect()->route('HR.addDepartment');
+    }
+
+    //Update Hospital Departments
+
+    public function updateDepartment($id){
+        $departmentInfo = HospitalDepartment::find($id);
+        return view('HR.UpdateDepartment',$departmentInfo);
+    }
+
+    public function updateDepartmentInfo($id,Request $req){
+        $this->validate($req,[
+            'deptCode' => 'required|unique:hospital_departments',
+            'deptName' => 'required|unique:hospital_departments'
+        ]);
+
+        $deptInfo = HospitalDepartment::find($id);
+        $deptInfo->deptCode = $req->deptCode;
+        $deptInfo->deptName = $req->deptName;
+
+        $deptInfo->save();
+        return redirect()->route('HR.addDepartment')->with('msg', 'Department Information Successfully Updated');
     }
 
     #########################################################################

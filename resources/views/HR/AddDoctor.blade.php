@@ -1,3 +1,4 @@
+
 @extends('Layouts.App')
 @section('content') 
 
@@ -6,8 +7,7 @@
 
           <!-- Page Heading -->
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Add New Doctor</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+            <h1 class="h3 mb-0 text-gray-800 ">Add New Doctor</h1>
           </div>
 
           @if(session('msg'))
@@ -43,12 +43,6 @@
                     </center>
                   </td>
                 </tr>
-                <tr>
-                  <td>Doctor ID</td>
-                  <td>
-                    <input type="text"  readonly class="form-control" value="D-123455" name="DID">
-                  </td>
-                </tr>
 
                 <tr>
                   <td>Full Name</td>
@@ -68,7 +62,7 @@
                   <td>Gender</td>
                   <td>
                     <select class="form-control" name="gender" value="{{old('gender')}}">
-                      <option></option>
+                      <option selected disabled>{{old('gender')}}</option>
                       <option>Male</option>
                       <option>Female</option>
                     </select>
@@ -117,7 +111,7 @@
                   <td>Department</td>
                   <td>
                     <select class="form-control" name="department" value="{{old('department')}}">
-                      <option></option>
+                      <option selected disabled>{{old('department')}}</option>
                       <option>Dental</option>
                       <option>Neourology</option>
                       <option>Heart</option>
@@ -132,7 +126,7 @@
                   <td>Specialist</td>
                   <td>
                     <select class="form-control" name="specialist" value="{{old('specialist')}}">
-                      <option></option>
+                      <option selected disabled>{{old('specialist')}}</option>
                       <option>Dentist</option>
                       <option>Neourologist</option>
                       <option>Cardiologiest</option>
@@ -141,14 +135,6 @@
                     </select>
                   </td>
                 </tr>
-
-                <!-- <tr>
-                  <td>Visiting Hour</td>
-                  <td>
-                    <input type="time" class="timec" name="time" value="{{old('time')}}"> To
-                    <input type="time" class="timec"> 
-                  </td> 
-                </tr> -->
 
                 <tr>
                   <td>Visiting Fee</td>
@@ -167,16 +153,16 @@
                 <tr>
                   <td>Closing Day</td>
                   <td>
-                  <select class="form-control" name="closingDay" value="{{old('closingDay')}}">
-                      <option>None</option>
-                      <option>Sat</option>
-                      <option>Sun</option>
-                      <option>Mon</option>
-                      <option>Tue</option>
-                      <option>Wed</option>
-                      <option>Thus</option>
-                      <option>Fri</option>
-                
+                    <select class="form-control" name="closingDay" value="{{old('closingDay')}}">
+                        <option selected disabled>{{old('closingDay')}}</option>
+                        <option>None</option>
+                        <option>Saturday</option>
+                        <option>Sunday</option>
+                        <option>Monday</option>
+                        <option>Tuesday</option>
+                        <option>Wednesday</option>
+                        <option>Thursday</option>
+                        <option>Friday</option>
                     </select>
                   </td>
                 </tr>

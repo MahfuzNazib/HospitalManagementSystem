@@ -34,19 +34,6 @@
                     {{csrf_field()}}
                     <table width="100%">
                         <br>
-                        <!-- <tr>
-                            <td>Test ID</td>
-                            <td>
-                                <input type="text" readonly name="testId" class="form-control" value="">
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>Date</td>
-                            <td>
-                                <input type="date"  name="addingDate" class="form-control" value="10/20/2020" value="{{old('addingDate')}}">
-                            </td>
-                        </tr> -->
 
                         <tr>
                             <td>Test Name</td>

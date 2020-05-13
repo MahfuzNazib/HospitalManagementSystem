@@ -594,13 +594,8 @@ class ReceptionController extends Controller
     //Update Invoice after Report Delivered
     public function updateInvoice(Request $req){
         if($req->ajax()){
-            // error_log('Function Called');
-            // $paidAmount = $req->get('paidAmount');
-            // $dueAmount = $req->get('discount');
             $invoiceNo = $req->get('invoiceNo');
-            // $status = 'Clear';
-            // $reportDelivery = 'Delivered';
-
+            
             $deliveryDate = new Carbon();
             $deliveryDate->timezone('Asia/Dhaka'); 
 
@@ -655,6 +650,19 @@ class ReceptionController extends Controller
     //     $myNotices = Notice::orderBy('id', 'desc')->get();
     //     return view('Layouts.ReceptionApp',['myNotices' => $myNotices]);
     // }
+
+    public function viewNotice($id){
+        $notice = Notice::find($id);
+        return view('Reception.ViewNotice',$notice);
+    }
+
+    public function allNotification(){
+        $allNotice = Notice::where('tagPeople', '=', 'All')
+                            ->orWhere('tagPeople', '=', 'Reciptionists')
+                            ->orderBy('id', 'desc')
+                            ->paginate(20);
+        return view('Reception.AllNotification',['allNotice' => $allNotice]);
+    }
 
     ####################################################################
     /* *****************End View All Notices ********************/
