@@ -10,11 +10,11 @@
             <h1 class="h3 mb-0 text-gray-800 ">Add New Doctor</h1>
           </div>
 
-          @if(session('msg'))
+          <!-- @if(session('msg'))
             <div class="alert alert-success">
               {{session('msg')}}
             </div>
-          @endif
+          @endif -->
           <!--Error List Show-->
           @if($errors->any())
           <div class="alert alert-danger">
@@ -26,10 +26,14 @@
           </div>
         @endif
 
-
-
+      @if(session('msg'))
+        <div class="alert alert-primary">
+          Temp Username and Password<br>
+          --------------------------<br>
+            <li>{{session('msg')}}</li>
+        </div>
+      @endif
       <!--Body Main Part-->
-
       <div class="row">
         <div class="col-sm-8">
           <div class="container bg card">

@@ -32,7 +32,14 @@ class LoginController extends Controller
                 echo 'Doctor Login Request';
             }
             if($user['type'] == 'Receiptionist'){
+                $req->session()->put('username', $username);
+                $req->session()->put('password', $password);
                 return redirect()->route('Reception.index');
+            }
+            if($user['type'] == 'Admin'){
+                $req->session()->put('username', $username);
+                $req->session()->put('password', $password);
+                return redirect()->route('HR.index');
             }
         }
         else{

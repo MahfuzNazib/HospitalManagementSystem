@@ -10,15 +10,18 @@ use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
 use App\AppointmentTimeMaster;
+use App\Employee;
 use App\HospitalTest;
 use App\PatientAppointment;
 use App\PatientlistMaster;
 use App\TempTestlist;
 use App\InvoiceMaster;
 use App\InvoiceDetail;
+use App\Login;
 use App\Notice;
 
 use DateTime;
+use Illuminate\Contracts\Session\Session;
 use SebastianBergmann\Environment\Console;
 
 class ReceptionController extends Controller
@@ -36,23 +39,12 @@ class ReceptionController extends Controller
         if($day < 10){
             $day = '0'.$day;
         }
-        // echo $day;
-        // echo '<br>';
-        // echo $month;
-        // echo '<br>';
-        // echo $year;
-        // echo '<br>';
         $invoice = $year.$month.$day;
-        // echo $invoice;
         return $invoice;
     }
 
     public function index(){
         $testList = HospitalTest::all();
-        // $getInvoice = InvoiceMaster::max('invoiceNo');
-        // $invoice;
-        // if($getInvoice == null){
-            // $netInvoiceNo = invoice();
             $dt = new Carbon();
             $dt->timezone('Asia/Dhaka');
             $year =  $dt->year;
@@ -98,8 +90,6 @@ class ReceptionController extends Controller
         else{
             $nextId = $pId+1;
         }   
-        
-        error_log($nextId);
         
         return view('Reception.Appointment',['dept' => $dept,'nextId'=>$nextId]);
     }
@@ -646,11 +636,6 @@ class ReceptionController extends Controller
     ####################################################################
     /* *****************View All Notices ********************/
     ####################################################################
-    // public function viewMyNotices(){
-    //     $myNotices = Notice::orderBy('id', 'desc')->get();
-    //     return view('Layouts.ReceptionApp',['myNotices' => $myNotices]);
-    // }
-
     public function viewNotice($id){
         $notice = Notice::find($id);
         return view('Reception.ViewNotice',$notice);
@@ -669,4 +654,120 @@ class ReceptionController extends Controller
     ####################################################################
 
 
+    //My Profile
+
+    public function myProfile(){
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('employees', 'employees.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->get();
+        return view('Reception.MyProfile',['userInformation' => $userInformation]);
+    }
+
+    //Edit Profile
+
+    public function editProfile($id){
+        $editUser = Employee::find($id);
+        return view('Reception.EditProfile',$editUser);
+    }
+
+    public function editInformations($id, Request $req){
+        $this->validate($req,[
+            'name' => 'required',
+            // 'email' => 'required|unique:employees|unique:logins',
+            // 'phone' => 'required|unique:employees|unique:logins',
+            'email' => 'required',
+            'phone' => 'required',
+            'dob' => 'required',
+            'address' => 'required'
+        ]);
+
+        $email = $req->email;
+        $phone = $req->phone;
+        $name = $req->name;
+
+        $update = Employee::find($id);
+        $update->name = $name;
+        $update->email = $email;
+        $update->phone = $phone;
+        $update->dob = $req->dob;
+        $update->address = $req->address;
+
+        //Update Profile Picture
+        if($req->hasFile('profilePicture')){
+			$file = $req->file('profilePicture');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time(). '.' .$extension;
+            
+            $file->move('uploads/',$filename);
+            $update->ProfilePicture = $filename;
+
+		}else{
+            $update->ProfilePicture = $req->defaultPicture;
+        }
+        $update->save();
+
+        //Update Login Table
+        $updateLogin = [
+            'email' => $email,
+            'phone' => $phone
+        ];
+        DB::table('logins')
+            ->where('empId', '=', $id)
+            ->update($updateLogin);
+
+        return redirect()->route('Reception.editProfile',$id)->with('msg', 'Successfully Updated');
+    }
+
+    //Settings
+    public function settings(){
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('employees', 'employees.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->get();
+
+        return view('Reception.Settings',['userInformation' => $userInformation]);
+    }
+
+    //Check Current Password
+    public function checkCurrentPassword(Request $req){
+        if($req->ajax()){
+            $message;
+            $currentPassword = Login::where('email', '=', $req->get('email'))
+                                    ->where('password', '=', $req->get('currentPassword'))
+                                    ->get();
+            $total_row = $currentPassword->count();
+            if($total_row > 0){
+                $message = 'OK';
+            }
+            else{
+                $message = 'No Match';
+            }
+
+            return response()->json($message);
+        }
+    }
+
+    //Change Password
+    public function changePassword(Request $req){
+        if($req->ajax()){
+            error_log('Password Changed');
+            $updateUsernamePassword = [
+                'username' => $req->get('username'),
+                'password' => $req->get('newPassword'),
+                'passwordType' => 'Permanent'
+            ];
+
+            DB::table('logins')
+                ->where('email' ,'=', $req->get('email'))
+                ->update($updateUsernamePassword);
+            return redirect()->route('Login.index');
+        }
+    }
 }

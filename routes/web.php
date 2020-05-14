@@ -92,6 +92,9 @@ Route::post('/HR/AddDepartment', 'HRController@insertDept')->name('HR.insertDept
 Route::get('/HR/UpdateDepartments/{id}', 'HRController@updateDepartment')->name('HR.updateDepartment');
 Route::post('/HR/UpdateDepartments/{id}', 'HRController@updateDepartmentInfo')->name('HR.updateDepartment');
 
+//Temp Authentication List
+Route::get('/HR/TempAuthVerification', 'HRController@tempAuthVerification')->name('HR.tempAuthVerification');
+Route::get('/HR/TempAuth', 'HRController@tempAuth')->name('HR.tempAuth');
 
 
 
@@ -142,74 +145,88 @@ Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedul
 
 
 //Receptionist Route
-Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.index');
+Route::group(['middleware'=>['sass']], function(){
+    Route::get('/ReceptionIndex', 'ReceptionController@index')->name('Reception.index');
 
 
-Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
-Route::get('/action', 'ReceptionController@action')->name('Reception.action');
-Route::get('/doctorDate', 'ReceptionController@doctorDate')->name('Reception.doctorDate');
+    Route::get('/Appointment', 'ReceptionController@appointment')->name('Reception.appointment');
+    Route::get('/action', 'ReceptionController@action')->name('Reception.action');
+    Route::get('/doctorDate', 'ReceptionController@doctorDate')->name('Reception.doctorDate');
 
-//set Patient Appointment
-Route::get('/setAppointment', 'ReceptionController@setAppointment')->name('Reception.setAppointment');
-
-
-//Patient Registration
-Route::get('/Registration', 'ReceptionController@registration')->name('Reception.registration');
-//Insert New Patient
-Route::post('/Registration', 'ReceptionController@insertPatient')->name('Reception.insertPatient');
-
-//Patient AppointmentList
-Route::get('/AppointmentList', 'ReceptionController@appointmentList')->name('Reception.appointmentList');
-
-Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name('Reception.searchAppointment');
-
-//See Doctors Schedule
-Route::get('/DoctorSchedule', 'ReceptionController@doctorSchedule')->name('Reception.doctorSchedule');
-Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleDetails')->name('Reception.doctorScheduleDetails');
-Route::get('/SearchDoctorTime', 'ReceptionController@searchDoctorTime')->name('Reception.searchDoctorTime');
-
-//get Patient Data from PID
-Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
+    //set Patient Appointment
+    Route::get('/setAppointment', 'ReceptionController@setAppointment')->name('Reception.setAppointment');
 
 
-//Print Appointment Page as Blank Prescription
-Route::get('/EmptyPrecription/{patientId}', 'ReceptionController@emptyPrecription')->name('Reception.emptyPrecription');
+    //Patient Registration
+    Route::get('/Registration', 'ReceptionController@registration')->name('Reception.registration');
+    //Insert New Patient
+    Route::post('/Registration', 'ReceptionController@insertPatient')->name('Reception.insertPatient');
 
-//Get Registered PatientInfo from Patient ID
-Route::get('/PatientData', 'ReceptionController@patientData')->name('Reception.patientData');
+    //Patient AppointmentList
+    Route::get('/AppointmentList', 'ReceptionController@appointmentList')->name('Reception.appointmentList');
 
-//Get TestInfo from TestCode
-Route::get('/TestInfo', 'ReceptionController@testInfo')->name('Reception.testInfo');
+    Route::get('/searchAppointment', 'ReceptionController@searchAppointment')->name('Reception.searchAppointment');
 
-//Remove Test
-Route::get('/removeTest', 'ReceptionController@removeTest')->name('Reception.removeTest');
-Route::get('/TempTest', 'ReceptionController@tempTestList')->name('Reception.tempTestList');
+    //See Doctors Schedule
+    Route::get('/DoctorSchedule', 'ReceptionController@doctorSchedule')->name('Reception.doctorSchedule');
+    Route::get('/DoctorScheduleDetails/{DrId}', 'ReceptionController@doctorScheduleDetails')->name('Reception.doctorScheduleDetails');
+    Route::get('/SearchDoctorTime', 'ReceptionController@searchDoctorTime')->name('Reception.searchDoctorTime');
 
-//Delete All Data from TempTest List
-Route::get('/DeleteTempTest', 'ReceptionController@deleteTempData')->name('Reception.deleteTempData');
-
-//Patient Invoice Section
-Route::get('/CreateInvoice', 'ReceptionController@createInvoice')->name('Reception.createInvoice');
-Route::get('/InvoiceDetails', 'ReceptionController@invoiceDetails')->name('Reception.invoiceDetails');
-//Print Invoice 
-Route::get('/PrintInvoice/{invoiceNo}', 'ReceptionController@printInvoice')->name('Reception.printInvoice');
+    //get Patient Data from PID
+    Route::get('/PatientInfo', 'ReceptionController@patientInfo')->name('Reception.patientInfo');
 
 
-//Report Delivery
-Route::get('/ReportDelivey', 'ReceptionController@reportDelivery')->name('Reception.reportDelivery');
+    //Print Appointment Page as Blank Prescription
+    Route::get('/EmptyPrecription/{patientId}', 'ReceptionController@emptyPrecription')->name('Reception.emptyPrecription');
+
+    //Get Registered PatientInfo from Patient ID
+    Route::get('/PatientData', 'ReceptionController@patientData')->name('Reception.patientData');
+
+    //Get TestInfo from TestCode
+    Route::get('/TestInfo', 'ReceptionController@testInfo')->name('Reception.testInfo');
+
+    //Remove Test
+    Route::get('/removeTest', 'ReceptionController@removeTest')->name('Reception.removeTest');
+    Route::get('/TempTest', 'ReceptionController@tempTestList')->name('Reception.tempTestList');
+
+    //Delete All Data from TempTest List
+    Route::get('/DeleteTempTest', 'ReceptionController@deleteTempData')->name('Reception.deleteTempData');
+
+    //Patient Invoice Section
+    Route::get('/CreateInvoice', 'ReceptionController@createInvoice')->name('Reception.createInvoice');
+    Route::get('/InvoiceDetails', 'ReceptionController@invoiceDetails')->name('Reception.invoiceDetails');
+    //Print Invoice 
+    Route::get('/PrintInvoice/{invoiceNo}', 'ReceptionController@printInvoice')->name('Reception.printInvoice');
 
 
-//Report Delivery Section
-Route::get('/ReportDeliveyInfo', 'ReceptionController@reportDeliveryInfo')->name('Reception.reportDeliveryInfo');
+    //Report Delivery
+    Route::get('/ReportDelivey', 'ReceptionController@reportDelivery')->name('Reception.reportDelivery');
 
-//Report Delivery And Update Invoice_Masters Table
-Route::get('/UpdateInvoice', 'ReceptionController@updateInvoice')->name('Reception.updateInvoice');
 
-//View Full Notice
-Route::get('/Notice/{id}', 'ReceptionController@viewNotice')->name('Reception.viewNotice');
+    //Report Delivery Section
+    Route::get('/ReportDeliveyInfo', 'ReceptionController@reportDeliveryInfo')->name('Reception.reportDeliveryInfo');
 
-//All Notification
-Route::get('/AllNotification', 'ReceptionController@allNotification')->name('Reception.allNotification');
+    //Report Delivery And Update Invoice_Masters Table
+    Route::get('/UpdateInvoice', 'ReceptionController@updateInvoice')->name('Reception.updateInvoice');
 
-                                                                        
+    //View Full Notice
+    Route::get('/Notice/{id}', 'ReceptionController@viewNotice')->name('Reception.viewNotice');
+
+    //All Notification
+    Route::get('/AllNotification', 'ReceptionController@allNotification')->name('Reception.allNotification');
+
+    //Receptionist Profile
+    Route::get('/MyProfile', 'ReceptionController@myProfile')->name('Reception.myProfile');
+    //Edit MyProfile
+    Route::get('/EditProfile/{id}', 'ReceptionController@editProfile')->name('Reception.editProfile');
+    Route::post('/EditProfile/{id}', 'ReceptionController@editInformations')->name('Reception.update');
+
+    //Settings
+    Route::get('/Settings', 'ReceptionController@settings')->name('Reception.settings');
+    //Check Current Password
+    Route::get('/CheckCurrentPassword', 'ReceptionController@checkCurrentPassword')->name('Reception.checkCurrentPassword');
+    //Update Password
+    Route::get('/ChangePassword', 'ReceptionController@changePassword')->name('Reception.changePassword');
+
+});
 

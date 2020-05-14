@@ -9,6 +9,7 @@
     </div>
 
     <div class="card-body">
+    <a href="{{ route('HR.index') }}">Home</a>/<a href="{{ route('HR.notice') }}">Notice Post</a>/<a href="#">All Notices</a>
         <div>
             <div class="row">
                 <div class="col-sm-12">

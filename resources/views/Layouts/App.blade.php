@@ -127,18 +127,13 @@
         </div>
       </li>
 
-      <li class="nav-item">
-        <a class="nav-link" href="{{route('HR.timing')}}">
-          <i class="fas fa-user-circle"></i>
-          <span>Doctor Time Scedule</span></a>
-      </li>
 
       <!-- Divider -->
       <hr class="sidebar-divider">
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Others
+        Notice
       </div>
       <!-- Nav Item - Charts -->
       <li class="nav-item">
@@ -147,19 +142,13 @@
           <span>Add Notice</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Tables</span></a>
+        <a class="nav-link" href="{{route('HR.tempAuthVerification')}}">
+          <i class="far fa-sticky-note"></i>
+          <span>Temp.Authentication</span></a>
       </li>
 
-      <!-- Nav Item - Tables -->
-      <li class="nav-item">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-sign-out-alt"></i>
-          <span>Logout</span></a>
-      </li>
+
 
 
       <!-- Divider -->
@@ -345,19 +334,10 @@
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Settings
                 </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
                 <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
-                  </a>
-
-                  <a class="dropdown-item" href="" data-toggle=""="model" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Test
                   </a>
               </div>
             </li>
@@ -384,12 +364,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Are You Sure to Logged Out?</h5>
           <button class="close" type="button" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">×</span>
           </button>
         </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
           <a class="btn btn-primary" href="{{route('Login.index')}}">Logout</a>

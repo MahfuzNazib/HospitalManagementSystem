@@ -255,7 +255,7 @@
 
                         <a href="PrintInvoice/{{ $invoiceNo }}">
                             <center>
-                                <button id="pr" class="btn btn-info">Print Invoice</button>
+                                <button id="printInvoice" class="btn btn-info">Print Invoice</button>
                             </center>
                         </a>
                     </td>
@@ -270,7 +270,7 @@
 
     <script>
         $(document).ready(function(){
-            $('#pr').hide();
+            $('#printInvoice').hide();
             $('#btnSave').hide();
             $('#patientId').focus();
             //Patient Field Variable Declaration
@@ -573,8 +573,9 @@
                             
                     success:function(data){
                         console.log('Invoice Fire');
-                        $('#pr').show();
+                        $('#printInvoice').show();
                         $('#btnSave').hide();
+                        // location.reload(); //For Reload The Page.
                     }
                 });
 
@@ -598,7 +599,10 @@
                     });
                 });
             });
-
+            //Click on PrintInvoice Button
+            $(document).on('click', '#printInvoice', function(){
+                location.reload()//Reload The Page
+            });
             
         });
     </script>

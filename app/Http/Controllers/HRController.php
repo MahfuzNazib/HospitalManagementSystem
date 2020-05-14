@@ -39,7 +39,6 @@ class HRController extends Controller
    
     //Insert New Doctor
     public function insertDoctor(Request $req){
-        //Validation
         $this->validate($req,[
             'name'       => 'required',
             'dob'        => 'required',
@@ -53,13 +52,11 @@ class HRController extends Controller
             'comission'  => 'required',
             'closingDay' => 'required',
         ]);
-        
         $name = $req->name;
         $phone = $req->phone;
         $email  = $req->email;
 
         //Insert Data into Doctors DB Table
-
         $doctor = new Doctor;
         $doctor->Name       = $name;
         $doctor->DOB        = $req->dob;
@@ -75,7 +72,6 @@ class HRController extends Controller
         $doctor->ClosingDay  = $req->closingDay;
 
         // Insert Profile Picture
-
         if($req->hasFile('profile')){
 			$file = $req->file('profile');
             $extension = $file->getClientOriginalExtension();
@@ -85,38 +81,45 @@ class HRController extends Controller
             $doctor->ProfilePicture = $filename;
 
 		}else{
-            return $req;
             $doctor->ProfilePicture = null;
         }
         
         //Insert Doctor Login Information in LoginInfo Table;
 
-        //Genarate Auto Username and Password from Name and Phone No.
-        // $username = str_split($name,2)+str_split($phone,4);
-        // $password = str_split($phone,2)+str_split($name,2);
+        //Genarate Auto Password from Current Time;
+        $time = new Carbon();
+        $time->timezone('Asia/Dhaka');
+        //get second;
+        $second = $time->second;
+        //get Millisecond
+        $millisecond = $time->millisecond;
 
-        // error_log($username);
-        // error_log($password);
+        $password = $name.'-'.$second.$millisecond;
         $login = new Login();
 
         $login->email = $email;
         $login->phone = $phone;
         $login->username = $name;
-        $login->password = $phone;
+        $login->password = $password;
+        $login->passwordtype = 'Temporary';
         $login->type = 'Doctor';
         $login->status = 'Active';
 
-        $login->save();
-        $doctor->save();
-
+        $login->save(); //Save Data into Logins Table
+        $doctor->save(); //Save Data into Doctors Table
+        //get login data to show one time username & password;
+        $temporaryUsernamepassword = Login::where('phone', '=', $phone)
+                                        ->orWhere('email', '=', $email)
+                                        ->select('username','password')
+                                        ->get();
+        error_log($temporaryUsernamepassword);
         return redirect()->route('HR.addDoctor')
-                        ->with('msg','Doctor Added Successfully Done');
+                        ->with('msg',$temporaryUsernamepassword);
     }
 
 
     //View All Doctor List from Doctors Table
     public function doctorList(){
-
         $doctorList = Doctor::paginate(10);
         return view('HR.DoctorList',['doctors' => $doctorList]);
     }
@@ -238,7 +241,6 @@ class HRController extends Controller
             $finishHour = $st;
             $finishMin = $sm + $presetTime;
 
-
             if($finishHour > 12){
                 $finishHour = $finishHour - 12;
             }
@@ -286,7 +288,6 @@ class HRController extends Controller
         }
 
         $AppTime->save();
-
         return redirect()->route('HR.search',$DoctorId);
         
     }
@@ -346,7 +347,11 @@ class HRController extends Controller
     
     // View Add Employee Page
     public function addEmployee(){
-        return view('HR.AddEmployee');
+        $empId;
+        $id = Employee::max('id');
+        $empId = $id+1;
+        error_log($empId);
+        return view('HR.AddEmployee',['empId' => $empId]);
     }
 
     //Insert New Employee
@@ -377,13 +382,21 @@ class HRController extends Controller
         $emp->profilePicture = 'demoImg.png';
 
         $login = new Login();
-        
-        
+        //Genarate Temp Password;
+        $time = new Carbon();
+        $time->timezone('Asia/Dhaka');
+        $second = $time->second;
+        $millisecond = $time->millisecond;
+        $name = $req->name;
+        $password = $name.'-'.$second.$millisecond;
+
+        $login->empId = $req->empId;
         $login->email = $req->email;
         $login->phone = $req->phone;
-        $login->username = $req->name;
-        $login->password = ($req->phone)/25;
+        $login->username = $req->$req->name;
+        $login->password = $password;
         $login->type = $req->designation;
+        $login->passwordType = 'Temporary';
         $login->status = 'Active';
 
         $login->save();
@@ -731,5 +744,13 @@ class HRController extends Controller
     /* ***********************End Dashbord  Module *************************/
     #########################################################################
 
-    
+    //Temporary Authentication 
+
+    public function tempAuthVerification(){
+        return view('HR.VerifyAuth');
+    }
+    public function tempAuth(){
+        $tempAuthList = Login::where('passwordType', '=', 'Temporary')->get();
+        return view('HR.TempAuthentication',['tempAuth' => $tempAuthList]);
+    }
 }

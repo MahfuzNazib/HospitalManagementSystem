@@ -44,6 +44,13 @@
                 </tr>
 
                 <tr>
+                  <td>Employee ID</td>
+                  <td>
+                    <input type="text" readonly class="form-control" value="{{$empId}}" name="empId">
+                  </td>
+                </tr>
+
+                <tr>
                   <td>Full Name</td>
                   <td>
                     <input type="text" class="form-control" value="{{old('name')}}" name="name">
