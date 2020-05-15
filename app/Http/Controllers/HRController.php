@@ -783,7 +783,6 @@ class HRController extends Controller
         }
 
         if($email == $req->email && $password == $req->password){
-            // return view('HR.TempAuthentication');
             return redirect()->route('HR.tempAuth');
         }
         else{

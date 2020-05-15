@@ -3,12 +3,50 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
+use App\PatientAppointment;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
     public function index(){
+        $visitingFee;
+        $totalPatient;
+        $totalIncome;
+        $drName;
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('doctors', 'doctors.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->select('doctors.VisitingFee','doctors.Name')
+                        ->get();
+        foreach($userInformation as $user){
+            $visitingFee = $user->VisitingFee;
+            $drName = $user->Name;
+        }
+
+        $dt = new Carbon();
+        $dt->timezone('Asia/Dhaka');
+        $year =  $dt->year;
+        $month = $dt->month;
+        $day = $dt->day;
+        if($day < 10){
+            $day = '0'.$day;
+        }
+        if($month < 10){
+            $month = '0'.$month;
+        }
+        $today = $year.'-'.$month.'-'.$day;
+        
+        $todaysTotalPatient = PatientAppointment::where('drName', '=', $drName)
+                                                ->where('appointmentDate', '=', '2020-05-09')
+                                                ->get();
+        print_r($today);
+        
+
         return view('Doctor.Index');
     }
 
@@ -90,5 +128,70 @@ class DoctorController extends Controller
 
         return view('Doctor.Settings',['userInformation' => $userInformation]);
         // return view('Doctor.Settings');
+    }
+
+    //Appointment List
+    public function appointmentList(){
+        $drName;
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('doctors', 'doctors.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->select('doctors.Name', 'doctors.DoctorId')
+                        ->get();
+        foreach($userInformation as $user){
+            $drName = $user->Name;
+        }
+
+        // print_r($userInformation);
+
+        //Get All Patient List
+        $myPatientList = PatientAppointment::where('drName', '=', $drName)->get();
+        return view('Doctor.AppointmentList',['myPatientList' => $myPatientList]);
+    }
+
+    public function searchAppointment(Request $req){
+            // $drName;
+            // $username = session('username');
+            // $password = session('password');
+            // $userInformation = DB::table('logins')
+            //             ->join('doctors', 'doctors.email', '=', 'logins.email')
+            //             ->where('logins.username', '=', $username)
+            //             ->where('logins.password', '=', $password)
+            //             ->select('doctors.Name', 'doctors.DoctorId')
+            //             ->get();
+            // foreach($userInformation as $user){
+            //     $drName = $user->Name;
+            // }
+        if($req->ajax()){
+            $query = $req->get('query');
+            error_log('Date ====== '.$query);
+            $patientAppnt = '';
+            $result = '';
+            if($query != ''){
+                error_log('Go to If Block');
+                $patientAppnt = PatientAppointment::where('patientId', 'like', '%'. $query .'%')
+                                            ->orWhere('patientName', 'like', '%'. $query .'%')
+                                            ->orWhere('pContact', 'like', '%'. $query .'%')
+                                            ->orWhere('appointmentDate ', 'like', '%'.$query .'%')
+                                            ->get();
+            }
+            else{
+                error_log('Go to Else Block');
+                $patientAppnt = PatientAppointment::where('drName', '=', $drName)->get();
+            }
+            $row_data = $patientAppnt->count(); //Check Total Data Row.
+
+            if($row_data > 0){
+                $result = $patientAppnt;
+            }
+            else{
+                $result = "No Data Found";
+            }
+
+            return response()->json($result);
+        }
     }
 }

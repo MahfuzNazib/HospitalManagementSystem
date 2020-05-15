@@ -204,6 +204,10 @@ Route::group(['middleware'=>['sass']], function(){
     //Edit
     Route::get('/EditDoctorProfile/{DoctorId}', 'DoctorController@editProfile')->name('Doctor.editProfile');
     Route::post('/EditDoctorProfile/{DoctorId}', 'DoctorController@editInformations')->name('Doctor.update');
+
+    //Appointment List
+    Route::get('/DoctorAppointmentList', 'DoctorController@appointmentList')->name('Doctor.appointmentList');
+    Route::get('/searchMyAppointment', 'ReceptionController@searchAppointment')->name('Doctor.searchAppointment');
 });
 
 

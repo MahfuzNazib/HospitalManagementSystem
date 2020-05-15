@@ -51,7 +51,7 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
       <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('Reception.index')}}">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('Doctor.index')}}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-user-nurse"></i>
           </div>
@@ -62,14 +62,14 @@
 
       <!-- Home -->
       <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.index')}}">
+        <a class="nav-link" href="{{route('Doctor.index')}}">
           <i class="fas fa-user-nurse"></i>
           <span>Home</span></a>
       </li>
 
       <!-- Investigation -->
       <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.index')}}">
+        <a class="nav-link" href="{{route('Doctor.appointmentList')}}">
           <i class="fas fa-user-nurse"></i>
           <span>AppointmentList</span></a>
       </li>
