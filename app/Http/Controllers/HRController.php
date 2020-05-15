@@ -749,6 +749,36 @@ class HRController extends Controller
     public function tempAuthVerification(){
         return view('HR.VerifyAuth');
     }
+
+    public function userAuthVerify(Request $req){
+        $this->validate($req,[
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        $email;
+        $password;
+
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('employees', 'employees.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->select('logins.email','logins.password')
+                        ->get();
+        foreach($userInformation as $user){
+            $email = $user->email;
+            $password = $user->password;
+        }
+
+        if($email == $req->email && $password == $req->password){
+            // return view('HR.TempAuthentication');
+            return redirect()->route('HR.tempAuth');
+        }
+        else{
+            return redirect()->route('HR.tempAuthVerification')->with('msg', 'Your are not Authorized!');
+        }
+    }
     public function tempAuth(){
         $tempAuthList = Login::where('passwordType', '=', 'Temporary')->get();
         return view('HR.TempAuthentication',['tempAuth' => $tempAuthList]);

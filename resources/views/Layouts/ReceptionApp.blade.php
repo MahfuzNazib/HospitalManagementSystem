@@ -54,8 +54,7 @@
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('Reception.index')}}">
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-user-nurse"></i>
-          <!-- <img class="img-profile rounded-circle" height="50px" width="50px" src="/uploads/{{$user->profilePicture}}"> -->
-        </div>
+          </div>
         <!-- @foreach($userInformation as $info)
         <div class="sidebar-brand-text mx-3">{{$info->name}}</div><br>
         @endforeach -->

@@ -14,6 +14,23 @@
                 <center>
                     <h5>Verify Yourself to See the TempAuth. List</h5>
                 </center>
+                <!-- Error Message Print -->
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                        </ul>
+                    </div>
+                 @endif
+
+                 <!-- Message Print -->
+                 @if(session('msg'))
+                    <div class="alert alert-primary">
+                        {{session('msg')}}
+                    </div>
+                 @endif
                 <form method="POST">
                     {{csrf_field()}}
                     <table width=100%>
@@ -32,7 +49,7 @@
                         <tr>
                             <td>
                                 <center>
-                                    <a href="{{route('HR.tempAuth')}}">
+                                    <a href="{{route('HR.userAuthVerify')}}">
                                         <input type="submit" class="btn btn-danger" value="Verify">
                                     </a>
                                 </center>
