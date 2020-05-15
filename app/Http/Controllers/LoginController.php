@@ -29,7 +29,9 @@ class LoginController extends Controller
         
         if($user != null){
             if($user['type'] == 'Doctor'){
-                echo 'Doctor Login Request';
+                $req->session()->put('username', $username);
+                $req->session()->put('password', $password);
+                return redirect()->route('Doctor.index');
             }
             if($user['type'] == 'Receiptionist'){
                 $req->session()->put('username', $username);

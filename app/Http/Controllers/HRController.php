@@ -33,7 +33,16 @@ class HRController extends Controller
 
 
     public function addDoctor(){
-        return view('HR.AddDoctor');
+        $empId = Doctor::max('empId'); //EmpId is For Matching This Doctor Data into Logins Table Data
+        $nextId;
+        if($empId == null){
+            $nextId = 30001;
+        }
+        else{
+            $nextId = $empId+1;
+        }
+        // error_log($dId);
+        return view('HR.AddDoctor',['empId'=>$nextId]);
     }
 
    
@@ -58,6 +67,7 @@ class HRController extends Controller
 
         //Insert Data into Doctors DB Table
         $doctor = new Doctor;
+        $doctor->empId      =$req->empId;
         $doctor->Name       = $name;
         $doctor->DOB        = $req->dob;
         $doctor->Gender     = $req->gender;
@@ -97,6 +107,7 @@ class HRController extends Controller
         $password = $name.'-'.$second.$millisecond;
         $login = new Login();
 
+        $login->empId = $req->empId;
         $login->email = $email;
         $login->phone = $phone;
         $login->username = $name;

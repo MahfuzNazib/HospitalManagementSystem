@@ -47,6 +47,15 @@
                     </center>
                   </td>
                 </tr>
+                
+                
+
+                <tr>
+                  <td>Emp ID</td>
+                  <td>
+                    <input type="text" readonly class="form-control" value="{{ $empId }}" name="empId">
+                  </td>
+                </>
 
                 <tr>
                   <td>Full Name</td>

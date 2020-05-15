@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Reception Desk</title>
+  <title>Doctor Desk</title>
   <!-- Custom fonts for this template-->
   <link href="/css/adminDesign/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
@@ -28,14 +28,14 @@
     //Check New Notice
     $myNotices = DB::table('notices')
                   ->where('tagPeople','=','All')
-                  ->orWhere('tagPeople', '=', 'Reciptionists')
+                  ->orWhere('tagPeople', '=', 'Doctor')
                   ->orderby('id', 'desc')
                   ->limit(6)
                   ->get(); 
     $username = session('username');
     $password = session('password');
     $userInformation = DB::table('logins')
-                        ->join('employees', 'employees.email', '=', 'logins.email')
+                        ->join('doctors', 'doctors.email', '=', 'logins.email')
                         ->where('logins.username', '=', $username)
                         ->where('logins.password', '=', $password)
                         ->get();
@@ -55,55 +55,39 @@
         <div class="sidebar-brand-icon rotate-n-15">
           <i class="fas fa-user-nurse"></i>
           </div>
-        <!-- @foreach($userInformation as $info)
-        <div class="sidebar-brand-text mx-3">{{$info->name}}</div><br>
-        @endforeach -->
-        <div class="sidebar-brand-text mx-3">Receptionist</div><br>
+        <div class="sidebar-brand-text mx-3">Doctor</div><br>
         <hr>
 
       </a>
+
+      <!-- Home -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('Reception.index')}}">
+          <i class="fas fa-user-nurse"></i>
+          <span>Home</span></a>
+      </li>
 
       <!-- Investigation -->
       <li class="nav-item">
         <a class="nav-link" href="{{route('Reception.index')}}">
           <i class="fas fa-user-nurse"></i>
-          <span>Investigation</span></a>
+          <span>AppointmentList</span></a>
       </li>
 
-      <!-- Report Delivery -->
+      <!-- Investigation -->
       <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.reportDelivery')}}">
+        <a class="nav-link" href="{{route('Reception.index')}}">
           <i class="fas fa-user-nurse"></i>
-          <span>Report Delivery</span></a>
+          <span>Set Appointment</span></a>
       </li>
 
-      <!-- Doctor Appointment -->
+      <!-- Leav Letter -->
       <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.appointment')}}">
-          <i class="fas fa-user-friends"></i>
-          <span>Make Appointment</span></a>
+        <a class="nav-link" href="{{route('Reception.index')}}">
+          <i class="fas fa-user-nurse"></i>
+          <span>Mailing</span></a>
       </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.appointmentList')}}">
-          <i class="fas fa-user-friends"></i>
-          <span>Appointment List</span></a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.doctorSchedule')}}">
-          <i class="fas fa-user-friends"></i>
-          <span>Doctors Schedule</span></a>
-      </li>
-
-      <!-- Patient Registration -->
-      <li class="nav-item">
-        <a class="nav-link" href="{{route('Reception.registration')}}">
-          <i class="fas fa-user-friends"></i>
-          <span>Registration</span></a>
-      </li>
-
-
+      
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -190,19 +174,19 @@
                 
                 <!-- Print Username and Image -->
                 @foreach($userInformation as $user)
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{$user->name}}</span>
-                  <img class="img-profile rounded-circle" src="/uploads/{{$user->profilePicture}}">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{$user->Name}}</span>
+                  <img class="img-profile rounded-circle" src="/uploads/{{$user->ProfilePicture}}">
                 @endforeach
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
               <!-- Go to My Profile  -->
-              <a class="dropdown-item" href="{{ route('Reception.myProfile') }}">
+              <a class="dropdown-item" href="{{ route('Doctor.myProfile') }}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
                 </a>
                 
-                <a class="dropdown-item" href="{{ route('Reception.settings') }}">
+                <a class="dropdown-item" href="{{ route('Doctor.settings') }}">
                   <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                   Settings
                 </a>

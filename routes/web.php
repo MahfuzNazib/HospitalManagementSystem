@@ -22,6 +22,8 @@ Route::get('/Department','HomeController@department')->name('Home.department');
 //Login Page Route
 Route::get('/Login','LoginController@index')->name('Login.index');
 Route::post('/Login','LoginController@verifyUser')->name('Login.verifyUser');
+//Logout Route
+Route::get('/Logout','LogoutController@index')->name('Logout.index');
 
 
 //Admin Page Route
@@ -191,6 +193,18 @@ Route::group(['middleware'=>['sass']], function(){
 
 });
 
+
+//Doctor Route;
+Route::group(['middleware'=>['sass']], function(){
+    Route::get('/DoctorIndex', 'DoctorController@index')->name('Doctor.index');
+    //Setting
+    Route::get('/Settings', 'DoctorController@settings')->name('Doctor.settings');
+    //Profile
+    Route::get('/MyProfile', 'DoctorController@myProfile')->name('Doctor.myProfile');
+    //Edit
+    Route::get('/EditDoctorProfile/{DoctorId}', 'DoctorController@editProfile')->name('Doctor.editProfile');
+    Route::post('/EditDoctorProfile/{DoctorId}', 'DoctorController@editInformations')->name('Doctor.update');
+});
 
 
 // Day Testing Routing
