@@ -198,9 +198,9 @@ Route::group(['middleware'=>['sass']], function(){
 Route::group(['middleware'=>['sass']], function(){
     Route::get('/DoctorIndex', 'DoctorController@index')->name('Doctor.index');
     //Setting
-    Route::get('/Settings', 'DoctorController@settings')->name('Doctor.settings');
+    Route::get('/DoctorSettings', 'DoctorController@settings')->name('Doctor.settings');
     //Profile
-    Route::get('/MyProfile', 'DoctorController@myProfile')->name('Doctor.myProfile');
+    Route::get('/DoctorProfile', 'DoctorController@myProfile')->name('Doctor.myProfile');
     //Edit
     Route::get('/EditDoctorProfile/{DoctorId}', 'DoctorController@editProfile')->name('Doctor.editProfile');
     Route::post('/EditDoctorProfile/{DoctorId}', 'DoctorController@editInformations')->name('Doctor.update');
@@ -208,6 +208,15 @@ Route::group(['middleware'=>['sass']], function(){
     //Appointment List
     Route::get('/DoctorAppointmentList', 'DoctorController@appointmentList')->name('Doctor.appointmentList');
     Route::get('/searchMyAppointment', 'ReceptionController@searchAppointment')->name('Doctor.searchAppointment');
+
+    //Check Current Password
+    Route::get('/CheckCurrentPassword', 'DoctorController@checkCurrentPassword')->name('Doctor.checkCurrentPassword');
+    //Update Password
+    Route::get('/ChangePassword', 'DoctorController@changePassword')->name('Doctor.changePassword');
+    //Cancel My Appointment
+    Route::get('/CancelAppointment', 'DoctorController@cancelAppointment')->name('Doctor.cancelAppointment');
+    Route::get('/Cancel', 'DoctorController@cancel')->name('Doctor.getCancel');
+
 });
 
 

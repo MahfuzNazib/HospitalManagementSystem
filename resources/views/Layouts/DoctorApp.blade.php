@@ -81,6 +81,13 @@
           <span>Set Appointment</span></a>
       </li>
 
+      <!-- Investigation -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{route('Doctor.cancelAppointment')}}">
+          <i class="fas fa-user-nurse"></i>
+          <span>Cancel Appointment</span></a>
+      </li>
+
       <!-- Leav Letter -->
       <li class="nav-item">
         <a class="nav-link" href="{{route('Reception.index')}}">

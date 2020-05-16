@@ -76,6 +76,14 @@
                                         </select>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td>Visiting Fee</td>
+                                    <td>
+                                        <input type="number" class="form-control" value="{{ $VisitingFee }}" name="visitingFee">
+                                    </td>
+                                </tr>
+
                                 <tr>
                                     <td>Address</td>
                                     <td>

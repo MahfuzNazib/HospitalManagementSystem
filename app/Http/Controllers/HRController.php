@@ -52,8 +52,8 @@ class HRController extends Controller
             'name'       => 'required',
             'dob'        => 'required',
             'gender'     => 'required',
-            'phone'      => 'required|max:12|min:11|unique:doctors',
-            'email'      => 'required|email|unique:doctors',
+            'phone'      => 'required|max:12|min:11|unique:doctors|unique:logins',
+            'email'      => 'required|email|unique:doctors|unique:logins',
             'department' => 'required',
             'specialist' => 'required',
             'visitingFee'=> 'required',
@@ -110,7 +110,7 @@ class HRController extends Controller
         $login->empId = $req->empId;
         $login->email = $email;
         $login->phone = $phone;
-        $login->username = $name;
+        $login->username = $phone;
         $login->password = $password;
         $login->passwordtype = 'Temporary';
         $login->type = 'Doctor';

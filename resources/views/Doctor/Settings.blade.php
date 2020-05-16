@@ -73,7 +73,7 @@
             console.log(currentPassword+ ' '+newPassword+ ' '+reTypePassword);
             //Check Current Password Validity
             $.ajax({
-                url: "{{ route('Reception.checkCurrentPassword') }}",
+                url: "{{ route('Doctor.checkCurrentPassword') }}",
                 method: 'GET',
                 data:{data:noData,email,currentPassword},
                 success:function(data){
@@ -103,13 +103,13 @@
                 var newPassword = $('#newPassword').val();
                 var reTypePassword = $('#reTypePassword').val();
                 $.ajax({
-                    url: "{{ route('Reception.changePassword') }}",
+                    url: "{{ route('Doctor.changePassword') }}",
                     method: 'GET',
                     data:{data:noData,email,username,newPassword},
                     success:function(data){
                         console.log(data);
                         alert('Password Successfully Updated');
-                        window.location.replace("/Login");
+                        window.location.replace("/Login"); //Redirect into Login URL
 
                     }
                 });

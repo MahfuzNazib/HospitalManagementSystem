@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Doctor;
+use App\Login;
 use App\PatientAppointment;
+use App\PatientlistMaster;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -42,11 +42,9 @@ class DoctorController extends Controller
         $today = $year.'-'.$month.'-'.$day;
         
         $todaysTotalPatient = PatientAppointment::where('drName', '=', $drName)
-                                                ->where('appointmentDate', '=', '2020-05-09')
+                                                ->where('appointmentDate', '=', $today)
                                                 ->get();
-        print_r($today);
         
-
         return view('Doctor.Index');
     }
 
@@ -67,7 +65,6 @@ class DoctorController extends Controller
         $editUser = Doctor::find($DoctorId);
         error_log($editUser);
         return view('Doctor.EditProfile',$editUser);
-        error_log('Function Called');
     }
 
     public function editInformations($DoctorId, Request $req){
@@ -89,6 +86,7 @@ class DoctorController extends Controller
         $update->Email = $email;
         $update->Phone = $phone;
         $update->DOB = $req->dob;
+        $update->VisitingFee = $req->visitingFee;
         $update->Address = $req->address;
 
         //Update Profile Picture
@@ -114,22 +112,8 @@ class DoctorController extends Controller
             ->where('empId', '=', $empId)
             ->update($updateLogin);
 
-        return redirect()->route('Reception.editProfile',$DoctorId)->with('msg', 'Successfully Updated');
+        return redirect()->route('Doctor.editProfile',$DoctorId)->with('msg', 'Successfully Updated');
     }
-
-    public function settings(){
-        $username = session('username');
-        $password = session('password');
-        $userInformation = DB::table('logins')
-                        ->join('doctors', 'doctors.email', '=', 'logins.email')
-                        ->where('logins.username', '=', $username)
-                        ->where('logins.password', '=', $password)
-                        ->get();
-
-        return view('Doctor.Settings',['userInformation' => $userInformation]);
-        // return view('Doctor.Settings');
-    }
-
     //Appointment List
     public function appointmentList(){
         $drName;
@@ -144,9 +128,6 @@ class DoctorController extends Controller
         foreach($userInformation as $user){
             $drName = $user->Name;
         }
-
-        // print_r($userInformation);
-
         //Get All Patient List
         $myPatientList = PatientAppointment::where('drName', '=', $drName)->get();
         return view('Doctor.AppointmentList',['myPatientList' => $myPatientList]);
@@ -192,6 +173,70 @@ class DoctorController extends Controller
             }
 
             return response()->json($result);
+        }
+    }
+
+
+    //Settings
+    public function settings(){
+        $username = session('username');
+        $password = session('password');
+        $userInformation = DB::table('logins')
+                        ->join('doctors', 'doctors.email', '=', 'logins.email')
+                        ->where('logins.username', '=', $username)
+                        ->where('logins.password', '=', $password)
+                        ->get();
+
+        return view('Doctor.Settings',['userInformation' => $userInformation]);
+    }
+
+    //Check Current Password
+    public function checkCurrentPassword(Request $req){
+        if($req->ajax()){
+            $message;
+            $currentPassword = Login::where('email', '=', $req->get('email'))
+                                    ->where('password', '=', $req->get('currentPassword'))
+                                    ->get();
+            $total_row = $currentPassword->count();
+            if($total_row > 0){
+                $message = 'OK';
+            }
+            else{
+                $message = 'No Match';
+            }
+
+            return response()->json($message);
+        }
+    }
+
+    //Change Password
+    public function changePassword(Request $req){
+        if($req->ajax()){
+            error_log('Password Changed');
+            $updateUsernamePassword = [
+                'username' => $req->get('username'),
+                'password' => $req->get('newPassword'),
+                'passwordType' => 'Permanent'
+            ];
+
+            DB::table('logins')
+                ->where('email' ,'=', $req->get('email'))
+                ->update($updateUsernamePassword);
+            return redirect()->route('Login.index');
+        }
+    }
+
+    //Cancel Appointment
+    public function cancelAppointment(){
+        return view('Doctor.CancelAppointment');
+    }
+
+    public function cancel(Request $req){
+        if($req->ajax()){
+            $date = $req->get('date');
+            $list = PatientAppointment::where('appointmentDate', '=', $date)->get();
+
+            return response()->json($list);
         }
     }
 }
