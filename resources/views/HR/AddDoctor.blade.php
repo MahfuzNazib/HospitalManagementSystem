@@ -198,7 +198,6 @@
           <div class="container bg card">
               Set a profile Picture
               <br>
-              <!-- <form method="POST" action="{{route('HR.profilePicture')}}" enctype="" -->
               <img src="" height="150px" width="150px"> <br>
               <input type="file" class="btn btn-info" value="Select a Picture" name="profile"><br>
           </div>

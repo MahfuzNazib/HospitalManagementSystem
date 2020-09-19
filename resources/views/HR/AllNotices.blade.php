@@ -33,7 +33,7 @@
                                         <td><center>{{ $notice['tagPeople'] }}</center></td>
                                         <td><center>{{ $notice['addtionalFile'] }}</center></td>
                                         <td><center>
-                                            <a href="#">
+                                            <a href="{{ route('HR.editNotice',$notice['id']) }}">
                                                 <input type="submit" class="btn btn-info" value="Edit">
                                             </a>
                                             <a href="#">

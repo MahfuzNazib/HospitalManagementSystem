@@ -32,7 +32,8 @@ Route::get('/admin','AdminController@index')->name('Admin.index');
 
 Route::group(['middleware'=>['sass']], function(){
     //HR Page Route
-    Route::get('/HR', 'HRController@index')->name('HR.index');
+    Route::get('/HR', 'HRController@index')->name('HR.index'); //Dashbord
+    Route::get('/HR/Reporting', 'HRController@reporting')->name('HR.reporting'); //Reporting
     Route::get('/HR/Chart', 'HRController@chart')->name('HR.chart');
 
     //View HR Profile
@@ -55,6 +56,10 @@ Route::group(['middleware'=>['sass']], function(){
     Route::get('/HR/Notice', 'HRController@notice')->name('HR.notice');
     Route::post('/HR/Notice', 'HRController@postNotice')->name('HR.notice');
     Route::get('/HR/AllNotices', 'HRController@allNotices')->name('HR.allNotices');
+    //Edit Notice
+    Route::get('/HR/EditNotice/{id}', 'HRController@editNotice')->name('HR.editNotice');
+    Route::post('/HR/EditNotice/{id}', 'HRController@updateNotice')->name('HR.updateNotice');
+
 
 
     Route::get('/HR/DoctorList', 'HRController@doctorList')->name('HR.doctorList');
@@ -105,6 +110,10 @@ Route::group(['middleware'=>['sass']], function(){
 
     Route::get('/HR/SetTime/{DoctorId}', 'HRController@search')->name('HR.search');
     Route::post('/HR/SetTime/{DoctorId}', 'HRController@schedule')->name('HR.schedule');
+
+    //Income Report
+    Route::get('/HR/IncomeReport', 'HRController@incomeReport')->name('HR.incomeReport');
+
 });
 
 //Receptionist Route
@@ -204,19 +213,19 @@ Route::group(['middleware'=>['sass']], function(){
     //Edit
     Route::get('/EditDoctorProfile/{DoctorId}', 'DoctorController@editProfile')->name('Doctor.editProfile');
     Route::post('/EditDoctorProfile/{DoctorId}', 'DoctorController@editInformations')->name('Doctor.update');
-
     //Appointment List
     Route::get('/DoctorAppointmentList', 'DoctorController@appointmentList')->name('Doctor.appointmentList');
     Route::get('/searchMyAppointment', 'ReceptionController@searchAppointment')->name('Doctor.searchAppointment');
 
     //Check Current Password
-    Route::get('/CheckCurrentPassword', 'DoctorController@checkCurrentPassword')->name('Doctor.checkCurrentPassword');
+    Route::get('/DoctorCheckCurrentPassword', 'DoctorController@checkCurrentPassword')->name('Doctor.checkCurrentPassword');
     //Update Password
-    Route::get('/ChangePassword', 'DoctorController@changePassword')->name('Doctor.changePassword');
+    Route::get('/DoctorChangePassword', 'DoctorController@changePassword')->name('Doctor.changePassword');
     //Cancel My Appointment
     Route::get('/CancelAppointment', 'DoctorController@cancelAppointment')->name('Doctor.cancelAppointment');
     Route::get('/Cancel', 'DoctorController@cancel')->name('Doctor.getCancel');
-
+    Route::get('/Cancel/Appointment/{patientId}', 'DoctorController@cancelpatient');
+    Route::get('/RemoveAppointment/{patientId}', 'DoctorController@removeApnt')->name('Doctor.removeAppnt');
 });
 
 

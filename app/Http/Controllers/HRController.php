@@ -9,8 +9,10 @@ use App\AppointmentTime;
 use App\AppointmentTimeMaster;
 use App\HospitalTest;
 use App\HospitalDepartment;
+use App\InvoiceMaster;
 use App\Login;
 use App\Notice;
+use App\Notification;
 use Carbon\Carbon;
 use DB;
 use PhpParser\Comment\Doc;
@@ -25,6 +27,25 @@ class HRController extends Controller
     public function chart(){
         return view('HR.charts');
     }
+
+    //********************************************************* */
+    //********************Reporting Module******************* */
+    //********************************************************* */
+
+    public function reporting(){
+        return view('HR.Reporting');
+    }
+
+    public function incomeReport(){
+        $incomeReports = InvoiceMaster::all();
+
+        return view('HR.Reporting',compact('report'));
+    }
+
+
+    //********************************************************* */
+    //********************End Reporting Module******************* */
+    //********************************************************* */
 
 
     //********************************************************* */
@@ -41,7 +62,6 @@ class HRController extends Controller
         else{
             $nextId = $empId+1;
         }
-        // error_log($dId);
         return view('HR.AddDoctor',['empId'=>$nextId]);
     }
 
@@ -65,6 +85,7 @@ class HRController extends Controller
         $phone = $req->phone;
         $email  = $req->email;
 
+        // dd($name);
         //Insert Data into Doctors DB Table
         $doctor = new Doctor;
         $doctor->empId      =$req->empId;
@@ -99,12 +120,10 @@ class HRController extends Controller
         //Genarate Auto Password from Current Time;
         $time = new Carbon();
         $time->timezone('Asia/Dhaka');
-        //get second;
-        $second = $time->second;
-        //get Millisecond
-        $millisecond = $time->millisecond;
-
+        $second = $time->second;//get second;
+        $millisecond = $time->millisecond;//get Millisecond
         $password = $name.'-'.$second.$millisecond;
+
         $login = new Login();
 
         $login->empId = $req->empId;
@@ -118,12 +137,13 @@ class HRController extends Controller
 
         $login->save(); //Save Data into Logins Table
         $doctor->save(); //Save Data into Doctors Table
+
         //get login data to show one time username & password;
         $temporaryUsernamepassword = Login::where('phone', '=', $phone)
                                         ->orWhere('email', '=', $email)
                                         ->select('username','password')
                                         ->get();
-        error_log($temporaryUsernamepassword);
+        // error_log($temporaryUsernamepassword);
         return redirect()->route('HR.addDoctor')
                         ->with('msg',$temporaryUsernamepassword);
     }
@@ -132,6 +152,7 @@ class HRController extends Controller
     //View All Doctor List from Doctors Table
     public function doctorList(){
         $doctorList = Doctor::paginate(10);
+        // $doctorList = Doctor::select('DoctorId','Name','Phone','Department','Specialist')->get();
         return view('HR.DoctorList',['doctors' => $doctorList]);
     }
 
@@ -260,7 +281,9 @@ class HRController extends Controller
             if($finishHour > 11){
                 $amPm = "PM";
             }
-            if($finishMin == 60){
+            // if($finishMin == 60){
+            if($finishMin >= 60){
+            
 
                 $finishHour = $st+1;
                 $finishMin = 0;
@@ -404,7 +427,7 @@ class HRController extends Controller
         $login->empId = $req->empId;
         $login->email = $req->email;
         $login->phone = $req->phone;
-        $login->username = $req->$req->name;
+        $login->username = $req->name;
         $login->password = $password;
         $login->type = $req->designation;
         $login->passwordType = 'Temporary';
@@ -602,9 +625,6 @@ class HRController extends Controller
             'testShortName' => 'required',
             'testCost'      => 'required'
         ]);
-
-        error_log($req->testCost);
-        error_log($req->testName);
         
         $testinfo = HospitalTest::find($id);
         $testInfo->testName         =   $req->testName;
@@ -672,6 +692,33 @@ class HRController extends Controller
         return view('HR.AllNotices',['notices' => $allNoticeList]);
     }
 
+
+    //Edit Notice
+    public function editNotice($id){
+        $noticeInformation = Notice::find($id);
+        return view('HR.EditNotice',$noticeInformation);
+    }
+
+    public function updateNotice($id, Request $req){
+        $updateNotice = Notice::find($id);
+        $updateNotice->title = $req->title;
+        $updateNotice->body = $req->body;
+        $updateNotice->tagPeople = $req->tagPeople;
+        //Update Files
+        if($req->hasFile('addtionalFile')){
+			$file = $req->file('addtionalFile');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time(). '.' .$extension;
+            $file->move('noticeFile/',$filename);
+            $updateNotice->additionalFile  = $filename;
+		}else{
+            $updateNotice->additionalFile =  $req->currentAdditonalFile;
+        }
+        $updateNotice->save();
+        return redirect()->route('HR.allNotices');
+
+    }
+
     #########################################################################
     /* ************************End Notice Module ****************************/
     #########################################################################
@@ -686,16 +733,12 @@ class HRController extends Controller
     }
 
     //Insert Department
-
     public function insertDept(Request $req){
         $this->validate($req,[
             'deptCode' => 'required|unique:hospital_departments',
             'deptName' => 'required|unique:hospital_departments',
             'deptAddingDate' => 'required'
         ]);
-
-        //insert data into Hospital_Departments Table
-
         $dept = new HospitalDepartment();
         $dept->deptCode = $req->deptCode;
         $dept->deptName = $req->deptName;
@@ -706,7 +749,6 @@ class HRController extends Controller
     }
 
     //Update Hospital Departments
-
     public function updateDepartment($id){
         $departmentInfo = HospitalDepartment::find($id);
         return view('HR.UpdateDepartment',$departmentInfo);
@@ -721,8 +763,8 @@ class HRController extends Controller
         $deptInfo = HospitalDepartment::find($id);
         $deptInfo->deptCode = $req->deptCode;
         $deptInfo->deptName = $req->deptName;
-
         $deptInfo->save();
+
         return redirect()->route('HR.addDepartment')->with('msg', 'Department Information Successfully Updated');
     }
 
@@ -730,14 +772,10 @@ class HRController extends Controller
     /* *********************End Hospital Dept. Module ***********************/
     #########################################################################
     
-
     //Manager List
-
     public function managerList(){
         return view('HR.ManagerList');
     }
-
-
 
      #########################################################################
     /* ***********************Dashbord Module****** *************************/
@@ -750,13 +788,11 @@ class HRController extends Controller
         return view('HR.index',$totalDept);
     }
 
-
      #########################################################################
     /* ***********************End Dashbord  Module *************************/
     #########################################################################
 
     //Temporary Authentication 
-
     public function tempAuthVerification(){
         return view('HR.VerifyAuth');
     }

@@ -238,7 +238,7 @@
                 <tr>
                     <td>PaymentType</td>
                     <td>
-                        <select class="form-control" name="paymentType">
+                        <select class="form-control" name="paymentType" id="paymentType">
                             <option disabled selected>Select PaymentType</option>
                             <option>Cash</option>
                             <option>bKash</option>
@@ -552,25 +552,15 @@
             $(document).on('click', '#btnSave', function(){
                 var patientId = $('#patientId').val();
                 var invoiceNo = $('#invoiceNo').val();
-                alert(invoiceNo);
+                var paymentType = $('#paymentType').val();
+                var noData = 0;
+
+                alert('Invoice is Complete. Click Print Invoice to Print the INVOICE SLIP');
 
                 $.ajax({
                     url: "{{ route('Reception.createInvoice') }}",
                     method: 'GET',
-                    data: {data:noData, 
-                                invoiceNo,
-                                patientId,
-                                patientName,
-                                patientPhone,
-                                totalCost,
-                                discount,
-                                netAmount,
-                                paidAmount,
-                                dueAmount,
-                                givenAmount,
-                                returnAmount
-                                },
-                            
+                    data:{data:noData,invoiceNo,patientId,patientName,patientPhone,totalCost,discount,netAmount,paidAmount,dueAmount,givenAmount,returnAmount,paymentType},
                     success:function(data){
                         console.log('Invoice Fire');
                         $('#printInvoice').show();
@@ -594,7 +584,7 @@
                         method:'GET',
                         data:{data:noData,testCode,testName,testCost,invoiceNo,patientId},
                         success:function(data){
-                            console.log('Almighty Allah');
+                            console.log('Invoice Details Success');
                         }
                     });
                 });

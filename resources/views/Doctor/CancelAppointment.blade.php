@@ -17,6 +17,12 @@
         <hr>
     </center>
 
+    @if(session('msg'))
+        <div class="alert alert-danger">
+            {{session('msg')}}
+        </div>
+    @endif
+
     <table class="table table-hover">
         <thead>
             <th>Date</th>
@@ -49,7 +55,7 @@
                         td += '<td>'+data[i].patientId+'</td>'
                         td += '<td>'+data[i].patientName+'</td>'
                         td += '<td>'+data[i].appointmentTime+'</td>'
-                        td += '<td><a href="/Cancel/patientId/'+data[i].patientId+'"><text class="btn btn-danger">Cancel</text></a></td>'
+                        td += '<td><a href="/Cancel/Appointment/'+data[i].patientId+'"><text class="btn btn-danger">Cancel</text></a></td>'
                         td += '</tr>'
                     }
                     $('#list').html(td);

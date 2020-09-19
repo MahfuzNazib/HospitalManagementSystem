@@ -190,12 +190,6 @@
                                     time+='</tr>'
                                     break;
                                 }
-                                // if(data.length = 0){
-                                //     time+='<tr>'
-                                //     time+='<td colspan="2">'+msg+'</td>'
-                                //     time+='</tr>'
-                                //     break;
-                                // }
                                 else{
                                     var shift = data[i].Shift;
                                     if(shift == "Morning"){
@@ -249,6 +243,7 @@
                             data:{info: nn, patientName, patientId, patientContact, DrName, appointmentDate, bookingTime,},
                             success:function(data){
                                 alert('Booking Successfully Completed');
+                                window.location.replace("{{route('Reception.appointment')}}");
                             }
                         });
                     }

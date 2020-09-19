@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon; 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-// use DB;
+// use Illuminate\Support\Facades\DB;
+use DB;
 use App\Doctor;
 use App\HospitalDepartment;
 use App\AppointmentTime;
@@ -503,8 +503,9 @@ class ReceptionController extends Controller
                 $status = 'Clear';
             }
 
+            // Insert Data into InvoiceMasters Table
             $data = array();
-            $data['invoiceNo']      = $req->get('invoiceNo');
+            $data['invoiceNo']      = $invoiceNo;
             $data['invoiceDate']    = $invoiceDate;
             $data['patientId']      = $req->get('patientId');
             $data['patientName']    = $req->get('patientName');
@@ -516,12 +517,15 @@ class ReceptionController extends Controller
             $data['dueAmount']      = $dueAmount;
             $data['givenAmount']    = $req->get('givenAmount');
             $data['returnAmount']   = $req->get('returnAmount');
+            $data['paymentType']    = $req->get('paymentType');
             $data['status']         = $status;
             $data['reportDelivery'] = 'Not Delivered';
             $data['deliveryDate']   = 'No Date';
 
+            error_log($data['totalCost']);
+            
             $invoiceMaster = DB::table('invoice_masters')->insert($data);
-
+            
             //Delete Test from TempTestList for This InvoiceNo;
             $deleteTest = DB::table('temp_testlists')
                             ->where('invoiceNo', '=', $invoiceNo)

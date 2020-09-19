@@ -235,8 +235,19 @@ class DoctorController extends Controller
         if($req->ajax()){
             $date = $req->get('date');
             $list = PatientAppointment::where('appointmentDate', '=', $date)->get();
-
             return response()->json($list);
         }
+    }
+
+    public function cancelpatient($patientId){
+        $patient = PatientAppointment::where('patientId', '=', $patientId)->get();
+        return view('Doctor.Cancelpatient',['patient'=>$patient]);
+    }
+
+    public function removeApnt($patientId){
+        DB::table('patient_appointments')
+            ->where('patientId', '=', $patientId)
+            ->delete();
+        return redirect()->route('Doctor.cancelAppointment')->with('msg', 'Successfully Deleted');
     }
 }
