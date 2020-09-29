@@ -761,7 +761,6 @@ class ReceptionController extends Controller
     //Change Password
     public function changePassword(Request $req){
         if($req->ajax()){
-            error_log('Password Changed');
             $updateUsernamePassword = [
                 'username' => $req->get('username'),
                 'password' => $req->get('newPassword'),
