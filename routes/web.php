@@ -30,7 +30,7 @@ Route::get('/Logout','LogoutController@index')->name('Logout.index');
 Route::get('/admin','AdminController@index')->name('Admin.index');
 
 
-Route::group(['middleware'=>['sass']], function(){
+// Route::group(['middleware'=>['sass']], function(){
     //HR Page Route
     Route::get('/HR', 'HRController@index')->name('HR.index'); //Dashbord
     Route::get('/HR/Reporting', 'HRController@reporting')->name('HR.reporting'); //Reporting
@@ -114,7 +114,7 @@ Route::group(['middleware'=>['sass']], function(){
     //Income Report
     Route::get('/HR/IncomeReport', 'HRController@incomeReport')->name('HR.incomeReport');
 
-});
+// });
 
 //Receptionist Route
 Route::group(['middleware'=>['sass']], function(){
